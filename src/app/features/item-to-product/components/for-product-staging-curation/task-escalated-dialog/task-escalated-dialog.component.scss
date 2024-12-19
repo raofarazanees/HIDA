@@ -1,0 +1,25 @@
+.submission-dialog {
+    .overlap-final-step {
+      position: absolute;
+      right: 81px;
+      top: 23px;
+      padding: 10px;
+      background: #5aa700;
+      box-sizing: 12px;
+      border-radius: 12px;
+      width: 25px;
+      height: 25px;
+      color: #fff;
+      mat-icon {
+        font-size: 16px;
+        position: absolute;
+        top: 0px;
+        left: 0;
+      }
+    }
+    .message {
+      font-size: 16px;
+      padding: 2px 5px;
+    }
+  }
+  

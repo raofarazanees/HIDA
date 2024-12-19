@@ -1,0 +1,39 @@
+.max-h-list {
+    max-height: 480px;
+    overflow: auto;
+}
+div.cdx-dialog-wrapper{
+    height: auto  !important;
+   // min-height: 300px !important;
+    max-height: none !important;
+    overflow: inherit !important; 
+}
+
+mat-dialog-content {
+    padding: 0 15px !important;
+}
+.mat-list-item {
+    height: 40px;
+}
+.font-bold,.font-info {
+    font-weight: bold;
+    padding-right: 3px;
+}
+.font-info {
+    color: #6738cf;
+    padding-left: 5px;
+    cursor: pointer;
+}
+.mat-stroked-button {
+    margin-right: 25px;
+}
+.fs-18{
+    font-size: 16px !important; 
+    display: contents;
+}
+.cdx-popup-row{
+    padding: 0 !important;
+}
+.mat-dialog-content{
+  margin: 0 -32px
+}

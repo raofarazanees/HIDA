@@ -1,0 +1,32 @@
+<div class="generic-widget-component" fxLayout="column" fxLayoutAlign="space-between start">
+  <div class="action-wrapper" fxFlex
+    [ngClass]="{'width-70-link':widget.key === 'unspsc_workflow', 'brand-feature-link': widget.key === 'brand_feature_suggestion'}">
+    <ng-template appComponentHost></ng-template>
+    <!-- <div class="m-t-10" *ngIf="widget?.config?.uploadBtnText">
+      <button mat-raised-button color="primary" [ngClass]="{'fixed-min-width': widget.key === 'asp_tool'}"
+        matTooltipClass="help-tooltip"
+        [matTooltip]="widget?.config?.uploadBtnTooltip ? widget?.config?.uploadBtnTooltip : ''"
+        (click)="updateWidgetSelection()">{{ widget?.config?.uploadBtnText }}</button>
+      <a *ngIf="widget?.config?.csvTemplateUrl && widget?.key !== 'uom_file_upload'" [download]="widget.config?.csvName"
+        [href]="widget?.config?.csvTemplateUrl" class="cdx-but-md exportBtn-inline csv-template-link"
+        [ngClass]="{'prd-lvl': widget?.config?.isCenterOnCard}">CSV Template</a>
+      <a *ngIf="widget?.config?.csvTemplateUrl && widget?.key === 'uom_file_upload'" [matMenuTriggerFor]="menu"
+        class=" cdx-but-md exportBtn-inline csv-template-link"
+        [ngClass]="{'prd-lvl': widget?.config?.isCenterOnCard}">CSV
+        Template</a>
+
+      <mat-menu #menu="matMenu" role="menu">
+        <a mat-menu-item role="menuitem" class="link_btn" [download]="widget.config?.csvName"
+          href="assets/templates/HIDA_UOM_Workflow_Initiation_UP_template.csv">Regular CSV Template</a>
+        <a mat-menu-item role="menuitem" class="link_btn" [download]="widget.config?.csvName"
+          href="assets/templates/HIDA_UOM_Workflow_Initiation_UP_adhoc_template.csv">Ad hoc CSV Template</a>
+      </mat-menu>
+    </div> -->
+  </div>
+
+  <div class="info-wrapper" fxLayout="row" *ngIf="widget?.config?.info" fxLayoutAlign="start start">
+    <mat-icon>info</mat-icon>
+    <span [innerHTML]="widget?.config?.info"></span>
+  </div>
+
+</div>

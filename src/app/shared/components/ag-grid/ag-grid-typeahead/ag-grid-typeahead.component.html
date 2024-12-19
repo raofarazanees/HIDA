@@ -1,0 +1,18 @@
+<div class="ag-grid-typeahead-component" [ngClass]="{ 'mar-top': btnTextForCreateMaster?.btnText,'inline-select': isForInline}">
+  <input
+    type="text"
+    #input
+    class="typeahead-input"
+    placeholder="{{ paramValue ? paramValue : 'Search here..' }}"
+    [formControl]="control"
+    [autofocus]="false"
+    [matAutocomplete]="auto"
+    name="{{params?.colDef?.field}}_{{params?.data?.productID}}"
+  />
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelectionChanged($event)" [displayWith]="getDisplayValue">
+    <mat-option *ngFor="let option of filteredMappingOptions | async; trackBy: trackByID" [value]="option" [title]="option.value">
+      {{ option.value }}
+    </mat-option>
+    <mat-option class="create_option" *ngIf="btnTextForCreateMaster && btnTextForCreateMaster.btnText" [title]="btnTextForCreateMaster.btnText" (click)="openCreateMasterDialog()"> {{btnTextForCreateMaster.btnText}} </mat-option>
+   </mat-autocomplete>
+</div>

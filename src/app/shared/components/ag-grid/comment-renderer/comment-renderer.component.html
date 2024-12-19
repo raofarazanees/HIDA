@@ -1,0 +1,6 @@
+<div class="comment-renderer-component">
+  <button mat-icon-button  *ngIf="data">
+    <mat-icon class="cdx-mat-icon-16" matTooltip="{{ data }}">comment</mat-icon>
+  </button>
+  <div class="comment-text" *ngIf="!data"> - </div>
+</div>

@@ -1,0 +1,228 @@
+<form [formGroup]="searchFormGroup">
+  <div fxLayoutAlign="space-between center" class="btn-row-container" fxLayoutGap="15px">
+    <div fxFlex="10">
+      <label for="search" class="fs-12">Search Condition</label>
+      <mat-form-field appearance="outline" class="cdx-input-default cdx-input-with-hint width-100 searchInput">
+        <mat-select class="filter-item" placeholder="Select Search Condition" name="searchCondition" formControlName="searchCondition">
+          <mat-option class="dropdown-item" [value]="'AND'" role="option"> AND </mat-option>
+          <mat-option class="dropdown-item" [value]="'OR'" role="option"> OR </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div fxFlex="20">
+      <label for="search" class="fs-12">Filter Criteria</label>
+      <mat-form-field appearance="outline" class="cdx-input-default cdx-input-with-hint width-100 searchInput">
+        <mat-select
+          class="filter-item"
+          placeholder="Select Filter Criteria"
+          name="columnName"
+          (selectionChange)="resetValue()"
+          formControlName="columnName"
+        >
+          <ng-container *ngFor="let item of searchCriteriaOptionsData; let i = index">
+            <mat-option class="dropdown-item" [value]="item.columnName" role="option" [disabled]="item?.isSelected">
+              {{ item.columnLabel }}
+            </mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div fxFlex="10" *ngIf="selectDropdownValue?.isContainSearch">
+    <label for="search" class="fs-12">Search Type</label>
+    <mat-form-field appearance="outline" class="cdx-input-default cdx-input-with-hint width-100 searchInput">
+      <mat-select
+      class="filter-item"
+      placeholder="Search Type"
+      name="containSearch"
+      (selectionChange)="resetValue()"
+      formControlName="containSearch"
+    >
+      <ng-container *ngFor="let item of containSearchType; let i = index">
+        <mat-option class="dropdown-item" [value]="item" role="option">
+          {{ item }}
+        </mat-option>
+      </ng-container>
+    </mat-select>
+    </mat-form-field>
+    </div>
+
+    <div fxFlex="20">
+      <ng-container *ngIf="!selectDropdownValue || !selectDropdownValue?.inputType">
+        <label for="search" class="fs-12">Search Text</label>
+        <mat-form-field appearance="outline" class="cdx-input-default cdx-input-with-hint width-100 searchInput">
+          <input
+            matInput
+            title="Enter Search Text..."
+            inputRef
+            #searchText
+            placeholder="Enter Search Text..."
+            formControlName="searchText"
+          />
+        </mat-form-field>
+      </ng-container>
+      <ng-container *ngIf="selectDropdownValue && selectDropdownValue.inputType == 'dropdown'">
+        <label for="search" class="fs-12">Select Option</label>
+        <mat-form-field appearance="outline" class="cdx-input-default cdx-input-with-hint width-100 searchInput">
+          <mat-select class="filter-item" placeholder="Select Option" name="searchCondition" formControlName="searchText">
+            <mat-option *ngFor="let item of selectDropdownValue?.dropdownValues" class="dropdown-item" [value]="item" role="option">
+              {{ item }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
+      <ng-container *ngIf="selectDropdownValue && selectDropdownValue?.inputType === 'rangeInput' && selectDropdownValue?.isContainSearch && containsSearchType === 'Range'">
+        <label for="search" class="fs-12 rangeLabel">&nbsp;</label>
+        <mat-form-field appearance="outline" class="cdx-input-default cdx-input-with-hint searchInput rangeInput">
+          <span matPrefix>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          <input
+            type="text"
+            matInput
+            placeholder="Min Value"
+            inputRef
+            formControlName="minValue"
+            matTooltip="Min Value is required"
+            (keypress)="validateNo($event)"
+          />
+          <mat-icon matSuffix class="matRangeInputIcon">remove</mat-icon>
+        </mat-form-field>
+        <mat-form-field
+          appearance="outline"
+          class="cdx-input-default cdx-input-with-hint searchInput rangeInput"
+          [ngClass]="{ 'input-error': searchFormGroup.get('minValue').value > searchFormGroup.get('minValue').value }"
+        >
+          <span matPrefix>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          <input
+            type="text"
+            matInput
+            placeholder="Max Value"
+            inputRef
+            formControlName="maxValue"
+            matTooltip="Max Value is required"
+            (keypress)="validateNo($event)"
+          />
+        </mat-form-field>
+      </ng-container>
+
+      <ng-container *ngIf="selectDropdownValue && selectDropdownValue?.inputType === 'rangeInput' && selectDropdownValue?.isContainSearch && containsSearchType === 'Equals'">
+        <label for="search" class="fs-12">Enter Value</label>
+        <mat-form-field appearance="outline" class="cdx-input-default cdx-input-with-hint width-100 searchInput">
+          <input
+            matInput
+            title="Enter Search Value..."
+            inputRef
+            #searchText
+            placeholder="Enter Search Value..."
+            formControlName="searchText"
+            (keypress)="validateNo($event)"
+          />
+        </mat-form-field>
+      </ng-container>
+
+      <!-- <ng-container *ngIf="selectDropdownValue && selectDropdownValue.  == 'datepicker'">
+        <label for="search" class="fs-12">Select Date</label>
+
+        <mat-form-field class="cdx-datepicker-wrapper width-100 searchInput" appearance="outline">
+          <input
+            matInput
+            [matDatepicker]="picker"
+            title="Choose a Month"
+            (click)="picker.open()"
+            readonly
+            [max]="maxDate"
+            formControlName="searchText"
+            (dateChange)="dateSelectedPicker($event, picker)"
+          />
+          <label class="date-label">{{ searchFormGroup.get('searchText').value }}</label>
+          <mat-datepicker-toggle matSuffix [for]="picker" role="button"></mat-datepicker-toggle>
+          <mat-datepicker
+            #picker
+            startView="multi-year"
+            [dateClass]="dateClass()"
+            (monthSelected)="dateSelected($event, picker)"
+            (monthSelected)="dateSelected($event, picker)"
+          ></mat-datepicker>
+        </mat-form-field>
+      </ng-container> -->
+      <ng-container *ngIf="selectDropdownValue && selectDropdownValue.inputType == 'rangePicker'">
+        <label for="search" class="fs-12">{{checkIsRange ? 'From Date - To Date' : 'Select Date'}} </label>
+        <mat-form-field class="cdx-datepicker-wrapper width-100 searchInput cdx-datepicker-wrapper cdx-daterange-picker"  appearance="outline">
+          <input matInput placeholder="Choose a date" readonly (click)="rangePicker.open()" [max]="maxDate" [satDatepicker]="rangePicker" formControlName="dateRange" />
+          <sat-datepicker #rangePicker [rangeMode]="checkIsRange"  (dateChange)="dateRangeSelected($event)"> </sat-datepicker>
+          <sat-datepicker-toggle matSuffix [for]="rangePicker"></sat-datepicker-toggle>
+        </mat-form-field>
+      </ng-container>
+    </div>
+
+    <div fxLayout="row" fxFlex="10" class="flex-start">
+      <button
+        mat-flat-button
+        color="primary"
+        aria-label="icon"
+        matTooltip="Add new Filter Criteria"
+        class="cdx-but-md button-margin"
+        (click)="addSearchCriteria()"
+      >
+        <mat-icon class="cdx-mat-icon-24 cdx-mat-icon-left">add</mat-icon>
+        Add Criteria
+      </button>
+    </div>
+
+    <div fxLayout="row" fxFlex="8" class="flex-">
+      <button
+        mat-flat-button
+        color="primary"
+        aria-label="icon"
+        class="cdx-but-md button-margin"
+        type="submit"
+        (click)="searchRecords()"
+        [disabled]="searchCriteriaData.length === 0"
+        matTooltip="Fetch Records Based on Added Filter"
+      >
+        <mat-icon class="cdx-mat-icon-24 cdx-mat-icon-left">search</mat-icon>
+        Search
+      </button>
+    </div>
+
+    <div fxLayout="row" fxFlex="40">
+      <button
+        *ngIf="addBtnText"
+        mat-flat-button
+        color="primary"
+        aria-label="icon"
+        class="cdx-but-md button-margin"
+        type="submit"
+        (click)="openDialog_()"
+      >
+        <mat-icon class="cdx-mat-icon-24 cdx-mat-icon-left">add</mat-icon>
+        {{ addBtnText }}
+      </button>
+    </div>
+    <div fxLayout="row" fxFlex="17" class="flex-center flex-end">
+      <h3>
+        <strong>Total Records : {{ totalRecords ? totalRecords : '0' }}</strong>
+      </h3>
+    </div>
+  </div>
+</form>
+<div fxLayoutAlign="space-between" class="btn-row-container" fxLayoutGap="15px">
+  <div fxLayout="row" [fxFlex]="exportBtnText ? 90 : 100" class="flex-center">
+    <mat-chip-list style="min-height: 32px; display: block; overflow: hidden">
+      <mat-chip *ngFor="let item of searchCriteriaData" [removable]="true" [selectable]="true">
+        <label class="chip-text" [title]="item.completeDate ? item.completeDate : item.searchText ? item.searchText.toString().replace('||',',') : ''"> 
+        {{ item.columnLabel }} = 
+        <ng-container #textValue>
+          {{ item.completeDate ? item.completeDate : item.searchText ? item.searchText.toString().replace('||',',') : "''" }}
+        </ng-container>
+        </label>
+        <mat-icon matChipRemove (click)="remove(item)" matTooltip="Remove Filter Criteria">cancel</mat-icon>
+      </mat-chip>
+    </mat-chip-list>
+  </div>
+  <div fxLayout="row" *ngIf="exportBtnText" fxFlex="17" class="flex-end">
+    <button mat-flat-button color="primary" aria-label="icon" [matTooltip]="toolTipText" [matTooltipPosition]="'after'" class="cdx-but-md exportBtn" type="submit" (click)="exportBtnClicked()">
+      <mat-icon class="cdx-mat-icon-24 cdx-mat-icon-left">download</mat-icon>
+      {{ exportBtnText }}
+    </button>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+:host ::ng-deep {
+  .manufacturer-unmastered-component {
+    .mat-card {
+      box-shadow: 0 3px 5px 3px rgba(0, 0, 0, 0.2);
+      padding: 0 16px;
+    }
+    .editable-cell {
+      cursor: pointer;
+    }
+    .ag-cell.typeahead-editable-cell {
+      box-shadow: none;
+      padding: 0 23px 0 23px;
+      background-color: transparent;
+    }
+  }
+}
+
+.complete-task-btn {
+  position: absolute;
+  left: 0;
+}

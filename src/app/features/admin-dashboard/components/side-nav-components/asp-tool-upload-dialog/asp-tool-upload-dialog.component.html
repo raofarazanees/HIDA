@@ -1,0 +1,6 @@
+<app-common-upload-file-dialog [FileValidation]="fileValidation" (uploadFileData)="onSubmit($event)"></app-common-upload-file-dialog>
+
+
+<a aria-label="icon"  matTooltipClass="fss-14" class="cdx-but-md exportBtn-side" [download]="csvTemplate.csvName" [href]="csvTemplate.csvTemplateUrl" >
+    CSV Template 
+</a>

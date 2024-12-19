@@ -1,0 +1,11 @@
+<app-common-upload-file-dialog [FileValidation]="fileValidation" (uploadFileData)="onSubmit($event)"></app-common-upload-file-dialog>
+
+<div class="exportBtn-side-text">
+
+  <a aria-label="icon" class="cdx-but-md" download="HIDA_Graphs_Products_Items_UP_{{env}}.csv" href="assets/templates/HIDA_Graphs_Products_Items_UP_template.csv">
+    CSV Template
+  </a>
+  <font>When you upload a CSV file, data should be populated for the mandatory columns - action, product_id and
+    item_pguid. For the rest of the columns, data can be blank / empty.</font>
+
+</div>

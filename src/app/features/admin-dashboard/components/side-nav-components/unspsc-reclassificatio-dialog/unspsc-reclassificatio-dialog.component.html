@@ -1,0 +1,69 @@
+<div class="reclassification-dialog-component upload-file_container">
+  <div class="main-content">
+    <input type="file"
+      class="file-input"
+      accept=".csv"
+      (change)="onFileSelected($event)"
+      #fileUpload />
+
+    <div class="file-upload">
+      <button mat-raised-button
+        color="primary"
+        class="upload-btn"
+        [disabled]="file?.name"
+        (click)="fileUpload.click()">Choose File</button>
+      <div class="title-container"
+        *ngIf="file?.name">
+        <span class="title">{{ file?.name }}</span>
+        <mat-icon (click)="clearFileSelected()">close</mat-icon>
+      </div>
+    </div>
+
+    <mat-list class="rules-container">
+      <div mat-subheader>File Validations</div>
+      <mat-list-item [ngClass]="{'success': fileRules?.name, 'error': fileRules?.name === false}">
+        <mat-icon mat-list-icon>title</mat-icon>
+        <div mat-line>File naming convention</div>
+        <div mat-line>Ex: <em>HIDA_UNSPSC_RECLASSIFICATION_&#60;8-digit-UNSPSC&#62;_&#60;yyyyMMdd&#62;</em></div>
+      </mat-list-item>
+      <mat-list-item [ngClass]="{'success': fileRules?.format, 'error': fileRules?.format === false}">
+        <mat-icon mat-list-icon>format_quote</mat-icon>
+        <div mat-line>File extension or format</div>
+        <div mat-line>allows only <em>.csv</em></div>
+      </mat-list-item>
+      <mat-list-item [ngClass]="{'success': fileRules?.size, 'error': fileRules?.size === false}">
+        <mat-icon mat-list-icon>memory</mat-icon>
+        <div mat-line>File size or memory</div>
+        <div mat-line>allows max size of <em>10MB</em></div>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <ng-container *ngIf="isValidFile">
+        <div mat-subheader>File Metrics</div>
+        <mat-list-item>
+          <mat-icon mat-list-icon>format_list_numbered</mat-icon>
+          <div mat-line>Total Records: {{ parseInfo?.results?.data?.length}}</div>
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon mat-list-icon>linear_scale</mat-icon>
+          <div mat-line># Columns: {{ parseInfo?.results?.meta?.fields?.length }}</div>
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon mat-list-icon>memory</mat-icon>
+          <div mat-line>File Size: {{ parseInfo?.size }}</div>
+        </mat-list-item>
+      </ng-container>
+
+    </mat-list>
+  </div>
+
+  <div class="form-actions"
+    fxLayout="row"
+    fxLayoutAlign="center center">
+    <button mat-raised-button
+      color="primary"
+      class="upload-btn"
+      (click)="onSubmit()"
+      [disabled]="!isValidFile">Submit</button>
+  </div>
+  <app-loader *ngIf="(loading$ | async)"></app-loader>
+</div>

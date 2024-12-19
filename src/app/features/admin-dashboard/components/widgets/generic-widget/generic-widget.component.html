@@ -1,0 +1,91 @@
+<div class="generic-widget-component" fxLayout="column" fxLayoutAlign="space-between start">
+  <div class="action-wrapper"
+    [ngClass]="widget?.config?.csvTemplateUrl && !widget?.config?.isCenterOnCard  ? 'width-70-link' : ''" fxFlex>
+
+    <a color="primary" *ngIf="widget?.config?.hideAppUrl" mat-raised-button [href]="widget?.config?.hideAppUrl"
+      matTooltipClass="help-tooltip"
+      [matTooltip]="widget?.config?.genericBtnText ? widget?.config?.genericBtnText : ''">{{widget?.config?.genericBtnText}}</a>
+
+    <a color="primary" *ngIf="widget?.config?.downloadBtnText && !widget?.config?.hideAppUrl" mat-raised-button
+      target="_blank" download [href]="widget?.config?.downloadUrl" matTooltipClass="help-tooltip"
+      [matTooltip]="widget?.config?.downloadBtnTooltip ? widget?.config?.downloadBtnTooltip : ''">
+      {{ widget?.config?.downloadBtnText }}</a>
+
+    <div *ngIf="widget?.config?.genericBtnText && !widget?.config?.hideAppUrl">
+      <button mat-raised-button *ngIf="widget?.config?.genericBtnText && !widget?.config?.hideAppUrl" color="primary"
+        matTooltipClass="help-tooltip"
+        [matTooltip]="widget?.config?.genericBtnTooltip ? widget?.config?.genericBtnTooltip : ''"
+        (click)="updateWidgetSelectionForGeneric()" [disabled]="isDisabled">{{ widget?.config?.genericBtnText
+        }}</button>
+      <mat-icon class="btn-info-icon" matTooltipClass="cdx-tooltip-light help-tooltip fs-14" matTooltipPosition="right"
+        *ngIf="widget?.config?.cardStepInfo" [matTooltip]="widget?.config?.cardStepInfo">info</mat-icon>
+    </div>
+
+    <div *ngIf="widget?.config?.uploadBtnText">
+      <button mat-raised-button color="primary" [ngClass]="{'fixed-min-width': widget.key === 'asp_tool'}"
+        matTooltipClass="help-tooltip"
+        [matTooltip]="widget?.config?.uploadBtnTooltip ? widget?.config?.uploadBtnTooltip : ''"
+        (click)="updateWidgetSelection()">{{ widget?.config?.uploadBtnText }}</button>
+      <a *ngIf="widget?.config?.csvTemplateUrl && widget?.key !== 'uom_file_upload'" [download]="widget.config?.csvName"
+        [href]="widget?.config?.csvTemplateUrl" class="cdx-but-md exportBtn-inline csv-template-link"
+        [ngClass]="{'prd-lvl': widget?.config?.isCenterOnCard}">CSV Template</a>
+      <a *ngIf="widget?.config?.csvTemplateUrl && widget?.key === 'uom_file_upload'" [matMenuTriggerFor]="menu"
+        class=" cdx-but-md exportBtn-inline csv-template-link"
+        [ngClass]="{'prd-lvl': widget?.config?.isCenterOnCard}">CSV Template</a>
+
+      <mat-menu #menu="matMenu" role="menu">
+        <a mat-menu-item role="menuitem" class="link_btn" [download]="widget.config?.csvName"
+          href="assets/templates/HIDA_UOM_Workflow_Initiation_UP_template.csv">Regular CSV Template</a>
+        <a mat-menu-item role="menuitem" class="link_btn" [download]="widget.config?.csvName"
+          href="assets/templates/HIDA_UOM_Workflow_Initiation_UP_adhoc_template.csv">Ad hoc CSV Template</a>
+      </mat-menu>
+    </div>
+
+    <div *ngIf="widget?.config?.uploadBtnTextSecondary">
+      <button mat-raised-button color="primary" matTooltipClass="help-tooltip"
+        [ngClass]="{'fixed-min-width': widget.key === 'asp_tool'}"
+        [matTooltip]="widget?.config?.uploadBtnSecTooltip ? widget?.config?.uploadBtnSecTooltip : ''"
+        (click)="updateWidgetSelection('stagingForLabelling')">{{ widget?.config?.uploadBtnTextSecondary }} </button>
+      <a *ngIf="widget?.config?.csvTemplateUrlSec" [download]="widget.config?.csvNameSec"
+        [href]="widget?.config?.csvTemplateUrlSec" class="cdx-but-md exportBtn-inline csv-template-link">CSV
+        Template</a>
+    </div>
+
+    <div *ngIf="widget?.config?.adHocFileUploadBtnText">
+      <button mat-raised-button color="primary" matTooltipClass="help-tooltip"
+        [ngClass]="{'fixed-min-width': widget.key === 'asp_tool'}"
+        [matTooltip]="widget?.config?.adHocBtnTooltip ? widget?.config?.adHocBtnTooltip : ''"
+        (click)="updateWidgetSelection('adHocUploader')">{{ widget?.config?.adHocFileUploadBtnText }} </button>
+      <a *ngIf="widget?.config?.adHocCsvTemplateUrl" [download]="widget.config?.adHocCsvName"
+        [href]="widget?.config?.adHocCsvTemplateUrl" class="cdx-but-md exportBtn-inline csv-template-link">CSV
+        Template</a>
+    </div>
+
+    <div *ngIf="widget?.config?.skuButtonText">
+      <button mat-raised-button color="primary" matTooltipClass="help-tooltip"
+        [ngClass]="{'fixed-min-width': widget.key === 'asp_tool'}"
+        [matTooltip]="widget?.config?.skuBtnTooltip ? widget?.config?.skuBtnTooltip : ''"
+        (click)="updateWidgetSelectionForSKU()">{{ widget?.config?.skuButtonText }} </button>
+      <a *ngIf="widget?.config?.skuCsvTemplateUrl" [download]="widget.config?.skuCsvName"
+        [href]="widget?.config?.skuCsvTemplateUrl" class="cdx-but-md exportBtn-inline csv-template-link">CSV
+        Template</a>
+    </div>
+
+    <button mat-raised-button *ngIf="widget?.config?.historyBtnText" matTooltipClass="help-tooltip"
+      [matTooltip]="widget?.config?.historyBtnTooltip ? widget?.config?.historyBtnTooltip : ''"
+      (click)="uploadFileHistory()">{{ widget?.config?.historyBtnText }}</button>
+
+    <!-- <button mat-raised-button color="primary" class="unspsc-trigger-btn" (click)="triggerUnspscWorkflowProcess()" *ngIf="widget?.key === 'unspsc_tool'" >Trigger - UNSPSC Corrections</button>  -->
+
+
+  </div>
+  <div class="info-wrapper" fxLayout="row" *ngIf="widget?.config?.info" fxLayoutAlign="start start">
+    <font *ngIf="widget?.config?.mandatoryField">When you upload a CSV file, data should be populated for the mandatory
+      columns - {{widget.config.mandatoryField}}. For the rest of the columns, data can be blank / empty.</font>
+
+    <div class="">
+      <mat-icon>info</mat-icon>
+      <span [innerHTML]="widget?.config?.info"></span>
+    </div>
+  </div>
+</div>

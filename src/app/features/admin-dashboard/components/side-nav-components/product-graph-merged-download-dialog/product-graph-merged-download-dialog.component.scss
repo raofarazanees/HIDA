@@ -1,0 +1,44 @@
+.product-graph-merged-download-dialog-component {
+  .main-content {
+    height: calc(100vh - 100px);
+    overflow: auto;
+    padding: 10px;
+  }
+  .margin-bottom_20 {
+    padding-bottom: 20px;
+  }
+  .margin_top-20:first-child {
+    margin-top: 20px;
+  }
+  .filter-criteria .mat-form-field-appearance-outline .mat-form-field-wrapper {
+    margin: 0 !important;
+  }
+  .mar-top_10 {
+    margin-top: 10px;
+  }
+  .remove_icon {
+    margin-top: -20px;
+  }
+  .remove_btn {
+    width: 25px;
+    height: 25px;
+  }
+  .mat-form-field {
+    width: 100%;
+  }  
+  .rm_icon{
+    border: 1px solid #000;
+    border-radius: 50px;
+    width: 27px;
+    height: 27px;
+    line-height: 1;
+    text-align: center;
+    margin-top: 5px;
+    cursor: pointer;
+  }
+  .rm_icon:hover{
+    background-color: rgba(255, 0, 0, 0.452);
+    color: #fff;
+    border: 1px solid red;
+  }
+}

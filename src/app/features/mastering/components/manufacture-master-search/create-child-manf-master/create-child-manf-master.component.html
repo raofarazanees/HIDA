@@ -1,0 +1,97 @@
+<div class="cdx-dialog-wrapper">
+  <form [formGroup]="childManfForm" (ngSubmit)="submitParentForm()" autocomplete="off">
+    <div class="cdx-dialog-top">
+      <h2 mat-dialog-title>Create Child Manufacturer</h2>
+      <mat-dialog-content role="dialog">
+        <div class="cdx-popup-row">
+          <mat-form-field appearance="outline" class="cdx-input-default width-100">
+            <mat-label>Child Manufacturer Name</mat-label>
+            <input
+              inputRef
+              matInput
+              title="Please enter text"
+              autocomplete="off"
+              id="childManfName"
+              formControlName="childManfName"
+              placeholder="Enter Child Manufacturer Name..."
+              required
+            />
+           </mat-form-field>
+           <div class="errors"> 
+           <mat-error *ngIf="childManfName.invalid && (childManfName.dirty || childManfName.touched)">
+            <ng-container *ngIf="childManfName.errors?.required"> Child Manufacturer Name is required. </ng-container>
+          </mat-error>
+          </div>
+          <mat-form-field appearance="outline" class="cdx-input-default width-100">
+            <mat-label>Child Display Name</mat-label>
+            <input
+              inputRef
+              matInput
+              title="Child Display Name"
+              autocomplete="off"
+              id="childDisplayName"
+              formControlName="childDisplayName"
+              placeholder="Enter Child Display Name..."
+              required
+            />
+           </mat-form-field>
+           <div class="errors"> 
+           <mat-error *ngIf="childDisplayName.invalid && (childDisplayName.dirty || childDisplayName.touched)">
+            <ng-container *ngIf="childDisplayName.errors?.required"> Child Display Name is required. </ng-container>
+          </mat-error>
+          </div>
+          <mat-form-field class="cdx-input-default width-100" appearance="outline">
+            <mat-label>Select Parent Manufacturer</mat-label>
+            <input   #inputElement inputRef matInput aria-label="parentManf" [matAutocomplete]="auto" formControlName="parentManfName"  (change)="handleEmptyInput($event)" />
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"  (optionSelected)="onSelectionChanged($event)"  [autoActiveFirstOption]="true" >
+              <cdk-virtual-scroll-viewport class="options-viewport" [itemSize]="10">
+                <mat-option *cdkVirtualFor="let data of filteredParentManf | async" [value]="data">
+                  <span>{{ data.parentManfName }}</span>
+                </mat-option>
+                <mat-option value="no_result" class="no-result" (click)="openCreateParentDialog(inputElement.value)"> Create Parent Manufacturer </mat-option>
+              </cdk-virtual-scroll-viewport>
+            </mat-autocomplete>
+          </mat-form-field>
+                       
+          <mat-form-field class="cdx-input-default width-100 mar-10"  appearance="outline">
+            <mat-label>Blacklist Flag</mat-label>
+            <mat-select formControlName="blacklistFlag" name="blacklistFlag">
+              <mat-option *ngFor="let item of defaultYesNoOptions" [value]="item">
+                {{item}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+        </div>
+      </mat-dialog-content>
+    </div>
+    <div class="cdx-dialog-bottom">
+      <mat-dialog-actions>
+        <button
+          aria-label="cancel button"
+          mat-button
+          mat-dialog-close
+          role="button"
+          id="cancel"
+          (click)="onNoClick()"
+          class="cdx-but-lg mat-stroked-button mat-primary"
+        >
+          Cancel
+        </button>
+        <button
+          mat-button
+          role="button"
+          aria-label="action button"
+          class="cdx-but-lg mat-flat-button mat-primary"
+          [disabled]="!childManfForm.valid"
+          type="submit"
+        >
+          Create
+        </button>
+      </mat-dialog-actions>
+    </div>
+  </form>
+  <button mat-button role="button" class="cdx-popup-close" (click)="onNoClick()">
+    <mat-icon role="img" class="cdx-mat-icon-16">close</mat-icon>
+  </button>
+</div>

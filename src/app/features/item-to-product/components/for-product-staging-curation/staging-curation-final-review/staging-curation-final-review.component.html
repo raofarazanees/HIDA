@@ -1,0 +1,106 @@
+<div class="for-item-pairs-confirmation-component">
+  <app-module-landing-page class="item-to-product-component">
+    <div cp-page-title>
+      <div class="title-md">
+        <span class="sub-md">Task Type:</span>
+        HIDA - Staging Curation - Product UNSPSC labelling - Confirmation<span class="sub-md-type"></span>
+      </div>
+      <div class="title-sm">
+        <span class="sub-sm">Doc PGUID:</span>
+        {{ userProfile.routeState?.groupName || '-' }}
+      </div>
+    </div>
+
+    <div cp-tab-content>
+      <div cp-tab-content *ngIf="!(taskLoading$ | async)">
+        <ng-container *ngIf="taskDetails; then stagingCurationContent"></ng-container>
+        <div class="task-status-details" *ngIf="!taskDetails">INVALID TASK DETAILS</div>
+      </div>
+    </div>
+  </app-module-landing-page>
+  <app-loader *ngIf="taskLoading$ | async" message="Loading Task Details..."> </app-loader>
+  <app-loader *ngIf="!isDrawerOpened && loading$ | async" message="Please wait..."> </app-loader>
+</div>
+<ng-template #stagingCurationContent>
+  <div class="body-container">
+    <div class="toolbar-container">
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="getProductBrandForConfirmation()"
+        matTooltip="Fetch latest data for this Task"
+        aria-label="icon"
+        class="cdx-but-md"
+        [disabled]="rowCount == 0"
+      >
+        <mat-icon class="cdx-mat-icon-24 cdx-mat-icon-left">refresh</mat-icon>
+        Refresh Data
+      </button>
+
+      <button
+        mat-flat-button
+        color="primary"
+        aria-label="cdx primary button"
+        matTooltip="Approve records on this page"
+        class="cdx-but-md"
+        (click)="isEnabledSubmitButton = false; onSelectionAll('Approve')"
+        [disabled]="rowCount == 0"
+      >
+        Approve All
+      </button>
+      <button
+        mat-flat-button
+        color="primary"
+        aria-label="cdx primary button"
+        matTooltip="Reject records on this page"
+        class="cdx-but-md"
+        (click)="isEnabledSubmitButton = false; onSelectionAll('Reject')"
+        [disabled]="rowCount == 0"
+      >
+        Reject All
+      </button>
+      <button
+        mat-flat-button
+        color="primary"
+        aria-label="cdx primary button"
+        matTooltip="Reset selection on this page"
+        class="cdx-but-md"
+        (click)="isEnabledSubmitButton = false; onSelectionAll('Reset')"
+        [disabled]="rowCount == 0"
+      >
+        Reset Selection
+      </button>
+      <a matTooltip="Reset Table Filters" (click)="resetFilters()"> Reset Filters </a>
+    </div>
+    <ag-grid-angular
+      style="width: 100%; height: calc(100vh - 200px); margin-top: 8px"
+      class="ag-theme-material pairing-table-container"
+      (gridReady)="onGridReady($event)"
+      [gridOptions]="gridOptions"
+      [overlayLoadingTemplate]="overlayLoading"
+      [animateRows]="true"
+      (cellClicked)="viewProductsItems($event)"
+      [frameworkComponents]="frameworkComponents"
+    >
+    </ag-grid-angular>
+
+    <div style="padding-top: 20px" fxLayoutAlign="space-between center" class="btn-row-container" fxLayoutGap="15px">
+      <div fxLayout="row" fxFlex="30"></div>
+      <div fxLayout="row" fxFlex="70" class="flex-end">
+        <ng-container>
+          <button
+            mat-flat-button
+            color="primary"
+            aria-label="cdx primary button"
+            (click)="submitRecords()"
+            matTooltip="Save and Push to Production"
+            class="cdx-but-md"
+            [disabled]="!isEnabledSubmitButton || rowCount == 0"
+          >
+            Submit Records
+          </button>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</ng-template>

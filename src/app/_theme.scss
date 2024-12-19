@@ -1,0 +1,47 @@
+@import '~@angular/material/theming';
+
+// Custom CDX Material Design palettes (Optional)
+// Contains the $cdx-primary, $cdx-accent, $cdx-warn palettes.
+@import '~@cdx/styles/cdx-theming.scss';
+
+@import '~ag-grid-enterprise/dist/styles/ag-grid.css';
+@import '~ag-grid-enterprise/dist/styles/ag-theme-material.css';
+
+// Add custom $cdx-primary, $cdx-accent, $cdx-warn overrides here
+// $cdx-primary: (...)
+// $cdx-accent: (..)
+// $cdx-warn: (..)
+
+// Use default CDX typography
+@import '~@cdx/styles/settings/_typography.scss';
+
+@include mat-core($cdx-base-typography);
+
+// Use the CDX palettes in cdx-theming.scss (imported above). Or define the palettes for your custom
+// themes based on the examples. For each palette, you can optionally specify a default, lighter,
+// and darker hue. Available color palettes: https://material.io/design/color/
+$cdx-palette-primary: mat-palette($cdx-primary);
+$cdx-palette-accent: mat-palette($cdx-accent);
+
+// The warn palette is optional (defaults to red).
+$cdx-palette-warn: mat-palette($cdx-warn);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$cdx-app-theme: mat-light-theme($cdx-palette-primary, $cdx-palette-accent, $cdx-palette-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($cdx-app-theme);
+
+// Create aliases to use within your app (Do not override the `$cdx-palette-*` properties)
+$my-app-palette-primary: $cdx-palette-primary;
+$my-app-palette-accent: $cdx-palette-accent;
+$my-app-palette-warn: $cdx-palette-warn;
+
+// The angular/material mixin `mat-color($palette, $hue: default, $opacity: null)` returns a color
+// based on the values for hue, and opacity, this may be used in other stylesheets.
+// e.g. `background-color: mat-color($cdx-palette-primary, 900);` sets the background-color to the
+// darkest hue.
+
+@import '~@cdx/styles/cdx-core.scss';

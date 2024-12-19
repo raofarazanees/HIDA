@@ -1,0 +1,20 @@
+<app-common-upload-file-dialog [FileValidation]="fileValidation" (uploadFileData)="onSubmit($event)"></app-common-upload-file-dialog>
+
+<!-- 
+<a  aria-label="icon" matTooltipClass="fss-14" download="HIDA_UOM_Workflow_Initiation_UP_{{env}}.csv" matTooltip="product_id is mandatory column. The rest of the columns/headers should be compatible to CSV format" class="cdx-but-md exportBtn-side" href="assets/templates/HIDA_UOM_Workflow_Initiation_UP_template.csv" >
+    CSV Template
+</a> -->
+
+
+<a aria-label="icon" *ngIf="widget.alternateSideNav" matTooltipClass="fss-14" class="cdx-but-md exportBtn-side" download="HIDA_UOM_Correction_UP_{{env}}.csv" href="assets/templates/HIDA_UOM_Correction_UP_template.csv" >
+    CSV Template 
+</a>
+
+<a aria-label="icon" *ngIf="!widget.alternateSideNav" [matMenuTriggerFor]="menu" class="cdx-but-menu" role="button" matTooltipClass="fss-14"  class="cdx-but-md exportBtn-side" href="javascript:void(0)">
+  CSV Template 
+  <mat-menu #menu="matMenu" role="menu" >
+    <a mat-menu-item role="menuitem" class="link_btn" download="HIDA_UOM_Workflow_Initiation_UP_{{env}}.csv" href="assets/templates/HIDA_UOM_Workflow_Initiation_UP_template.csv">Regular CSV Template</a>
+    <a mat-menu-item role="menuitem" class="link_btn" download="HIDA_UOM_Workflow_Initiation_UP_{{env}}.csv" href="assets/templates/HIDA_UOM_Workflow_Initiation_UP_adhoc_template.csv">Ad hoc CSV Template</a>
+  </mat-menu>
+  
+</a>

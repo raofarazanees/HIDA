@@ -1,0 +1,102 @@
+<div class="product-graph-merged-download-dialog-component">
+  <mat-divider></mat-divider>
+  <div class="main-content">
+    <section class="search_condition-section">
+      <h3>Search Condition</h3>
+      <mat-radio-group
+        role="radiogroup"
+        fxLayout="row"
+        fxLayoutAlign="start"
+        fxLayoutGap="20px"
+        [(ngModel)]="searchCondition"
+      >
+        <mat-radio-button color="primary" value="AND" checked role="radio" fxFlex="15">AND</mat-radio-button>
+        <mat-radio-button color="primary" class="cdx-radio-hover" value="OR" role="radio" fxFlex="15">OR </mat-radio-button>
+      </mat-radio-group>
+    </section>
+
+    <div
+      class="search_attribute-row margin_top-20 mar-top_10"
+      fxLayout="row"
+      fxLayoutAlign="start"
+      fxLayoutGap="10px"
+      *ngFor="let filterItem of filterData; let index = index"
+    >
+      <div class="filter-criteria" fxFlex="30">
+        <mat-form-field appearance="outline" fxFlex="100" class="width-100 searchInput">
+          <mat-select
+            placeholder="Select filter criteria"
+            (selectionChange)="filterColumnSelected($event, filterItem, index)"
+            [(ngModel)]="filterItem.columnName"
+            name="columnName"
+          >
+            <mat-option
+              *ngFor="let item of searchCriteriaOptionsData; let i = index"
+              [value]="item.columnName"
+              role="option"
+              class="filter_list"
+              [disabled]="item?.isSelected"
+            >
+              {{ item.columnLabel }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="filter-criteria" fxFlex="20" *ngIf="filterItem.columnName === 'created_date' || filterItem.columnName === 'updated_date'">
+        <mat-form-field appearance="outline" fxFlex="100" class="width-100 searchInput">
+          <mat-select placeholder="Search Type" [(ngModel)]="filterItem.containSearchType" name="containSearchType"  (selectionChange)="resetDate(index)">
+            <mat-option *ngFor="let item of ['EQUALS', 'RANGE']; let i = index" [value]="item" role="option" class="filter_list">
+              {{ item }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="filter-criteria" fxFlex="38" *ngIf="filterItem.columnName === 'created_date' || filterItem.columnName === 'updated_date'">
+          <mat-form-field class="cdx-datepicker-wrapper width-100 searchInput cdx-datepicker-wrapper cdx-daterange-picker"  appearance="outline">
+            <input matInput placeholder="{{filterItem.containSearchType == 'RANGE' ? 'From Date - To Date' : 'Select Date'}}" readonly (click)="rangePicker.open()" [max]="maxDate" [satDatepicker]="rangePicker" [(ngModel)]="filterItem.dateRange" />
+            <sat-datepicker #rangePicker [rangeMode]="filterItem.containSearchType == 'RANGE' ? true : false" > </sat-datepicker>
+            <sat-datepicker-toggle matSuffix [for]="rangePicker"></sat-datepicker-toggle>
+          </mat-form-field>
+
+      </div>
+      <div class="filter-criteria" fxFlex="60" *ngIf="filterItem.columnName != 'created_date' && filterItem.columnName != 'updated_date'">
+        <mat-form-field appearance="outline" class="cdx-input-default width-100 searchInput" fxFlex="100">
+              <input
+                matInput
+                title="Please enter Input Text"
+                placeholder="Search Text"
+                name="searchTextField"
+                [(ngModel)]="filterItem.searchText"
+                #input
+              />
+            </mat-form-field>
+      </div>
+      <div class="button-container" fxFlex="5" fxLayoutAlign="center">
+        <mat-icon class="rm_icon" *ngIf="filterData.length > 1" (click)="removeFilterItem(index)">close</mat-icon>
+      </div>
+    </div>
+
+    <button
+      mat-flat-button
+      color="primary"
+      aria-label="icon"
+      class="cdx-but-md mar-top_10"
+      id="add_btn"
+      [disabled]="filterData?.length === searchCriteriaOptionsData?.length"
+      (click)="addCriteria()"
+    >
+      <mat-icon class="cdx-mat-icon-24 cdx-mat-icon-left">add</mat-icon>
+      Add Criteria
+    </button>
+
+    <mat-divider class="mar-top_10"></mat-divider>
+
+    <div fxLayout="row" fxLayoutAlign="center center" class="mar-top_10">
+      <button mat-raised-button color="primary" class="upload-btn" (click)="downloadProductGraphFile()">Search</button>
+    </div>
+  </div>
+
+  <app-loader *ngIf="loading$ | async" [message]="'Please Wait...'"></app-loader>
+</div>

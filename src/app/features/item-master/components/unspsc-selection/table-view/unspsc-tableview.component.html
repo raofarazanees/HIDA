@@ -1,0 +1,71 @@
+<div class="unspsc-selection-model-component">
+  <mat-dialog-content role="dialog"
+    class="unspsc-dialog-contant">
+    <div class="cdx-popup-row">
+      <form [formGroup]="formGroup"
+        class="form filter-row"
+        fxLayout="row"
+        fxLayoutGap="10px">
+        <mat-form-field fxFlex="26"
+          class="cdx-select-default"
+          appearance="outline">
+          <mat-label>UNSPSC Level</mat-label>
+          <mat-select formControlName="level"
+            placeholder="Level">
+            <mat-option value="*">All</mat-option>
+            <mat-option value="1">Segment</mat-option>
+            <mat-option value="2">Family</mat-option>
+            <mat-option value="3">Class</mat-option>
+            <mat-option value="4">Commodity</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field fxFlex="26"
+          class="cdx-select-default"
+          appearance="outline">
+          <mat-label>Key</mat-label>
+          <mat-select formControlName="fieldName"
+            placeholder="Key">
+            <mat-option value="*">All</mat-option>
+            <mat-option value="code">Code</mat-option>
+            <mat-option value="title">Title </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field fxFlex="26"
+          class="cdx-select-default cdx-input-default"
+          appearance="outline">
+          <mat-label>Search</mat-label>
+          <input matInput
+            formControlName="searchText"
+            placeholder="Search">
+        </mat-form-field>
+        <button mat-flat-button
+          fxFlex="22"
+          (click)="searchHandler()"
+          aria-label="cdx primary button"
+          matTooltip="Search"
+          class="cdx-but-xs">
+          Search
+        </button>
+      </form>
+      <ag-grid-angular class="ag-theme-material"
+        style="width: 100%; height: calc(80vh - 125px);"
+        (gridReady)="onGridReady($event)"
+        [gridOptions]="gridOptions"
+        rowSelection="single"
+        (selectionChanged)="onSelectionChanged($event)">
+      </ag-grid-angular>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions class="action-row">
+    <button mat-flat-button
+      (click)="onDialogClose.emit()"
+      class="cdx-but-xs"
+      aria-label="cdx primary button">Cancel</button>
+    <button mat-flat-button
+      (click)="onSelectClick()"
+      [disabled]="!selectedRecord"
+      color="primary"
+      class="cdx-but-xs"
+      aria-label="cdx primary button">Proceed</button>
+  </mat-dialog-actions>
+</div>

@@ -1,0 +1,38 @@
+<div class="page">
+  <div>
+    <p class="greeting">Please login to get a special greeting!</p>
+
+    <p>To set a token locally follow these steps:</p>
+
+    <ol>
+      <li>
+        In a new tab, login with the Login MicroUI on
+        <a href="https://apps.dev-snapshot.clarivate.com/"
+          target="_blank"
+          rel="noopener noreferrer">snapshot</a>
+      </li>
+      <li>Open up <em>Developer Tools > Application > Storage > Local Storage</em></li>
+      <li>Copy the entire value of <span class="pre">ls.token</span></li>
+      <li>Return to this tab with your app running locally and open up <em>Developer Tools > Application > Storage >
+          Local Storage</em></li>
+      <li>Create a new "Key" for your token called <span class="pre">ls.token</span> in the "Key" field</li>
+      <li>Paste the entire value of <span class="pre">ls.token</span> from snapshot in the "Value" field</li>
+      <li>Refresh the page to see this take effect</li>
+    </ol>
+
+    <p>
+      If not local, the app should automatically redirect you to the
+      <a href="http://apps.dev-snapshot.clarivate.com/login?app=cdx"
+        target="_blank"
+        rel="noopener noreferrer">Login MicroUI</a> with the
+      correct <span class="pre">appId</span>. (envrionment dependent)
+    </p>
+
+    <p>
+      For your application to correctly integrate with the Login Portal, please follow the steps for
+      <a href="https://wiki.clarivate.io/display/CPS/Microui+Login+Ngx+Steps+for+adding+a+new+app"
+        target="_blank"
+        rel="noopener noreferrer">adding a new platform app</a>.
+    </p>
+  </div>
+</div>

@@ -1,0 +1,42 @@
+<div class="ag-cell-unspsc-attribute-extension">
+  <span class="attribute-display-size"
+    matTooltip="Manage Item Attributes"
+    *ngIf="isValidItem && !params?.readonly else emptySize"
+    [matMenuTriggerFor]="attributes">{{displayValues?.length}}</span>
+  <div class="attribute-display-container">
+    <mat-chip-list class="attribute-display-item">
+      <mat-chip *ngFor="let item of displayValues | sort: 'attributeValue'"
+        matTooltipClass="attribute-display-item-tooltip"
+        matTooltip="{{ 'Group: '+ item?.attributeGroup +'&#13;Value: ' + item?.attributeValue}}">
+        {{ item?.attributeValue }}
+      </mat-chip>
+    </mat-chip-list>
+    <div *ngIf="!displayValues?.length">-</div>
+  </div>
+  <mat-menu #attributes="matMenu"
+    class="attribute-panel-container">
+    <button mat-menu-item
+      [ngClass]="{'parent-selected': displayValues?.length ? isActiveGroup(attributeGroups.value) : false}"
+      *ngFor="let attributeGroups of (params.attributeExtensions ? params.attributeExtensions[0] : {}) | keyvalue | sort: 'key'"
+      [matMenuTriggerFor]="child"
+      [matMenuTriggerData]="{attributeValues: attributeGroups.value, attributeGroup: attributeGroups.key }">{{
+      attributeGroups.key }}</button>
+  </mat-menu>
+  <mat-menu #child="matMenu"
+    class="attribute-panel-container">
+    <ng-template matMenuContent
+      let-attributeValues="attributeValues"
+      let-attributeGroup="attributeGroup">
+      <button mat-menu-item
+        [class.child-selected]="params?.value?.includes(attributeValue.key)"
+        (click)="onAttributeSelection(attributeValue.key)"
+        *ngFor="let attributeValue of attributeValues | keyvalue | sort: 'value'">
+        {{ attributeValue.value }}
+      </button>
+    </ng-template>
+  </mat-menu>
+</div>
+<ng-template #emptySize>
+  <span class="attribute-display-size disabled"
+    matTooltip="please provide required information to choose item attributes">{{displayValues?.length}}</span>
+</ng-template>

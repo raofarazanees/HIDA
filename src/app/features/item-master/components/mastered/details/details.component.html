@@ -1,0 +1,250 @@
+<div class="cdx-dialog-wrapper item-master-details-component">
+  <div class="cdx-dialog-top">
+    <h2 class="title"
+      mat-dialog-title>Mastered Item - Details
+    </h2>
+
+    <mat-icon (click)="dialogRef.close()"
+      class="close-icon">close</mat-icon>
+    <mat-dialog-content role="dialog">
+      <div class="dialog-content-inner">
+        <div class="cdx-popup-row"
+          fxLayout="row"
+          fxLayoutAlign="start center">
+          <div fxFlex="28"
+            class="key">Item PGUID</div>
+          <div fxFlex="2"
+            class="key">:</div>
+          <div fxFlex="70"
+            class="value">{{ data.itemPguid }}</div>
+        </div>
+        <div class="cdx-popup-row"
+          fxLayout="row"
+          fxLayoutAlign="start center">
+          <div fxFlex="28"
+            class="key">Product Description</div>
+          <div fxFlex="2"
+            class="key">:</div>
+          <div fxFlex="70"
+            class="value">{{ data?.productDesc }}
+            <mat-icon role="img"
+              class="copy-icon"
+              [cdkCopyToClipboard]="data.productDesc"
+              matTooltip="Copy to clipboard">content_copy</mat-icon>
+          </div>
+        </div>
+        <div class="cdx-popup-row"
+          fxLayout="row"
+          fxLayoutAlign="start center">
+          <div fxFlex="28"
+            class="key">Distributor SKU</div>
+          <div fxFlex="2"
+            class="key">:</div>
+          <div fxFlex="70"
+            class="value">{{ data.distributorSku }}</div>
+        </div>
+
+        <div class="cdx-popup-row"
+          fxLayout="row"
+          fxLayoutAlign="start center">
+          <div fxFlex="28"
+            class="key">OEM SKU</div>
+          <div fxFlex="2"
+            class="key">:</div>
+          <div fxFlex="70"
+            class="value">{{ data.oemSku }}
+            <mat-icon role="img"
+              class="copy-icon"
+              [cdkCopyToClipboard]="data.oemSku"
+              matTooltip="Copy to clipboard">content_copy</mat-icon>
+          </div>
+        </div>
+
+        <div class="cdx-popup-row"
+          fxLayout="row"
+          fxLayoutAlign="start center">
+          <div fxFlex="28"
+            class="key">Raw OEM Name <br><small>(Manufacturer Description)</small></div>
+          <div fxFlex="2"
+            class="key">:</div>
+          <div fxFlex="70"
+            class="value">{{ data.manufacturerDesc }}
+            <mat-icon role="img"
+              class="copy-icon"
+              [cdkCopyToClipboard]="data.manufacturerDesc"
+              matTooltip="Copy to clipboard">content_copy</mat-icon>
+          </div>
+
+        </div>
+
+        <div class="cdx-popup-row"
+          fxLayout="row"
+          fxLayoutAlign="start center">
+          <div fxFlex="28"
+            class="key">Standard OEM Name</div>
+          <div fxFlex="2"
+            class="key">:</div>
+          <div fxFlex="70"
+            class="value">{{ data.stdOemName }}</div>
+        </div>
+
+        <div class="cdx-popup-row"
+          fxLayout="row"
+          fxLayoutAlign="start center">
+          <div fxFlex="28"
+            class="key">Taxonomy</div>
+          <div fxFlex="2"
+            class="key">:</div>
+          <div fxFlex="70"
+            class="value">{{ data.taxonomy }}</div>
+        </div>
+
+        <div class="cdx-popup-row"
+          fxLayout="row"
+          fxLayoutAlign="start center">
+          <div fxFlex="28"
+            class="key">UNSPSC Code</div>
+          <div fxFlex="2"
+            class="key">:</div>
+          <div fxFlex="70"
+            class="value">{{ data.masteredUnspscCode }}</div>
+        </div>
+
+        <div class="cdx-popup-row"
+          fxLayout="row"
+          fxLayoutAlign="start center"
+          *ngIf="data.segmentTitle">
+          <div fxFlex="28"
+            class="key">Segment Title</div>
+          <div fxFlex="2"
+            class="key">:</div>
+          <div fxFlex="70"
+            class="value">{{ data.segmentTitle }}</div>
+        </div>
+
+        <div class="cdx-popup-row"
+          fxLayout="row"
+          fxLayoutAlign="start center"
+          *ngIf="data.familyTitle">
+          <div fxFlex="28"
+            class="key">Family Title</div>
+          <div fxFlex="2"
+            class="key">:</div>
+          <div fxFlex="70"
+            class="value">{{ data.familyTitle }}</div>
+        </div>
+
+        <div class="cdx-popup-row"
+          fxLayout="row"
+          fxLayoutAlign="start center"
+          *ngIf="data.classTitle">
+          <div fxFlex="28"
+            class="key">Class Title</div>
+          <div fxFlex="2"
+            class="key">:</div>
+          <div fxFlex="70"
+            class="value">{{ data.classTitle }}</div>
+        </div>
+
+        <div class="cdx-popup-row"
+          fxLayout="row"
+          fxLayoutAlign="start center"
+          *ngIf="data.commodityTitle">
+          <div fxFlex="28"
+            class="key">Commodity Title</div>
+          <div fxFlex="2"
+            class="key">:</div>
+          <div fxFlex="70"
+            class="value">{{ data.commodityTitle }}</div>
+        </div>
+
+        <div class="cdx-popup-row"
+          fxLayout="row"
+          fxLayoutAlign="start center">
+          <div fxFlex="28"
+            class="key">Ambiguity Flag</div>
+          <div fxFlex="2"
+            class="key">:</div>
+          <div fxFlex="70"
+            class="value">{{ data.ambiguityFlag }}</div>
+        </div>
+        <div class="cdx-popup-row"
+          fxLayout="row"
+          fxLayoutAlign="start center">
+          <div fxFlex="28"
+            class="key">Item Attributes ({{displayValues?.length}})</div>
+          <div fxFlex="2"
+            class="key">:</div>
+          <div fxFlex="70"
+            class="value">
+            <mat-chip-list class="attribute-display-item"
+              *ngIf="displayValues?.length; else noUnspscAttributes">
+              <mat-chip *ngFor="let item of displayValues | sort: 'attributeGroup'"
+                matTooltipClass="attribute-display-item-tooltip"
+                matTooltip="{{ 'Group: '+ item?.attributeGroup +'&#13;Value: ' + item?.attributeValue }}">
+                {{ item?.attributeGroup + ' | ' + item?.attributeValue }}
+              </mat-chip>
+            </mat-chip-list>
+            <ng-template #noUnspscAttributes>-</ng-template>
+          </div>
+        </div>
+
+        <div class="cdx-popup-row"
+          fxLayout="row"
+          fxLayoutAlign="start center"
+          *ngIf="data.comments">
+          <div fxFlex="28"
+            class="key">Comment</div>
+          <div fxFlex="2"
+            class="key">:</div>
+          <div fxFlex="70"
+            class="value">{{ data.comments }}</div>
+        </div>
+
+        <div class="cdx-popup-row"
+          fxLayout="row"
+          fxLayoutAlign="start center">
+          <div fxFlex="28"
+            class="key">Data Source</div>
+          <div fxFlex="2"
+            class="key">:</div>
+          <div fxFlex="70"
+            class="value">{{ data.dataSource }}</div>
+        </div>
+
+        <div class="cdx-popup-row"
+          fxLayout="row"
+          fxLayoutAlign="start center">
+          <div fxFlex="28"
+            class="key">Vendor</div>
+          <div fxFlex="2"
+            class="key">:</div>
+          <div fxFlex="70"
+            class="value">{{ data.vendor }}</div>
+        </div>
+
+        <div class="cdx-popup-row"
+          fxLayout="row"
+          fxLayoutAlign="start center">
+          <div fxFlex="28"
+            class="key">Last Updated By</div>
+          <div fxFlex="2"
+            class="key">:</div>
+          <div fxFlex="70"
+            class="value">{{ data.resourceName }}</div>
+        </div>
+
+        <div class="cdx-popup-row"
+          fxLayout="row"
+          fxLayoutAlign="start center">
+          <div fxFlex="28"
+            class="key">Last Updated At</div>
+          <div fxFlex="2"
+            class="key">:</div>
+          <div fxFlex="70"
+            class="value">{{ data.updatedDate | momentDate: 'fromNow' }}</div>
+        </div>
+      </div>
+    </mat-dialog-content>
+  </div>
+</div>

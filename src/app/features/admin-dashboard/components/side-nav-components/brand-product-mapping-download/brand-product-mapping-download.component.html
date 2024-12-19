@@ -1,0 +1,140 @@
+<div class="product-brand-download-dialog-component">
+  <mat-divider></mat-divider>
+  <div class="main-content">
+    <section class="search_condition-section margin-bottom_20">
+      <h3>Search Condition</h3>
+      <mat-radio-group
+        role="radiogroup"
+        fxLayout="row"
+        fxLayoutAlign="start"
+        fxLayoutGap="20px"
+        [(ngModel)]="fileDownloadDataToPost.searchCondition"
+        (ngModelChange)="updateData(0, 'radio', $event)"
+      >
+        <mat-radio-button color="primary" value="AND" checked role="radio" fxFlex="15">AND</mat-radio-button>
+        <mat-radio-button color="primary" class="cdx-radio-hover" value="OR" role="radio" fxFlex="15">OR </mat-radio-button>
+      </mat-radio-group>
+    </section>
+
+    <div
+      class="search_attribute-row margin_top-20"
+      fxLayout="row"
+      fxLayoutAlign="start"
+      fxLayoutGap="10px"
+      *ngFor="let filterItem of fileDownloadDataToPost.searchCriteria; let index = index"
+    >
+      <div class="filter-criteria" fxFlex="40">
+        <mat-form-field appearance="outline" fxFlex="100">
+          <mat-label>Select filter criteria</mat-label>
+          <mat-select
+            placeholder="Select filter criteria"
+            (ngModelChange)="updateData(index, 'select', $event)"
+            [(ngModel)]="filterItem.columnName"
+            name="columnName"
+          >
+            <mat-option
+              *ngFor="let item of searchCriteriaOptionsData; let i = index"
+              [value]="item.columnName"
+              role="option"
+              [disabled]="item?.isSelected"
+            >
+              {{ item.columnLabel }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="filter-criteria" fxFlex="40">
+        <div [ngSwitch]="filterItem.columnName">
+          <div *ngSwitchCase="'brand_name'">
+            <ng-container *ngTemplateOutlet="ProductBrandListDropdown"></ng-container>
+          </div>
+  
+          <div *ngSwitchCase="'month_year'">
+            <mat-form-field class="cdx-datepicker-wrapper" appearance="outline" fxFlex="100">
+              <mat-label>
+                {{
+                  filterItem.completeDate ? filterItem.completeDate : filterItem.searchText ? filterItem.searchText : 'Choose a Month'
+                }}</mat-label
+              >
+              <input
+                matInput
+                [matDatepicker]="picker"
+                title="Choose a Month"
+                (click)="picker.open()"
+                readonly
+                [min]="minDate"
+                [max]="maxDate"
+              />
+              <mat-datepicker-toggle matSuffix [for]="picker" role="button"></mat-datepicker-toggle>
+              <mat-datepicker #picker startView="multi-year" (monthSelected)="dateSelected(index, $event)"></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <div *ngSwitchDefault>
+            <mat-form-field appearance="outline" class="cdx-input-default" fxFlex="100">
+              <mat-label>Search Text</mat-label>
+              <input
+                matInput
+                title="Please enter Input Text"
+                placeholder="Search Text"
+                name="searchTextField"
+                [(ngModel)]="filterItem.searchText"
+                #input
+                (blur)="updateData(index, 'input', filterItem.searchText)"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+
+        <ng-template #ProductBrandListDropdown>
+          <mat-form-field appearance="outline" fxFlex="100">
+            <mat-label>Master Brands</mat-label>
+            <mat-select
+              placeholder="Choose an option"
+              panelClass="common-panel"
+              [(ngModel)]="filterItem.searchText"
+              (ngModelChange)="updateData(index, 'input', $event)"
+            >
+              <mat-option value="">Select Option</mat-option>
+              <mat-option *ngFor="let brand of activeBrandProducts" [value]="brand">
+                {{ brand }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-template>
+      </div>
+      <div class="button-container" fxFlex="20" fxLayoutAlign="center">
+        <button
+          mat-fab
+          color="primary"
+          class="mar-top_10 remove_btn"
+          (click)="removeFilterItem(index)"
+          *ngIf="fileDownloadDataToPost.searchCriteria.length > 1"
+          matTooltip="Remove Item"
+        >
+          <mat-icon class="remove_icon">remove</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <button
+      mat-flat-button
+      color="primary"
+      aria-label="icon"
+      class="cdx-but-md"
+      [disabled]="fileDownloadDataToPost.searchCriteria.length === searchCriteriaOptionsData.length"
+      (click)="addCriteria()"
+    >
+      <mat-icon class="cdx-mat-icon-24 cdx-mat-icon-left">add</mat-icon>
+      Add Criteria
+    </button>
+
+    <mat-divider class="mar-top_10"></mat-divider>
+
+    <div fxLayout="row" fxLayoutAlign="center center" class="mar-top_10">
+      <button mat-raised-button color="primary" class="upload-btn" (click)="retrieveBrandTaggingRecords()">Search</button>
+    </div>
+  </div>
+
+  <app-loader *ngIf="loading$ | async" message="Please wait..."></app-loader>
+</div>

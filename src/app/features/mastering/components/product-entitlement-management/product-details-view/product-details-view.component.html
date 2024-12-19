@@ -1,0 +1,22 @@
+<div class="cdx-dialog-wrapper">
+  <div class="cdx-dialog-top">
+    <h4 mat-dialog-title>{{data.title}}</h4>
+    <mat-dialog-content role="dialog">
+      <div class="cdx-popup-row" style="padding: 0;">
+        <ag-grid-angular style="width: 100%; height: calc(100vh - 175px); margin-top: 10px"
+        class="ag-theme-material pairing-table-container ag-theme-cdx" (gridReady)="onGridReady($event)"
+        [gridOptions]="gridOptions" [overlayLoadingTemplate]="overlayLoadingForAgGrid" [animateRows]="true"
+        [headerHeight]="30" 
+        [tooltipShowDelay]="0" [frameworkComponents]="frameworkComponents">
+      </ag-grid-angular>
+      </div>
+    </mat-dialog-content>
+  </div>
+  <button mat-button role="button" id="cdx-popup-close" class="cdx-popup-close" mat-dialog-close>
+    <mat-icon role="img" class="cdx-mat-icon-16">close</mat-icon>
+  </button>
+</div>
+
+
+<app-loader *ngIf="loading$ | async" message="Please wait...">
+</app-loader>

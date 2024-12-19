@@ -1,0 +1,98 @@
+<mat-drawer-container autosize class="main-drawer-container-wrapper">
+  <section class="manf-master">
+    <app-module-landing-page>
+      <div cp-page-title>
+        <div fxLayoutAlign="space-between center" class="btn-row-container" fxLayoutGap="10px">
+          <div fxLayout="row">
+            <div class="title-sm" matTooltipClass="help-tooltip" matTooltip="Manage Product Information 
+          &#13;
+          LIMIT - 1000 &#13; Default Sorting :  - ">
+              <span class="sub-sm"></span>
+              Product Information Management
+              <span class="sub-md-type pl-10">
+                <div class="label-with-icon-text">
+                  <mat-icon class="info-tab-icon">info</mat-icon>
+                </div>
+              </span>
+            </div>
+          </div>
+          <div fxLayout="row">
+            <a mat-flat-button color="primary" href="/embedui/hida/index.html#/hida/admin-dashboard" aria-label="icon"
+              title="Back to HIDA Dashboard" class="cdx-but-md">
+              <mat-icon class="cdx-mat-icon-24 cdx-mat-icon-left">arrow_back</mat-icon>
+              Back To Dashboard
+            </a>
+          </div>
+        </div>
+      </div>
+      <div cp-tab-content class="mar-top">
+        <ng-container [ngTemplateOutlet]="productEntitlement"></ng-container>
+      </div>
+    </app-module-landing-page>
+
+    <ng-container *ngIf="{ loadingC:loadingParentChild$ | async,loadingT:loadingParentChildRel$ | async} as loading">
+      <app-loader *ngIf="loading$ || loading.loadingC || loading.loadingT && !isDrawerOpened" message="Please wait...">
+      </app-loader>
+    </ng-container>
+
+  </section>
+  <ng-template #productEntitlement>
+    <app-search-filter [totalRecords]="productEntitlementRes?.totalRecords"
+      [searchCriteriaOptionsData]="searchCriteriaOptionsData" [userName]="userProfile?.userName"
+      (initSearch)="searchProductEntitlement($event)" [exportBtnText]="'Export Products'"
+      (exportFileEmit)="downloadPIMFile()"
+      [toolTipText]="userRole ==='REGULAR' ? exportBtnTooltip : ''"></app-search-filter>
+
+    <ag-grid-angular style="width: 100%; height: calc(100vh - 175px); margin-top: 10px"
+      class="ag-theme-material pairing-table-container ag-theme-cdx" (gridReady)="onGridReady($event)"
+      [gridOptions]="gridOptions" [overlayLoadingTemplate]="overlayLoadingForAgGrid" [animateRows]="true"
+      [headerHeight]="30" [frameworkComponents]="frameworkComponents" (paginationChanged)="setLoading($event)"
+      [tooltipShowDelay]="0">
+    </ag-grid-angular>
+
+    <button mat-flat-button color="primary" (click)="saveEditedChanges()" aria-label="cdx primary medium button"
+      [disabled]="isNotingChangeOnPage" class="cdx-but-md save-btn" *ngIf="!isReadOnlyAccess">
+      Save Changes
+    </button>
+
+    <button mat-flat-button color="primary" (click)="drawer.open();isDrawerOpened = true"
+      aria-label="cdx primary medium button" class="cdx-but-md save-btn mr-left" *ngIf="!isReadOnlyAccess">
+      Upload CSV
+    </button>
+
+    <a aria-label="icon" matTooltipClass="fss-14"  #tooltip="matTooltip" (click)="tooltip.show()" matTooltipHideDelay="100000" matTooltip="When you upload a CSV file, data should be populated for the mandatory columns - product_id, product_desc, product_sku and child_manf_name. For the rest of the columns, data can be blank / empty." class="cdx-but-md exportBtn-side"
+      download="Product_Info_Management_UP_{{env}}.csv" href="assets/templates/Product_Info_Management_UP_template.csv">
+      CSV Template
+    </a>
+
+    <div class="page-selector">
+      <span>Page Size : </span>
+      <select name="pagination" [(ngModel)]="pageSize" (ngModelChange)="changePaginationSize($event)">
+        <option *ngFor="let item of pageSizeOptions" [value]="item">{{ item }}</option>
+      </select>
+    </div>
+  </ng-template>
+
+  <mat-drawer #drawer class="sidenav-container" position="end" mode="over" (closed)="onSideNavClosed()">
+    <div class="side-nav-content">
+      <header class="sidenav-component-header">
+        <span>Product Information Management - Upload CSV</span>
+        <mat-icon class="close-icon" (click)="drawer.close()">close</mat-icon>
+      </header>
+      <div class="sidenav-component-content">
+        <app-common-upload-file-dialog *ngIf="isDrawerOpened" [FileValidation]="fileValidation"
+          (uploadFileData)="onSubmitFileUpload($event)" [docPGUID]=""></app-common-upload-file-dialog>
+
+       <div class="exportBtn-side-text">
+        <a aria-label="icon" matTooltipClass="fss-14" class="cdx-but-md"
+          download="Product_Info_Management_UP_{{env}}.csv"
+          href="assets/templates/Product_Info_Management_UP_template.csv">
+          CSV Template
+        </a>
+         <font>When you upload a CSV file, data should be populated for the mandatory columns - product_id, product_desc, product_sku and child_manf_name. For the rest of the columns, data can be blank / empty.</font>
+        </div> 
+      </div>
+    </div>
+  </mat-drawer>
+
+</mat-drawer-container>

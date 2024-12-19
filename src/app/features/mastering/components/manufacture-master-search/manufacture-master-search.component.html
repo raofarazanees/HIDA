@@ -1,0 +1,114 @@
+<section class="manf-master">
+  <app-module-landing-page>
+    <div cp-page-title>
+      <div fxLayoutAlign="space-between center" class="btn-row-container" fxLayoutGap="10px">
+        <div fxLayout="row">
+          <div class="title-md">
+            <span class="sub-md"></span>
+            Manufacturer Mastering<span class="sub-md-type"></span>
+          </div>
+        </div>
+        <div fxLayout="row">
+          <a mat-flat-button color="primary" href="/embedui/hida/index.html#/hida/admin-dashboard" aria-label="icon" title="Back to HIDA Dashboard" class="cdx-but-md">
+            <mat-icon class="cdx-mat-icon-24 cdx-mat-icon-left">arrow_back</mat-icon>
+           Back To Dashboard
+          </a>
+        </div>
+      </div>
+    </div>
+    <div cp-tab-content class="mar-top">
+      <ng-container [ngTemplateOutlet]="tabView"></ng-container>
+    </div>
+  </app-module-landing-page>
+  <ng-container *ngIf="{loading:loading$ | async,loadingP:loadingParent$ | async,loadingC:loadingParentChild$ | async,loadingT:loadingParentChildRel$ | async} as loading">
+  <app-loader *ngIf="loading.loading || loading.loadingP || loading.loadingC || loading.loadingT" message="Please wait..."> </app-loader>
+</ng-container>
+</section>
+<ng-template #tabView>
+  <mat-tab-group animationDuration="0ms" (selectedTabChange)="onTabChange($event)" [selectedIndex]="0" class="search-tab-grp">
+    <mat-tab class="search_tabs">
+      <ng-template mat-tab-label class="tab-label-mastering">
+        <div class="label-with-icon" matTooltipClass="help-tooltip" matTooltip="Manage Master Parent Manufacturers.
+        &#13;
+            LIMIT - 2000 &#13; Default Sorting : Parent Manufacturer Name - ASC">
+          <mat-icon class="info-tab-icon">info</mat-icon>
+           Parent Manufacturer
+        </div>
+      </ng-template>
+      <app-parent-manf-master *ngIf="selectedTab === 0" [userProfile]="userProfile" [pageSize]="pageSize"
+       [readOnly]="isReadOnlyAccess"
+      ></app-parent-manf-master>
+    </mat-tab>
+    <mat-tab  class="search_tabs">
+      <ng-template mat-tab-label class="tab-label-mastering">
+        <div class="label-with-icon" matTooltipClass="help-tooltip" matTooltip="Manage Master Child Manufacturers and Master Manufacturer Parent Child relationship.
+        &#13;
+        LIMIT - 2000 &#13; Default Sorting : Child Manufacturer Name - ASC">
+          <mat-icon class="info-tab-icon">info</mat-icon>
+          Parent Child Manufacturer
+        </div>
+      </ng-template>
+      <app-parent-child-manf-master
+        *ngIf="selectedTab === 1"
+        [userProfile]="userProfile"
+        [pageSize]="pageSize"
+        [readOnly]="isReadOnlyAccess"
+      ></app-parent-child-manf-master>
+    </mat-tab>
+    <mat-tab class="search_tabs">
+      <ng-template mat-tab-label class="tab-label-mastering">
+        <div class="label-with-icon" matTooltipClass="help-tooltip" matTooltip="Manage complete set of both External Manufacturers for mapping and already Mapped External Manufacturers.
+        &#13;
+        LIMIT - 2000 &#13; Default Sorting : Revenue - DESC NULLS LAST">
+          <mat-icon class="info-tab-icon">info</mat-icon>
+           All Records
+        </div>
+      </ng-template>
+      <app-manf-all-records
+        *ngIf="selectedTab === 2"
+        [userProfile]="userProfile"
+        [pageSize]="pageSize"
+        [readOnly]="isReadOnlyAccess"
+      ></app-manf-all-records>
+    </mat-tab>
+    <mat-tab class="search_tabs">
+      <ng-template mat-tab-label class="tab-label-mastering">
+        <div class="label-with-icon" matTooltipClass="help-tooltip" matTooltip="Manage current incremental set of External Manufacturers for mapping and those from previous incrementals which are pending mapping 
+        &#13;
+        LIMIT - 2000 &#13; Default Sorting : Revenue - DESC NULLS LAST">
+          <mat-icon class="info-tab-icon">info</mat-icon>
+           Unmastered Records
+        </div>
+      </ng-template>
+      <app-for-mastering
+        *ngIf="selectedTab === 3"
+        [userProfile]="userProfile"
+        [pageSize]="pageSize"
+        [readOnly]="isReadOnlyAccess">
+      </app-for-mastering>
+    </mat-tab>
+    <mat-tab  class="search_tabs">
+      <ng-template mat-tab-label class="tab-label-mastering">
+        <div class="label-with-icon" matTooltipClass="help-tooltip" matTooltip="Manage External Manufacturers mapped so far across incremental and remapping.
+        &#13;
+        LIMIT - 2000 &#13; Default Sorting :  - ">
+          <mat-icon class="info-tab-icon">info</mat-icon>
+           Mastered Records
+        </div>
+      </ng-template>
+      <app-master-mapped
+        *ngIf="selectedTab === 4"
+        [userProfile]="userProfile"
+        [pageSize]="pageSize"
+        [readOnly]="isReadOnlyAccess">
+      </app-master-mapped>
+    </mat-tab>
+
+  </mat-tab-group>
+  <div class="page-selector">
+    <span>Page Size : </span>
+    <select name="pagination" [(ngModel)]="pageSize" (ngModelChange)="changePaginationSize($event)">
+      <option *ngFor="let item of pageSizeOptions" [value]="item">{{ item }}</option>
+    </select>
+  </div>
+</ng-template>

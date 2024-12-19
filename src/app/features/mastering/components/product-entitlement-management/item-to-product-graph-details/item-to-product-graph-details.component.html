@@ -1,0 +1,20 @@
+<div class="cdx-dialog-wrapper change-log-dialog">
+  <div class="cdx-dialog-top">
+    <h2 class="title" mat-dialog-title>I2P Graph Details
+      <button class="fl-right" type="button" (click)="openGraphLogDialog()" mat-raised-button role="button" color="primary">
+        Graph History
+      </button>
+
+    </h2>
+    <mat-dialog-content role="dialog">
+      <ag-grid-angular style="width: 100%; height: 84vh; margin-top: 10px" class="ag-theme-material ag-theme-cdx"
+        [headerHeight]="30" (gridReady)="onGridReady($event)" [gridOptions]="gridOptions" [getRowStyle]="getRowStyle"
+        [overlayLoadingTemplate]="overlayLoadingForAgGrid" [tooltipShowDelay]="0">
+      </ag-grid-angular>
+    </mat-dialog-content>
+
+  </div>
+  <button mat-button role="button" class="cdx-popup-close" mat-dialog-close>
+    <mat-icon role="img" class="cdx-mat-icon-16 rounded-icon">close</mat-icon>
+  </button>
+</div>

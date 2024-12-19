@@ -1,0 +1,25 @@
+<div class="ag-cell-unspsc-code"
+  *ngIf="params?.data"
+  [class.readonly]="params?.readonly"
+  draggable="true"
+  [class.selected]="params?.value || ( params?.selectionValue && params?.selectionValue === ( params?.data?.unspscSource ||  params?.data?.newUNSPSCCode))"
+  (click)="onCellSelection()"
+  (dragstart)="onDragStart($event)"
+  (dragover)="onDragOver($event)"
+  (drop)="onDrop($event)">
+  <div class="score-progress"
+    *ngIf="params?.score"
+    role="progressbar"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    [style]="scoreColour"
+    matTooltip="{{'Confidence Score: '+ score + '%'}}"
+    [attr.aria-valuenow]="score"
+    [style.--value]="score"></div>
+  <mat-icon class="cdx-mat-icon-16 drag-icon"
+    *ngIf="params?.draggable">drag_indicator</mat-icon>
+  <mat-icon *ngIf="params?.value && params?.value !=='N/A' && tooltip"
+    [matTooltip]="tooltip"
+    class="cdx-mat-icon-16 info-icon">info</mat-icon>
+  <div class="unspsc-text">{{ params?.value || '-'}}</div>
+</div>

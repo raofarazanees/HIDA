@@ -1,0 +1,187 @@
+<mat-drawer-container autosize class="main-drawer-container-wrapper">
+  <div class="for-item-pairs-confirmation-component">
+    <app-module-landing-page class="item-to-product-component">
+      <div cp-page-title>
+        <div class="title-md">
+          <span class="sub-md">Task Type:</span>
+          HIDA Staging Curation - {{ isForLabelling ? 'Products for UNSPSC labelling' : 'Products With UNSPSC Labels'
+          }}<span class="sub-md-type"></span>
+        </div>
+        <div class="title-sm">
+          <span class="sub-sm">Doc PGUID:</span>
+          {{ userProfile.routeState?.groupName || '-' }}
+        </div>
+      </div>
+
+      <div cp-tab-content>
+        <div cp-tab-content *ngIf="!(taskLoading$ | async)">
+          <ng-container *ngIf="taskDetails; then stagingCurationContent"></ng-container>
+          <div class="task-status-details" *ngIf="!taskDetails">INVALID TASK DETAILS</div>
+        </div>
+      </div>
+    </app-module-landing-page>
+    <app-loader *ngIf="taskLoading$ | async" message="Loading Task Details..."> </app-loader>
+    <app-loader *ngIf="!isDrawerOpened && loading$ | async" message="Please wait..."> </app-loader>
+  </div>
+
+  <ng-template #stagingCurationContent>
+    <div class="body-container">
+      <div class="toolbar-container">
+        <button
+          mat-flat-button
+          color="primary"
+          (click)="getProductBrandForConfirmation()"
+          matTooltip="Fetch latest data for this Task"
+          aria-label="icon"
+          class="cdx-but-md"
+          [disabled]="rowCount == 0"
+        >
+          <mat-icon class="cdx-mat-icon-24 cdx-mat-icon-left">refresh</mat-icon>
+          Refresh Data
+        </button>
+
+        <ng-container *ngIf="(!isForLabelling || taskDetails.taskDefinitionId == 'escalation') && userProfile?.isExceptionLead">
+          <button
+            mat-flat-button
+            color="primary"
+            aria-label="cdx primary button"
+            matTooltip="Approve records on this page"
+            class="cdx-but-md"
+            (click)="isEnabledSubmitButton = false; onSelectionAll('Approve')"
+            [disabled]="rowCount == 0"
+          >
+            Approve All
+          </button>
+          <button
+            mat-flat-button
+            color="primary"
+            aria-label="cdx primary button"
+            matTooltip="Reject records on this page"
+            class="cdx-but-md"
+            (click)="isEnabledSubmitButton = false; onSelectionAll('Reject')"
+            [disabled]="rowCount == 0"
+          >
+            Reject All
+          </button>
+          <button
+            mat-flat-button
+            color="primary"
+            aria-label="cdx primary button"
+            matTooltip="Reset selection on this page"
+            class="cdx-but-md"
+            (click)="isEnabledSubmitButton = false; onSelectionAll('Reset')"
+            [disabled]="rowCount == 0"
+          >
+            Reset Selection
+          </button>
+        </ng-container>
+        <a matTooltip="Reset Table Filters" (click)="resetFilters()"> Reset Filters </a>
+      </div>
+      <ag-grid-angular
+        style="width: 100%; height: calc(100vh - 200px); margin-top: 8px"
+        class="ag-theme-material pairing-table-container"
+        (gridReady)="onGridReady($event)"
+        [gridOptions]="gridOptions"
+        [overlayLoadingTemplate]="overlayLoading"
+        [animateRows]="true"
+        (cellClicked)="viewProductsItems($event)"
+        [frameworkComponents]="frameworkComponents"
+      >
+      </ag-grid-angular>
+
+      <div style="padding-top: 20px" fxLayoutAlign="space-between center" class="btn-row-container" fxLayoutGap="15px">
+        <div fxLayout="row" fxFlex="30"></div>
+        <div fxLayout="row" fxFlex="70" class="flex-end">
+          <ng-container *ngIf="(isForLabelling && taskDetails.taskDefinitionId != 'escalation') || !userProfile?.isExceptionLead">
+            <a  aria-label="icon" matTooltipHideDelay="100000" matTooltipClass="fss-14" matTooltip="When you upload a CSV file, data should be populated for the mandatory columns - doc_pguid, product_id and new_unspsc_code. For the rest of the columns, data can be blank / empty."  class="cdx-but-md csv-link" download="HIDA_Staging_Curation_Product_UNSPSC_For_Offline_Curation_UP_{{env}}.csv" href="assets/templates/HIDA_Staging_Curation_Product_UNSPSC_For_Offline_Curation_UP_template.csv" >
+              CSV Template 
+            </a>
+            <button
+              mat-flat-button
+              color="primary"
+              aria-label="cdx primary button"
+              class="cdx-but-md"
+              (click)="openUploadPanel()"
+              [disabled]="isEscalatedTask() || rowCount === 0"
+            >
+              Upload CSV
+            </button>
+
+            <button
+            mat-flat-button
+            color="primary"
+            aria-label="cdx primary button"
+            matTooltip="Download CSV for Offline Curation"
+            class="cdx-but-md"
+            (click)="downloadCsvOfflineCuration()"
+            [disabled]="isEscalatedTask() || rowCount === 0"
+          >
+            Download CSV
+          </button>
+
+            <button
+              mat-flat-button
+              color="primary"
+              aria-label="cdx primary button"
+              matTooltip="Save For Later"
+              class="cdx-but-md"
+              [disabled]="updatedRecords.length === 0"
+              (click)="saveForLater()"
+            >
+              Save For Later
+            </button>
+            <button
+              mat-flat-button
+              color="primary"
+              aria-label="cdx primary button"
+              matTooltip="Escalate"
+              class="cdx-but-md"
+              [disabled]="!isEnabledEscalateButton || isEscalatedTask() || rowCount === 0"
+              (click)="escalateTask()"
+            >
+              Escalate
+            </button>
+          </ng-container>
+
+          <ng-container *ngIf="(!isForLabelling || taskDetails.taskDefinitionId == 'escalation') && userProfile?.isExceptionLead">
+            <button
+              mat-flat-button
+              color="primary"
+              aria-label="cdx primary button"
+              matTooltip="Save Acted Records"
+              class="cdx-but-md"
+              [disabled]="!isEnabledSubmitButton || rowCount == 0"
+              (click)="onTaskSubmit('Approve')"
+            >
+              Submit Records
+            </button>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <mat-drawer #drawer class="sidenav-container" position="end" mode="over" (closed)="onSideNavClosed()">
+    <div class="side-nav-content">
+      <header class="sidenav-component-header">
+        <span>Staging Curation - Upload CSV</span>
+        <mat-icon class="close-icon" (click)="drawer.close()">close</mat-icon>
+      </header>
+      <div class="sidenav-component-content">
+        <app-common-upload-file-dialog
+          *ngIf="isDrawerOpened"
+          [FileValidation]="fileValidation"
+          (uploadFileData)="onSubmit($event)"
+          [docPGUID]="userProfile?.routeState?.groupName"
+        ></app-common-upload-file-dialog>
+    
+        <div class="exportBtn-side-text">
+        <a  aria-label="icon" matTooltipClass="fss-14"  class="cdx-but-md" download href="assets/templates/HIDA_Staging_Curation_Product_UNSPSC_For_Offline_Curation_UP_{{env}}.csv" >
+          CSV Template 
+        </a>
+        <font>When you upload a CSV file, data should be populated for the mandatory columns - doc_pguid, product_id and new_unspsc_code. For the rest of the columns, data can be blank / empty.</font>
+      </div> 
+      </div>
+    </div>
+  </mat-drawer>
+</mat-drawer-container>

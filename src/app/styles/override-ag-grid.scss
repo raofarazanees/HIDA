@@ -1,0 +1,43 @@
+.ag-theme-material {
+  border: 1px solid #ccc;
+  .ag-cell,
+  .ag-header-cell {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  .ag-cell,
+  .ag-full-width-row .ag-cell-wrapper.ag-row-group {
+    line-height: 30px;
+  }
+  .ag-row {
+    &.ag-row-modified {
+      background-color: rgba(255,241,201,.5) !important;
+      }
+    .ag-cell {
+      &.required-cell {
+        border: 1px solid #ff0000;
+      }
+    }
+  }
+  .ag-cell-focus {
+    border-width: 0 !important;
+  }
+  .ag-header-cell-filtered {
+    background-color: #1b6d85 !important;
+    color: #fff !important;
+  }
+  .ag-header-cell-filtered span {
+    color: #fff !important;
+  }
+  .ag-cell-inline-editing {
+    height: 30px !important;
+  }
+  .ag-select {
+    .ag-picker-field-wrapper {
+      min-height: 26px;
+      &:focus {
+        box-shadow: none;
+      }
+    }
+  }
+}

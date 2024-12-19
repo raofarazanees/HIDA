@@ -1,0 +1,29 @@
+<div class="generic-widget-component" fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="30px">
+  <div fxLayout="column" fxFlex="{{getDynamicFlex}}" fxLayoutGap="15px">
+    <ng-container *ngFor="let item of allowedMasteringRoles; let i = index">
+      <ng-container *ngIf="i <= 2">
+        <ng-container *ngTemplateOutlet="linkBtn; context: { $implicit: i, roleName: item }"> </ng-container>
+      </ng-container>
+    </ng-container>
+  </div>
+  <div fxLayout="column" fxFlex="{{getDynamicFlex}}" fxLayoutGap="15px" *ngIf="allowedMasteringRoles.length > 3">
+    <ng-container *ngFor="let item of allowedMasteringRoles | slice : 3; let i = index">
+      <ng-container *ngIf="i <= 2">
+        <ng-container *ngTemplateOutlet="linkBtn; context: { $implicit: i, roleName: item }"> </ng-container>
+      </ng-container>
+    </ng-container>
+  </div>
+  <div fxLayout="column" fxFlex="{{getDynamicFlex}}" fxLayoutGap="15px" *ngIf="allowedMasteringRoles.length > 5">
+    <ng-container *ngFor="let item of allowedMasteringRoles | slice : 6; let i = index">
+      <ng-container *ngIf="i <= 2">
+        <ng-container *ngTemplateOutlet="linkBtn; context: { $implicit: i, roleName: item }"> </ng-container>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #linkBtn let-roleName="roleName">
+  <a color="primary" [matTooltip]="getTooltipText(roleName)" [disabled]="checkIsUrlExits(roleName).length == 0" [href]="masteringRoleLabel(roleName, 'url')" mat-raised-button>{{
+    masteringRoleLabel(roleName, 'label')
+  }}</a>
+</ng-template>

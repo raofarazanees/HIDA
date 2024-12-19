@@ -1,0 +1,63 @@
+.btn-info-icon {
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px;
+  padding-left: 18px;
+}
+
+.csv-template-link {
+  padding-top: 6px;
+  text-decoration: underline !important;
+}
+
+.prd-lvl {
+  display: flex;
+  padding-top: 14px;
+  text-align: center;
+  justify-content: center;
+  height: 21px;
+  text-decoration: underline !important;
+  color: #1d78b9 !important;
+  font-size: 14px !important;
+  outline: none !important;
+}
+.n-pm {
+  padding-top: 0px !important;
+  margin-top: -11px !important;
+}
+.menu-link {
+  padding-bottom: 12px;
+  border-bottom: 1px solid #ccc;
+}
+
+.width-70-link {
+  align-items: baseline;
+  padding-left: 10%;
+}
+
+.link_btn {
+  color: #6738cf !important;
+  height: 2rem;
+  text-decoration: underline;
+}
+.info-wrapper {
+  flex-direction: column !important;
+  > div {
+    display: flex;
+  }
+  > font {
+    font-size: 11px;
+    font-weight: 600;
+  }
+}
+.action-wrapper a.csv-template-link {
+  width: auto !important;
+  min-width: auto !important;
+}
+
+.unspsc-trigger-btn{
+  margin-top: 8px;
+}
+.fixed-min-width{
+  min-width: 245px  !important;
+}

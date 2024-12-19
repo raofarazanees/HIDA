@@ -1,0 +1,1 @@
+product_id,product_desc(editable),product_sku(editable),child_manf_name(editable),revenue,unspsc_flag,unspsc_code(editable),unspsc_description,unspsc_datasource,unspsc_updated_by,unspsc_updated_date,brands(editable),private_flag,custom_flag,kpt_flag,comments(editable)

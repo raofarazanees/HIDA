@@ -1,0 +1,22 @@
+<div class="cdx-dialog-wrapper item-mastered-log-component">
+  <div class="cdx-dialog-top">
+    <h2 class="title"
+      mat-dialog-title>Mastered Item - Change Log</h2>
+    <mat-icon (click)="dialogRef.close()"
+      class="close-icon">close</mat-icon>
+    <mat-dialog-content role="dialog">
+      <div class="sub-titles">
+        <div class="sub-title"><span class="sub-sm">Product Description: </span> {{ data.productDesc }}</div>
+        <div class="sub-title"><span class="sub-sm">Distributor SKU: </span>{{ data.distributorSku }}</div>
+      </div>
+      <ag-grid-angular style="width: 100%; height: 60vh;margin-top: 10px;"
+        class="ag-theme-material"
+        (gridReady)="onGridReady($event)"
+        [frameworkComponents]="frameworkComponents"
+        [gridOptions]="gridOptions">
+      </ag-grid-angular>
+    </mat-dialog-content>
+    <app-loader *ngIf="loader$ | async"
+      message="Loading Change Log..."></app-loader>
+  </div>
+</div>

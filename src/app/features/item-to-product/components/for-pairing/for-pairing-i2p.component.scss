@@ -1,0 +1,74 @@
+.for-pairing-i2p-component {
+  height: 100%;
+  .body-container {
+    position: relative;
+  }
+  .toolbar-container {
+    display: flex;
+    height: 30px;
+    align-items: center;
+    place-content: flex-end;
+    gap: 30px;
+    a {
+      cursor: pointer;
+    }
+    a.disabled {
+      color: #cccccc;
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+  .btn-row-container {
+    .complete-task-btn {
+      position: absolute;
+      left: 0;
+    }
+  }
+}
+
+::ng-deep {
+  .for-pairing-i2p-component {
+    .pairing-table-container {
+      .ag-header-group-cell[class*='ag-group-cell-i2p-color'],
+      .ag-header-cell[class*='ag-group-cell-i2p-color'] {
+        background-color: #20b91d3d;
+        &.first {
+          background-color: #1d78b93d;
+        }
+        .ag-header-group-cell-label {
+          place-content: center;
+        }
+      }
+      .ag-cell-expandable {
+        .ag-group-contracted,
+        .ag-group-expanded {
+          margin-right: 8px;
+          height: 30px !important;
+        }
+      }
+      .ag-row-group-expanded {
+        background: rgb(231 231 231);
+        &.ag-row-modified {
+          background-color: #fff1c9;
+        }
+      }
+      .ag-row-modified {
+        .ag-details-row {
+          background-color: #fff1c9 !important;
+        }
+      }
+      .ag-side-bar {
+        background-color: rgb(0 0 0 / 11%);
+      }
+      .ag-details-row {
+        padding: 10px 10px 11px;
+        background: rgb(231 231 231);
+        .ag-cell {
+          line-height: 25px;
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}

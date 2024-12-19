@@ -1,0 +1,206 @@
+<div class="unspsc-treeview-selection-component">
+  <ng-container *ngTemplateOutlet="titleBarTemplate"></ng-container>
+  <mat-dialog-content role="dialog"
+    class="unspsc-dialog-contant">
+    <div class="cdx-popup-row">
+      <mat-tree [dataSource]="dataSource"
+        [treeControl]="treeControl"
+        class="unspsc-data-tree">
+        <mat-tree-node *matTreeNodeDef="let node"
+          class="unspsc-data-tree-node"
+          matTreeNodePadding>
+          <button mat-icon-button
+            disabled></button>
+          <mat-checkbox class="checklist-leaf-node"
+            [id]="node.details.code"
+            [checked]="checklistSelection.isSelected(node)"
+            (change)="onSelectionToggle($event, node)">
+            <span
+              [class.selected-title]="selectedLastNode.code === node.details.code && selectedLastNode.title === node.title"
+              [innerHTML]="node.title | textHighlighter : treeSearch.globalSeach || treeSearch[levelCodeConvertor[node.level]]"></span>
+          </mat-checkbox>
+          <span class="code"
+            [innerHTML]="node.details.code | textHighlighter : treeSearch.globalSeach ||
+            treeSearch[levelCodeConvertor[node.level]]"> </span>
+        </mat-tree-node>
+        <mat-tree-node *matTreeNodeDef="let node; when: hasChild"
+          matTreeNodePadding
+          class="unspsc-data-tree-node">
+          <button mat-icon-button
+            class="unspsc-data-tree-expansion"
+            [attr.aria-label]="'toggle ' + node.filename"
+            matTreeNodeToggle>
+            <mat-icon class="mat-icon-rtl-mirror">
+              {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+            </mat-icon>
+          </button>
+          <mat-checkbox [id]="node.details.code"
+            [checked]="checklistSelection.isSelected(node)"
+            (change)="onSelectionToggle($event,node)">
+            <span
+              [class.selected-title]="selectedLastNode.code === node.details.code && selectedLastNode.title === node.title"
+              [innerHTML]="node.title | textHighlighter : treeSearch.globalSeach || treeSearch[levelCodeConvertor[node.level]]"></span>
+          </mat-checkbox>
+          <span class="code"
+            [innerHTML]="node.details.code | textHighlighter : treeSearch.globalSeach ||
+            treeSearch[levelCodeConvertor[node.level]]"> </span>
+          <span class="count"
+            *ngIf="node.details.childCount"> ( {{node.details.childCount}} )</span>
+          <mat-progress-bar *ngIf="node.isLoading"
+            mode="indeterminate"></mat-progress-bar>
+        </mat-tree-node>
+      </mat-tree>
+      <app-loader *ngIf="unspscTreeLoading$ | async"
+        message="Fetching search results..."></app-loader>
+      <div *ngIf="!dataSource.data.length"
+        class="no-recrods-message">
+        {{this.noRecordMsg}}
+      </div>
+    </div>
+  </mat-dialog-content>
+  <ng-container *ngTemplateOutlet="paginationBarTemplate"></ng-container>
+  <mat-dialog-actions class="action-row">
+    <button mat-flat-button
+      (click)="onDialogClose.emit()"
+      class="cdx-but-xs"
+      aria-label="cdx primary button">Cancel</button>
+    <button mat-flat-button
+      (click)="proceedTogetPGUID()"
+      [disabled]="!(selectedLastNode.code && selectedLastNode.title)"
+      color="primary"
+      class="cdx-but-xs"
+      aria-label="cdx primary button">Proceed</button>
+  </mat-dialog-actions>
+</div>
+
+<app-loader *ngIf="itemPguidLoading"
+  message="Fetching item details to proceed..."></app-loader>
+
+<ng-template #unspscPayloadTemplate>
+  <mat-list role="list"
+    class="unspsc-strcture-modal"
+    style="width: 100%;">
+    <mat-list-item>
+      <div style="width: 25%;">Segment</div> :
+      <div class="value">
+        <span class="code"
+          *ngIf="selectedPayload?.segmentCode">({{selectedPayload?.segmentCode}})</span>
+        <span [matTooltip]="selectedPayload?.segmentTitle">{{selectedPayload?.segmentTitle || '-'}}</span>
+      </div>
+    </mat-list-item>
+    <mat-list-item>
+      <div style="width: 25%;">Family</div> :
+      <div class="value">
+        <span class="code"
+          *ngIf="selectedPayload?.familyCode">({{selectedPayload?.familyCode}})</span>
+        <span [matTooltip]="selectedPayload?.familyTitle">{{selectedPayload?.familyTitle || '-'}}</span>
+      </div>
+    </mat-list-item>
+    <mat-list-item>
+      <div style="width: 25%;">Class</div> :
+      <div class="value">
+        <span class="code"
+          *ngIf="selectedPayload?.classCode">({{selectedPayload?.classCode}})</span>
+        <span [matTooltip]="selectedPayload?.classTitle">{{selectedPayload?.classTitle || '-'}}</span>
+      </div>
+    </mat-list-item>
+    <mat-list-item>
+      <div style="width: 25%;">Commodity</div> :
+      <div class="value">
+        <span class="code"
+          *ngIf="selectedPayload?.commodityCode">({{selectedPayload?.commodityCode}})</span>
+        <span [matTooltip]="selectedPayload?.commodityTitle">{{selectedPayload?.commodityTitle || '-'}}</span>
+      </div>
+    </mat-list-item>
+    <mat-list-item>
+      <div style="width: 25%;">UNSPSC Code</div> :
+      <div class="value">{{selectedPayload?.unspscCode || '-'}}</div>
+    </mat-list-item>
+  </mat-list>
+</ng-template>
+
+<mat-menu #menu="matMenu"
+  class="unspsc-payload-panel">
+  <ng-container *ngTemplateOutlet="unspscPayloadTemplate"></ng-container>
+</mat-menu>
+
+<ng-template #titleBarTemplate>
+  <div class="title-bar">
+    <div class="search-container">
+      <ng-container>
+        <label class="search-label">Search Level(s)</label>
+        <label class="search-switch"
+          [matTooltip]="getSwitchTooltip()">
+          <input type="checkbox"
+            (change)="clearSearchOnLevelChange(treeSearch.isLevelMode)"
+            [(ngModel)]="treeSearch.isLevelMode">
+          <div class="slider round"></div>
+        </label>
+      </ng-container>
+      <span class="search-form">
+        <mat-form-field appearance="outline"
+          *ngIf="!treeSearch.isLevelMode">
+          <mat-label>Search Text</mat-label>
+          <input matInput
+            tabindex="-1"
+            [(ngModel)]="treeSearch.globalSeach">
+        </mat-form-field>
+        <ng-container *ngIf="treeSearch.isLevelMode">
+          <mat-form-field appearance="outline">
+            <mat-label>Segment</mat-label>
+            <input matInput
+              tabindex="11"
+              [(ngModel)]="treeSearch.segment">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Family</mat-label>
+            <input matInput
+              tabindex="12"
+              [(ngModel)]="treeSearch.family">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Class</mat-label>
+            <input matInput
+              tabindex="13"
+              [(ngModel)]="treeSearch.class">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Commodity</mat-label>
+            <input matInput
+              tabindex="14"
+              [(ngModel)]="treeSearch.commodity">
+          </mat-form-field>
+        </ng-container>
+        <button mat-flat-button
+          (click)="getSearchResults(0, true)"
+          [disabled]="!treeSearch.isLevelMode ? !treeSearch.globalSeach : !(treeSearch.segment || treeSearch.family || treeSearch.class || treeSearch.commodity)"
+          type="submit"
+          class="cdx-but-xs search-submit"
+          aria-label="cdx primary button">Search</button>
+      </span>
+    </div>
+    <div class="action-container">
+      <mat-icon class="action-icon receipt-icon"
+        *ngIf="selectedLastNode.code && selectedLastNode.title"
+        [matMenuTriggerFor]="menu"
+        matTooltip="UNSPSC Structure">receipt</mat-icon>
+      <mat-icon class="action-icon undo-icon"
+        (click)="resetTree(true);"
+        [class.disabled]="disableReset"
+        matTooltip="Collapse Tree and Reset search">undo</mat-icon>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #paginationBarTemplate>
+  <mat-paginator #paginator
+    [length]="totalRecords"
+    class="unspsc-tree-pagination"
+    [pageSize]="500"
+    hidePageSize="true"
+    showFirstLastButtons="true"
+    (page)="onPaginationChange($event)"
+    [pageSizeOptions]="[500]"
+    aria-label="Select page to get tree data">
+  </mat-paginator>
+</ng-template>

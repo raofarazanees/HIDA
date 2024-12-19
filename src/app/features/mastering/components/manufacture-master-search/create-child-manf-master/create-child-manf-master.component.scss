@@ -1,0 +1,21 @@
+.options-viewport {
+  height: 256px;
+  width: 100%;
+}
+.no-result {
+  background-color: #ccc;
+}
+
+.width-48 {
+    width: 48% !important;
+} 
+.mar-left {
+    margin-left: 4% !important;
+}
+.errors,mat-form-field:not(:nth-child(n+1)),mat-form-field:not(:nth-child(n+0)) {
+    margin-bottom: 15px !important;
+}
+.mar-10{
+  margin-top: 15px !important;
+}
+

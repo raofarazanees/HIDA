@@ -1,0 +1,35 @@
+<section>
+  <app-search-filter
+    [totalRecords]="facilityMasterForMapRes?.totalRecords"
+    [searchCriteriaOptionsData]="searchCriteriaOptionsData"
+    [userName]="userProfile.userName"
+    (initSearch)="searchFacilityMasterRecords($event)"
+  ></app-search-filter>
+
+  <!-- [addBtnText]="'Add Facility Master'"
+  (openDialog)="openCreateFacilityDialog()" -->
+
+  <ag-grid-angular
+    style="width: 100%; height: calc(100vh - 230px); margin-top: 10px"
+    class="ag-theme-material pairing-table-container ag-theme-cdx"
+    (gridReady)="onGridReady($event)"
+    [gridOptions]="gridOptions"
+    [overlayLoadingTemplate]="overlayLoadingForGrid"
+    [animateRows]="true"
+    [headerHeight]="30"
+    [frameworkComponents]="frameworkComponents"
+    [tooltipShowDelay]="0"
+  >
+  </ag-grid-angular>
+
+  <button
+    mat-flat-button
+    color="primary"
+    (click)="saveEditedChanges()"
+    [disabled]="isNotingChangeOnPage"
+    class="cdx-but-md save-btn"
+    *ngIf="!readOnly"
+  >
+    Save Changes
+  </button> 
+</section>

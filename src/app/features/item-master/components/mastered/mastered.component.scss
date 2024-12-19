@@ -1,0 +1,19 @@
+.item-master-mastered-component {
+  .toolbar-container {
+    display: flex;
+    height: 30px;
+    align-items: center;
+    place-content: flex-end;
+    gap: 30px;
+
+    a {
+      cursor: pointer;
+    }
+    a.disabled {
+      color: #cccccc;
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+}

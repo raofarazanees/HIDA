@@ -1,0 +1,41 @@
+<div class="cdx-dialog-wrapper">
+  <div class="cdx-dialog-top">
+    <h2 mat-dialog-title>Merge / Unmerge Product Items</h2>
+
+    <mat-dialog-content role="dialog">
+      <ag-grid-angular
+        style="width: 100%; height: calc(100vh - 230px); margin-top: 15px"
+        class="ag-theme-material pairing-table-container"
+        (gridReady)="onGridReady($event)"
+        [gridOptions]="gridOptions"
+        [overlayLoadingTemplate]="overlayLoadingForGraph"
+        [animateRows]="true"
+      >
+      </ag-grid-angular>
+    </mat-dialog-content>
+  </div>
+  <div class="cdx-dialog-bottom">
+    <mat-dialog-actions>
+      <h3 class="totalRecordsText">
+        <strong> Total Records : {{ graphData?.data?.totalRecords}} </strong>
+      </h3>
+      <button
+        mat-raised-button
+        color="primary"
+        class="upload-btn"
+        [disabled]="!graphData?.data.graphProductItems.length || graphData.data.totalRecords > 25000"
+        (click)="downloadGraphItemFile()"
+      >
+        Download
+      </button>
+    </mat-dialog-actions>
+
+  </div>
+      <p class="limit_error" *ngIf="graphData.data.totalRecords > 25000"><small>Current limit: 25000. But, search returned {{graphData.data.totalRecords}} results. Please apply filters to get limited results.</small></p>
+
+  <button mat-button role="button" class="cdx-popup-close" (click)="closeDialog()">
+    <mat-icon role="img" class="cdx-mat-icon-16">close</mat-icon>
+  </button>
+</div>
+
+<app-loader *ngIf="loading$ | async" [message]="'Please Wait...'"></app-loader>

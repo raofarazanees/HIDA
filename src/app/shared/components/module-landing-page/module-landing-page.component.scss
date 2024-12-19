@@ -1,0 +1,43 @@
+::ng-deep {
+  .module-landing-page-component {
+    margin: 10px 15px;
+    .main-content {
+      margin: 0 auto;
+
+      .page-title {
+        background: rgb(219 219 219 / 22%);
+        padding: 10px;
+        border-radius: 5px;
+        .title-md {
+          font-size: 18px;
+          font-weight: 500;
+          .sub-md {
+            font-size: 13px;
+            opacity: 0.4;
+          }
+          .sub-md-type {
+            font-size: 11px;
+            opacity: 0.7;
+            cursor: pointer;
+          }
+        }
+        .title-sm {
+          font-size: 16px;
+          .sub-sm {
+            font-size: 13px;
+            opacity: 0.4;
+          }
+        }
+      }
+
+      .task-status-details {
+        top: 50%;
+        position: absolute;
+        left: 40%;
+        font-size: 20px;
+        opacity: 0.3;
+      }
+    }
+  }
+}
+// font-weight: 600 !important;

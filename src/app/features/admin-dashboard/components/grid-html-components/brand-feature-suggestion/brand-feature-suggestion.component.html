@@ -1,0 +1,75 @@
+<div class="width-100">
+  <form (ngSubmit)="initWorkflow()">
+    <mat-radio-group role="radiogroup" fxLayout="row" fxLayoutAlign="start" fxLayoutGap="20px"
+      [formControl]="selectedFeature">
+      <mat-radio-button color="primary" value="MARKET" checked role="radio" fxFlex="40">Market</mat-radio-button>
+      <mat-radio-button color="primary" class="cdx-radio-hover" value="MANUFACTURER" role="radio"
+        fxFlex="40">Manufacturer
+      </mat-radio-button>
+    </mat-radio-group>
+    <div class="m-t-20" *ngIf="selectedFeature.value == 'MARKET'">
+      <mat-form-field appearance="outline" class="cdx-input-default width-100">
+        <mat-label>Market</mat-label>
+        <mat-chip-list #chipList>
+          <mat-chip *ngFor="let item of selectedMarket" [selectable]="true" [removable]="true" (removed)="remove(item)">
+            {{ item.marketName }}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+          <input type="text" #inputTrigger placeholder="Select markets" matInput [matAutocomplete]="autoComplete"
+            [formControl]="marketCtrl" [matChipInputFor]="chipList">
+        </mat-chip-list>
+        <mat-autocomplete #autoComplete="matAutocomplete">
+          <mat-option>
+            <mat-checkbox color="primary" [checked]="isAllSelected" (change)="toggleSelectAll()"
+              (click)="$event.stopPropagation()">
+              Select All
+            </mat-checkbox>
+          </mat-option>
+          <mat-option *ngFor="let item of filteredMarketOption | async" [value]="selectedMarket">
+            <div (click)="optionClicked($event, item);">
+              <mat-checkbox color="primary" [checked]="isMarketSelected(item)" (change)="toggleSelection(item)"
+                (click)="$event.stopPropagation()">
+                {{ item.marketName }}
+              </mat-checkbox>
+            </div>
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+
+    <div class="m-t-20" *ngIf="selectedFeature.value == 'MANUFACTURER'">
+      <mat-form-field appearance="outline" class="cdx-input-default width-100">
+        <mat-label> Manufacturer</mat-label>
+        <mat-chip-list #manfChipList>
+          <mat-chip *ngFor="let item of selectedManf" [selectable]="true" [removable]="true"
+            (removed)="removeManf(item)">
+            {{ item.childManfName }}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+          <input type="text" #inputManfTrigger placeholder="Select manufacturer" matInput [matAutocomplete]="autoManf"
+            [formControl]="manufacturerCtrl" [matChipInputFor]="manfChipList">
+        </mat-chip-list>
+        <mat-autocomplete #autoManf="matAutocomplete" [displayWith]="displayFnManf">
+          <mat-option>
+            <mat-checkbox color="primary" [checked]="isAllSelected" (change)="toggleManfSelectAll()"
+              (click)="$event.stopPropagation()">
+              Select All
+            </mat-checkbox>
+          </mat-option>
+          <mat-option *ngFor="let item of filteredManfList | async" [value]="selectedManf">
+            <div (click)="optionManfClicked($event, item);">
+              <mat-checkbox color="primary" [checked]="isManfSelected(item)" (change)="toggleManfSelection(item)"
+                (click)="$event.stopPropagation()">
+                {{ item.childManfName }}
+              </mat-checkbox>
+            </div>
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center">
+      <button [disabled]="!selectedManf?.length && !selectedMarket?.length" mat-flat-button color="primary">Initiate
+        Workflow</button>
+    </div>
+  </form>
+</div>

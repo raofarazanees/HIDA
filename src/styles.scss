@@ -1,0 +1,425 @@
+/* You can add global styles to this file, and also import other style files */
+// set base path for CDX fonts and icons
+$___fontRoot: '~@cdx/styles/fonts/';
+$___iconRoot: '~@cdx/styles/icons/';
+
+@import './app/_theme.scss';
+
+// CDX component styles
+@import '~@cdx/button/cdx-button.scss';
+@import '~@cdx/icons/cdx-icons.scss';
+@import '~@cdx/menu/cdx-menu.scss';
+@import '~@cdx/tooltip/cdx-tooltip.scss';
+@import '~@cdx/autocomplete/cdx-autocomplete.scss';
+@import '~@cdx/select/cdx-select.scss';
+@import '~@cdx/table/cdx-table.scss';
+@import '~@cdx/snackbar/styles/cdx-snackbar.scss';
+@import '~@cdx/dialog/cdx-dialog.scss';
+@import '~@cdx/textarea/cdx-textarea.scss';
+@import '~@cdx/stepper/cdx-stepper.scss';
+// @import "~@cdx/tabs/cdx-tabs.scss";
+@import '~saturn-datepicker-ext/bundle.css';
+@import './app/styles/override-ag-grid.scss';
+
+.page {
+  margin: 10px 20px;
+  .main-content {
+    margin: 0 auto;
+  }
+}
+.cdxSelectWithSearch {
+  transform: none !important;
+  .search-input {
+    border: 2px solid #fff;
+    padding: 5px 10px;
+    margin-top: -1px;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    max-width: 100%;
+    background: #fff;
+    z-index: 9999;
+    border-bottom: 1px solid #ccc;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    min-width: calc(100% + 32px);
+  }
+  .mat-select-search-clear {
+    position: absolute;
+    right: -28px;
+    top: 1px;
+    z-index: 99999;
+    width: 24px;
+    height: 24px;
+  }
+  .optionClass {
+    margin-top: 33px;
+  }
+  mat-option:nth-of-type(1) {
+    margin-top: 32px;
+  }
+  .mat-select-search-no-entries-found {
+    margin-top: 32px;
+    padding: 5px 10px;
+  }
+}
+button,
+a {
+  &.mat-primary {
+    &.mat-stroked-button {
+      border: 1px solid gray;
+      color: #40424f;
+      font-size: 16px;
+      &:not(:disabled) {
+        &:hover {
+          border: 1px solid gray;
+          color: #484848;
+        }
+        &:focus {
+          border: 1px solid gray;
+          color: #484848;
+        }
+        &:active {
+          border: 1px solid gray;
+          color: #484848;
+        }
+      }
+    }
+  }
+}
+
+::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.26);
+}
+
+.upload-file_container {
+  position: relative;
+  height: 100%;
+  .main-content {
+    height: calc(100% - 80px);
+    overflow: auto;
+    padding: 10px;
+    .file-input {
+      display: none;
+    }
+    .file-upload {
+      background-color: #33333326;
+      padding: 12px;
+      border: 1px dotted #6738ce;
+      border-radius: 7px;
+      button {
+        width: 70%;
+        height: 45px;
+        margin: 0 15%;
+      }
+
+      .title-container {
+        display: flex;
+        gap: 5px;
+        padding-top: 10px;
+        align-items: center;
+        place-content: center;
+        .title {
+          word-break: break-all;
+        }
+        mat-icon {
+          cursor: pointer;
+          font-size: 19px;
+        }
+      }
+    }
+    .rules-container {
+      .mat-subheader {
+        padding: 0 10px;
+        height: 30px;
+        margin-top: 5px;
+      }
+      .mat-list-item {
+        height: 40px;
+        &.success {
+          color: #17ab03;
+        }
+        &.error {
+          color: #f44336;
+        }
+      }
+      .mat-list-item.mat-2-line {
+        height: 55px;
+      }
+      mat-icon {
+        font-size: 20px;
+      }
+    }
+  }
+  .form-actions {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    border-top: 1px solid #cccccc;
+    padding: 10px 0;
+  }
+}
+.mat-flat-button.mat-warn[disabled] {
+  cursor: not-allowed;
+  color: #616161;
+  background-color: #eeeeee;
+}
+
+.generic-widget-component {
+  height: 100%;
+  .action-wrapper {
+    padding: 10px 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 15px;
+    button,
+    a {
+      min-width: 200px;
+      text-decoration: none;
+    }
+  }
+  .info-wrapper {
+    padding: 10px 0;
+    mat-icon {
+      height: 18px;
+      margin-top: 5px;
+      font-size: 16px;
+
+    }
+    span {
+      padding-left: 5px;
+      padding-top: 7px;
+      font-style: italic;
+      font-size: 12px;
+    }
+  }
+}
+
+.mat-dialog-container.mat-dialog-container .cdx-dialog-wrapper {
+  max-height: 100vh !important;
+}
+
+div.focused-cell {
+  border: 1px solid #ccc !important;
+  border-radius: 5px;
+}
+
+.mat-tab-label-active {
+  opacity: 1 !important;
+  div {
+    color: #6738cf;
+    font-weight: bold;
+  }
+}
+
+.width-100 {
+  width: 100% !important;
+}
+.searchInput {
+  div {
+    padding-bottom: 0 !important;
+    div {
+      div.mat-form-field-infix {
+        padding: 0px 0px 5px 0 !important;
+      }
+      div.mat-form-field-outline {
+        color: inherit !important;
+      }
+    }
+  }
+}
+.inlineSelect div div div.mat-form-field-outline,
+.autocompletedInline div div div.mat-form-field-outline {
+  color: #ccc !important;
+}
+.inlineSelect {
+  background-color: #fff;
+  div {
+    margin: 0 !important;
+    div.mat-form-field-flex {
+      height: 28px !important;
+      margin-top: -0.25em !important;
+    }
+  }
+}
+.autocompletedInline {
+  background-color: #fff;
+  div {
+    margin: 0 !important;
+    div.mat-form-field-flex {
+      padding: 0;
+      height: 28px;
+      margin-top: -2px !important;
+      div.mat-form-field-infix {
+        border-top: 0.4586em solid transparent;
+      }
+    }
+  }
+}
+section.manf-master > app-module-landing-page > div {
+  margin: 6px 10px !important;
+}
+
+.custom-icons > i {
+  font-size: 14px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+.change-log-dialog {
+  margin-top: 15px !important;
+}
+
+.ag-cdx-header {
+  background-color: rgba(94, 51, 191);
+  color: #fff;
+  & * {
+    color: #fff !important;
+  }
+  &:not(:last-child) {
+    border-right: 1px solid #ccc;
+  }
+}
+.ag-cdx-header:hover {
+  background-color: rgba(94, 51, 191, 0.8) !important;
+  color: #fff;
+  & * {
+    color: #fff !important;
+  }
+}
+
+.ag-row {
+  .ag-cell {
+    &.required-cell {
+      border: 1px solid #ff0000 !important;
+    }
+  }
+}
+
+.rangeInput {
+  width: 48% !important;
+}
+.rangeLabel {
+  display: block;
+}
+.hide-date {
+  display: none !important;
+}
+
+.required-cell-inline > app-inline-input-edit > mat-form-field {
+  border: 1px solid red;
+  border-radius: 8px;
+}
+
+
+.required-cell-inline > app-ag-grid-typeahead > div > input.typeahead-input{
+  border: 1px solid red !important;
+  border-radius: 8px;
+}
+.text-right {
+  text-align: right;
+}
+
+.label-with-icon,.label-with-icon-text{
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.label-with-icon mat-icon{
+  padding-left: 8px;
+  margin-top: -2px;
+  width: 14px;
+  height: 14px;
+  font-size: 18px;
+}
+.label-with-icon-text mat-icon {
+  padding-left: 25px;
+  margin-top: -23px;
+  width: 14px;
+  height: 14px;
+  font-size: 18px;
+}
+.label-with-icon-text mat-icon:hover{
+  color: #6738ce;
+}
+.pl-10 {
+  padding-left: 10px;
+}
+
+.help-tooltip{
+  white-space: pre-line;
+}
+
+.fs-14 {
+  font-size: 14px !important;
+  width: 460px !important;
+  max-width: 460px !important
+}
+
+.fss-14 {
+  font-size: 14px !important;
+}
+.inline-datepicker{ 
+  border: none !important;
+  margin-top: -10px !important;
+}
+
+.required-cell-inline-date > app-inline-input-edit > mat-form-field{
+  border: 1px solid red !important;
+  border-radius: 8px;
+}
+
+.ag-theme-material .ag-row.ag-row-checkout,.mat-input-element:disabled {
+  background-color:#ff00000d;// rgb(146 146 146 / 11%) !important
+  cursor: not-allowed;
+}
+.ag-theme-material .ag-row.ag-row-updated {
+  background-color:#c2afec !important;
+}
+
+.mat-simple-snackbar > span{
+  word-break: break-word;
+}
+.mat-simple-snackbar-action{
+  color: #f44336 !important;
+}
+
+.exportBtn-side-text{
+  position: absolute;
+  bottom: 10%;
+  right: 1%;
+  letter-spacing: 1px;
+    font-size: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    > a {
+      width: 100%;
+    margin-right: 0;
+    text-align: right;
+    float: right;
+    align-items: center;
+    text-decoration: underline;
+    flex-direction: row-reverse;
+    }
+    > font {
+      font-size: 12px;
+      padding: 5px 0px 0px 20px;
+      letter-spacing: 0;
+      text-align: justify;
+      font-weight: 700;
+    }
+  }
+
+  .pim-ag-grid > div > .ag-paging-panel {
+    height: 85px !important;
+    
+  }

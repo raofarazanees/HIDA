@@ -1,0 +1,45 @@
+::ng-deep {
+  .unspsc-selection-model-component {
+    .unspsc-dialog-contant {
+      max-height: calc(100% - 45px) !important;
+      overflow: auto !important;
+      margin: 0;
+      padding: 0;
+    }
+    .filter-row {
+      .cdx-input-default {
+        .mat-form-field-infix {
+          border-top: 0.5em solid transparent;
+          padding: 10px 0 10px 0;
+        }
+      }
+    }
+  }
+}
+
+.unspsc-selection-model-component {
+  overflow: hidden;
+  height: calc(90vh - 90px);
+  // min-height: 80vh !important;
+  .cdx-popup-row {
+    padding: 0;
+  }
+  .filter-row {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-bottom: 0;
+
+    button {
+      border: 1px solid #e2e2e2;
+      margin: 2px;
+      &:hover {
+        background-color: #eee;
+      }
+    }
+  }
+  .action-row {
+    place-content: flex-end;
+    margin-top: 10px;
+    display: flex;
+  }
+}

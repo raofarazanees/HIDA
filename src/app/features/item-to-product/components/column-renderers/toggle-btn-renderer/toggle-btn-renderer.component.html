@@ -1,0 +1,9 @@
+<div class="toggle-btn-renderer-component">
+  <label class="action-switch">
+    <input type="checkbox"
+      (change)="onChange(params.value)"
+      [(ngModel)]="params.value">
+    <div class="slider round"
+      [class.disabled]="params.value === undefined"></div>
+  </label>
+</div>

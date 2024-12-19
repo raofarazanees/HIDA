@@ -1,0 +1,99 @@
+<section class="manf-master">
+  <app-module-landing-page>
+    <div cp-page-title>
+      <div fxLayoutAlign="space-between center" class="btn-row-container" fxLayoutGap="10px">
+        <div fxLayout="row">
+          <div class="title-md">
+            <span class="sub-md"></span>
+            Facility Mastering<span class="sub-md-type"></span>
+          </div>
+        </div>
+        <div fxLayout="row">
+          <a mat-flat-button color="primary" href="/embedui/hida/index.html#/hida/admin-dashboard" aria-label="icon" title="Back to HIDA Dashboard" class="cdx-but-md">
+            <mat-icon class="cdx-mat-icon-24 cdx-mat-icon-left">arrow_back</mat-icon>
+           Back To Dashboard
+          </a>
+        </div>
+      </div>
+    </div>
+    <div cp-tab-content class="mar-top">
+      <ng-container [ngTemplateOutlet]="tabView"></ng-container>
+    </div>
+  </app-module-landing-page>
+  <app-loader *ngIf="loading$ | async" message="Please wait..."> </app-loader>
+</section>
+<ng-template #tabView>
+  <mat-tab-group animationDuration="0ms" (selectedTabChange)="onTabChange($event)" [selectedIndex]="0">
+    <mat-tab  class="search_tabs" >
+      <ng-template mat-tab-label class="tab-label-mastering">
+        <div class="label-with-icon" matTooltipClass="help-tooltip" matTooltip="Manage Master Facilities
+        &#13;
+        LIMIT - 2000 &#13; Default Sorting : Facility Subgroup Name - ASC">
+          <mat-icon class="info-tab-icon">info</mat-icon>
+          Facility Master
+        </div>
+      </ng-template>
+        <app-facility-master 
+        *ngIf="selectedTab === 0"
+        [userProfile]="userProfile"
+        [pageSize]="pageSize"
+        [readOnly]="isReadOnlyAccess">
+      </app-facility-master>
+    </mat-tab>
+    <mat-tab  class="search_tabs" >
+      <ng-template mat-tab-label class="tab-label-mastering">
+        <div class="label-with-icon" matTooltipClass="help-tooltip" matTooltip="Manage complete set of both External Facilities for mapping and already Mapped External Facilities
+        &#13;
+        LIMIT - 2000 &#13; Default Sorting :  - ">
+          <mat-icon class="info-tab-icon">info</mat-icon>
+          All Records
+        </div>
+      </ng-template>
+      <app-facility-all-records
+      *ngIf="selectedTab === 1"
+      [userProfile]="userProfile"
+      [pageSize]="pageSize"
+      [readOnly]="isReadOnlyAccess">
+    </app-facility-all-records>
+  </mat-tab>
+    <mat-tab  class="search_tabs">
+      <ng-template mat-tab-label class="tab-label-mastering">
+        <div class="label-with-icon" matTooltipClass="help-tooltip" matTooltip="Manage current incremental set of External Facilities for mapping and those from previous incrementals which are pending mapping
+        &#13;
+        LIMIT - 2000 &#13; Default Sorting : Distributor PGUID, Ext Facility Description - ASC, ASC">
+          <mat-icon class="info-tab-icon">info</mat-icon>
+          Unmastered Records
+        </div>
+      </ng-template>
+      <app-for-facility-mapping
+        *ngIf="selectedTab === 2"
+        [userProfile]="userProfile"
+        [pageSize]="pageSize"
+        [readOnly]="isReadOnlyAccess">
+      </app-for-facility-mapping>
+    </mat-tab>
+    <mat-tab  class="search_tabs">
+      <ng-template mat-tab-label class="tab-label-mastering">
+        <div class="label-with-icon" matTooltipClass="help-tooltip" matTooltip="Manage External Facilities mapped so far across incrementals and remapping
+        &#13;
+        LIMIT - 2000 &#13; Default Sorting : Facility Subgroup Name, Facility Group Name - ASC, ASC">
+          <mat-icon class="info-tab-icon">info</mat-icon>
+          Mastered Records
+        </div>
+      </ng-template>
+      <app-facility-mastered
+        *ngIf="selectedTab === 3"
+        [userProfile]="userProfile"
+        [pageSize]="pageSize"
+        [readOnly]="isReadOnlyAccess">
+      </app-facility-mastered>
+    </mat-tab>
+   
+  </mat-tab-group>
+  <div class="page-selector">
+    <span>Page Size : </span>
+    <select name="pagination" [(ngModel)]="pageSize" (ngModelChange)="changePaginationSize($event)">
+      <option *ngFor="let item of pageSizeOptions" [value]="item">{{ item }}</option>
+    </select>
+  </div>
+</ng-template>

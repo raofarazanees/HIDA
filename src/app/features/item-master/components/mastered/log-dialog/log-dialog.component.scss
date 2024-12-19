@@ -1,0 +1,22 @@
+.item-mastered-log-component {
+  .close-icon {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    cursor: pointer;
+  }
+  .sub-titles {
+    background: rgba(219, 219, 219, 0.22);
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    line-height: 26px;
+    .sub-title {
+      font-size: 14px;
+      .sub-sm {
+        opacity: 0.4;
+        font-size: 12px;
+      }
+    }
+  }
+}

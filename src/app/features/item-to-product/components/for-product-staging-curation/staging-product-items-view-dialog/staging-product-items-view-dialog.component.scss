@@ -1,0 +1,16 @@
+.toolbar-container {
+    display: flex;
+    height: 30px;
+    align-items: center;
+    place-content: space-between;;
+    gap: 30px;
+    a {
+      cursor: pointer;
+    }
+    a.disabled {
+      color: #cccccc;
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }

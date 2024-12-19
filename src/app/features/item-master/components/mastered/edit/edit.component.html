@@ -1,0 +1,160 @@
+<div class="cdx-dialog-wrapper item-master-edit-component">
+  <div class="cdx-dialog-top">
+    <h2 class="title"
+      mat-dialog-title>Mastered Item - Edit</h2>
+    <mat-icon (click)="dialogRef.close()"
+      class="close-icon">close</mat-icon>
+    <mat-dialog-content role="dialog">
+      <div class="cdx-popup-row"
+        fxLayout="row"
+        fxLayoutAlign="start center">
+        <div fxFlex="20"
+          class="key">Product Description: </div>
+        <div fxFlex
+          class="value">{{ data.productDesc }}</div>
+      </div>
+      <div class="cdx-popup-row"
+        fxLayout="row"
+        fxLayoutAlign="start center">
+        <div fxFlex="20"
+          class="key">Distributor SKU: </div>
+        <div fxFlex
+          class="value">{{ data.distributorSku }}</div>
+      </div>
+      <div class="cdx-popup-row"
+        fxLayout="row"
+        fxLayoutAlign="start center">
+        <div fxFlex="20"
+          class="key">Taxonomy: </div>
+        <div fxFlex
+          class="value">{{ data.taxonomy }}</div>
+      </div>
+      <div class="cdx-popup-row"
+        *ngIf="!isPredictedTask"
+        fxLayout="row"
+        fxLayoutAlign="start center">
+        <div fxFlex="20"
+          class="key">UNSPSC Code: </div>
+        <div fxFlex="40"
+          class="value unspsc-code-wrapper"
+          fxLayoutAlign="start center"
+          (click)="openUnspscSelectionModel()">
+          <mat-icon *ngIf="data.masteredUnspscCode && data.masteredUnspscCode !=='N/A' "
+            [matTooltip]="tooltip"
+            class="cdx-mat-icon-16 info-icon">info</mat-icon>
+          <span class="unspsc-code">{{ data.masteredUnspscCode }}</span>
+        </div>
+      </div>
+      <div class="cdx-popup-row"
+        fxLayout="row"
+        *ngIf="isPredictedTask">
+        <div fxFlex="20"
+          fxLayoutAlign="start center"
+          class="key">UNSPSC Code:</div>
+        <div fxFlex
+          fxLayout="row"
+          class="predicted-unspsc-code-wrapper"
+          fxLayoutAlign="space-around center">
+          <app-unspsc-renderer [params]="dsParams"
+            *ngIf="data.dsUnspscId"></app-unspsc-renderer>
+          <app-unspsc-renderer [params]="reParams"
+            *ngIf="data.reUnspscId"></app-unspsc-renderer>
+          <app-unspsc-renderer [params]="reclassifyParams"
+            *ngIf="data.reclassifySuggestedUNSPSC"></app-unspsc-renderer>
+          <app-unspsc-renderer [params]="ccParams"
+            *ngIf="data.unspscForCC"></app-unspsc-renderer>
+          <app-unspsc-renderer [params]="manualParams"></app-unspsc-renderer>
+        </div>
+      </div>
+      <div class="cdx-popup-row"
+        fxLayout="row"
+        fxLayoutAlign="start center">
+        <div fxFlex="20"
+          class="key">
+          Item Attributes ({{unspscAttributes.ids?.length}}):
+        </div>
+        <div fxFlex
+          class="value">
+          <div class="manage-attribute-extension">
+            <mat-chip-list class="attribute-display-item"
+              *ngIf="unspscAttributes.ids?.length else noUnspscAttributes">
+              <mat-chip *ngFor="let item of unspscAttributes.list | sort: 'attributeGroup'"
+                matTooltipClass="attribute-display-item-tooltip"
+                matTooltip="{{ 'Group: '+ item?.attributeGroup +'&#13;Value: ' + item?.attributeValue }}">
+                {{ item?.attributeGroup + ' | ' + item?.attributeValue }}
+              </mat-chip>
+            </mat-chip-list>
+            <ng-template #noUnspscAttributes>&nbsp;&nbsp;-</ng-template>
+            <button mat-button
+              class="attribute-manage-btn"
+              matTooltip="Manage Item Attributes"
+              [matMenuTriggerFor]="attributes">Manage</button>
+          </div>
+          <mat-menu #attributes="matMenu"
+            class="attribute-panel-container">
+            <button mat-menu-item
+              *ngFor="let attributeGroups of (data.attributeExtensions ? data.attributeExtensions[0]: {}) | keyvalue | sort: 'key'"
+              [matMenuTriggerFor]="child"
+              [ngClass]="{'parent-selected': unspscAttributes.ids?.length ? isActiveGroup(attributeGroups.value) : false}"
+              [matMenuTriggerData]="{attributeValues: attributeGroups.value, attributeGroup: attributeGroups.key }">{{
+              attributeGroups.key }}</button>
+          </mat-menu>
+          <mat-menu #child="matMenu"
+            class="attribute-panel-container">
+            <ng-template matMenuContent
+              let-attributeValues="attributeValues"
+              let-attributeGroup="attributeGroup">
+              <button mat-menu-item
+                [class.child-selected]="unspscAttributes.ids?.includes(attributeValue.key)"
+                (click)="onAttributeSelection(attributeValue.key)"
+                *ngFor="let attributeValue of attributeValues | keyvalue | sort: 'value'">
+                {{ attributeValue.value }}
+              </button>
+            </ng-template>
+          </mat-menu>
+        </div>
+      </div>
+      <div class="cdx-popup-row"
+        fxLayout="row"
+        fxLayoutAlign="start center">
+        <div fxFlex="20"
+          class="key">
+          Comment:
+        </div>
+        <div fxFlex
+          class="value">
+          <mat-form-field class="cdx-form-field-textarea"
+            appearance="outline">
+            <textarea matInput
+              placeholder="Add comment here"
+              #message
+              maxlength="256"
+              [formControl]="commentCtrl"></textarea>
+            <mat-hint align="end">{{ message.value.length }} / 256</mat-hint>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-dialog-content>
+  </div>
+  <div class="cdx-dialog-bottom">
+    <mat-dialog-actions>
+      <button mat-flat-button
+        (click)="dialogRef.close()"
+        class="cdx-but-xs"
+        aria-label="cdx primary button"
+        mat-dialog-close>
+        Cancel
+      </button>
+      <button mat-flat-button
+        (click)="update()"
+        color="primary"
+        class="cdx-but-xs"
+        aria-label="cdx primary button"
+        [disabled]="!isEnabledSubmitButton">
+        update
+      </button>
+    </mat-dialog-actions>
+  </div>
+  <app-loader *ngIf="loader$ | async"
+    message="Updating record..."></app-loader>
+</div>

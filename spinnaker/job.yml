@@ -1,0 +1,89 @@
+pipeline_dev_snapshot_v2.0-us-west-2:
+  name: cdx-seed DEV Snapshot Deploy
+  application: cdxseed
+  stages.0.clusters.0.application: cdxseed
+  stages.0.clusters.0.keyPair: KP_developer
+  stages.0.clusters.0.tags:
+    Name: cdx-seed
+    tr:appName: cdx-seed
+    tr:appFamily: 1p
+    tr:environment-type: snapshot
+    tr:role: frontend
+    ca:owner: owen.buckley@clarivate.com
+  stages.0.clusters.0.account: tr-dev
+  stages.0.clusters.0.securityGroups: ["developer_access", "mid_cdxseed"]
+  stages.0.clusters.0.freeFormDetails: "d0snapshot-r05"
+  triggers.0.job: "nodejs-snapshot-cdx-seed-application"
+  triggers.0.propertyFile: "AMI-cdx-seed-application.json"
+  stages.1.job: "application-integration-test"
+  stages.1.parameters: {}
+
+pipeline_dev_stable_v2.0-us-west-2:
+  name: cdx-seed DEV Stable Deploy
+  application: cdxseed
+  stages.0.clusters.0.application: cdxseed
+  stages.0.clusters.0.keyPair: KP_developer
+  stages.0.clusters.0.tags:
+    Name: cdx-seed
+    tr:appName: cdx-seed
+    tr:appFamily: 1p
+    tr:environment-type: stable
+    tr:role: frontend
+    ca:owner: owen.buckley@clarivate.com
+  stages.0.clusters.0.account: tr-dev
+  stages.0.clusters.0.targetGroups: ['cdxseed-stable-tg-8080']
+  stages.0.clusters.0.securityGroups: ["mid_cdxseed"]
+  stages.0.clusters.0.freeFormDetails: "d0stable-r01"
+  triggers.0.job: "nodejs-stable-cdx-seed-application"
+  triggers.0.propertyFile: "AMI-cdx-seed-application.json"
+  stages.1.job: "application-integration-test"
+  stages.1.parameters: {}
+
+
+pipeline_promote_stable_to_perf_v1.0-us-west-2:
+  name: cdx-seed PERF Stable Promote
+  application: cdxseed
+  stages.1.clusters.0.application: cdxseed
+  stages.1.clusters.0.keyPair: KP_developer
+  stages.1.clusters.0.instanceType: m3.small
+  stages.1.clusters.0.tags:
+    Name: cdx-seed.perf.frontend
+    tr:appName: cdx-seed
+    tr:appFamily: 1p
+    tr:environment-type: perf
+    tr:role: frontend
+    ca:owner: owen.buckley@clarivate.com
+  stages.1.clusters.0.account: tr-test
+  stages.1.clusters.0.securityGroups: ["mid_cdxseed"]
+  stages.1.clusters.0.freeFormDetails: "d0perf-r01"
+  stages.2.job: "application-integration-test"
+  stages.2.parameters: {}
+
+pipeline_promote_stable_to_prod_v1.0-us-west-2:
+  name: cdx-seed PROD Stable Promote
+  application: cdxseed
+  stages.1.clusters.0.application: cdxseed
+  stages.1.clusters.0.keyPair: KP_developer
+  stages.1.clusters.0.freeFormDetails: "d0prod1-r01"
+  stages.1.clusters.0.targetGroups: ['cdxseed-prod-tg-8080']
+  stages.1.clusters.0.securityGroups: ["mid_cdxseed"]
+  stages.1.clusters.0.tags:
+    Name: cdx-seed.prod.frontend
+    tr:appName: cdxseed
+    tr:appFamily: 1p
+    tr:environment-type: prod
+    tr:role: frontend
+    ca:owner: owen.buckley@clarivate.com
+  stages.1.clusters.0.capacity.desired: 1
+  stages.1.clusters.0.capacity.max: 1
+  stages.1.clusters.0.capacity.min: 1
+  stages.2.job: "application-integration-test"
+  stages.2.parameters: {}
+
+application:
+  application: cdxseed
+  description: "Create Application: cdxseed"
+  job.0.application.email: owen.buckley@clarivate.com
+  job.0.application.name: cdxseed
+
+accounts: [tr-dev]

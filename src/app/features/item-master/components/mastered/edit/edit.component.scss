@@ -1,0 +1,84 @@
+.item-master-edit-component {
+  .close-icon {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    cursor: pointer;
+  }
+  .unspsc-code-wrapper {
+    border: 1px solid #000000;
+    border-radius: 5px;
+    display: inline-block;
+    padding: 10px;
+    cursor: pointer;
+    mat-icon.info-icon {
+      margin-top: -4px;
+      &:hover {
+        color: #6817ff;
+        font-size: 18px;
+      }
+    }
+    .unspsc-code {
+      padding-left: 4px;
+    }
+  }
+
+  mat-form-field {
+    width: 100%;
+  }
+  .predicted-unspsc-code-wrapper {
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    app-unspsc-renderer {
+      width: 100%;
+      height: 52px;
+    }
+  }
+
+  .manage-attribute-extension {
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .attribute-display-item {
+      padding: 8px 6px;
+      width: 100%;
+      overflow: auto;
+      height: 37px;
+      mat-chip {
+        font-size: 12px;
+        padding: 4px 8px;
+        min-height: 25px;
+        margin: 2px;
+      }
+    }
+    .attribute-manage-btn {
+      background-color: #6817ff !important;
+      border-radius: 0 5px 5px 0;
+      color: #fff;
+      height: 38px;
+    }
+    &:hover {
+      border: 1px solid #424242;
+    }
+  }
+}
+
+::ng-deep {
+  .attribute-display-item-tooltip {
+    white-space: pre-line;
+  }
+  .attribute-panel-container {
+    max-height: 300px !important;
+    min-height: 25px !important;
+    .mat-menu-item {
+      height: 25px !important;
+      font-size: 14px !important;
+    }
+    .parent-selected,
+    .child-selected {
+      color: #6817ff !important;
+    }
+  }
+}

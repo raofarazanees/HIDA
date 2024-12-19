@@ -1,0 +1,9 @@
+<app-common-upload-file-dialog [FileValidation]="fileValidation" (uploadFileData)="onSubmit($event)"></app-common-upload-file-dialog>
+<div class="exportBtn-side-text">
+
+  <a aria-label="icon" class="cdx-but-md" href="assets/templates/HIDA_Product_UNSPSC_Labelling_UP_{{env}}.csv">
+    CSV Template
+  </a>
+  <font>When you upload a CSV file, data should be populated for the mandatory columns - product_id, unspsc and
+    data_source. For the rest of the columns, data can be blank / empty.</font>
+</div>

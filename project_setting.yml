@@ -1,0 +1,43 @@
+# project configuration file
+---
+config:
+  project:
+    version: 1.0
+    product: 'Singularity Hida'
+    app_name: ui
+    app_family: hida
+    angular_dist_path: dest/web/hida
+    jenkins_status_email: some-group-dl@clarivate.com
+    terraform_version: '0.12.6'
+    region: us-west-2
+  environments:
+    dev:
+      jenkins_status_email: some-group-dl@clarivate.com
+      taskInboxUrl: https://task-mgmt-common.dev.singularity.clarivate.com/task-management/workflowtasks
+      hidaBaseUrl: https://hida-common.dev.singularity.clarivate.com/workbench-services/api
+      ontologyUrl: https://cl-ontology-common.dev.singularity.clarivate.com/ontology-master-content-hub-api
+      taskInboxApp: https://singularity-portal-dev.dev.singularity.clarivate.com
+    int:
+      jenkins_status_email: some-group-dl@clarivate.com
+      taskInboxUrl: https://task-mgmt-common.int.singularity.clarivate.com/task-management/workflowtasks
+      hidaBaseUrl: https://hida-common.int.singularity.clarivate.com/workbench-services/api
+      ontologyUrl: https://cl-ontology-common.int.singularity.clarivate.com/ontology-master-content-hub-api
+      taskInboxApp: https://singularity-portal-int.int.singularity.clarivate.com
+    uat:
+      jenkins_status_email: some-group-dl@clarivate.com
+      taskInboxUrl: https://task-mgmt-common.uat.singularity.clarivate.com/task-management/workflowtasks
+      hidaBaseUrl: https://hida-common.uat.singularity.clarivate.com/workbench-services/api
+      ontologyUrl: https://cl-ontology-common.uat.singularity.clarivate.com/ontology-master-content-hub-api
+      taskInboxApp: https://singularity-portal-uat.uat.singularity.clarivate.com
+    demo:
+      jenkins_status_email: some-group-dl@clarivate.com
+      taskInboxUrl: https://task-mgmt-common.dev.singularity.clarivate.com/task-management/workflowtasks
+      hidaBaseUrl: https://hida-common.dev.singularity.clarivate.com/workbench-services/api
+      ontologyUrl: https://cl-ontology-common.dev.singularity.clarivate.com/ontology-master-content-hub-api
+      taskInboxApp: https://singularity-portal-dev.dev.singularity.clarivate.com
+    prod:
+      jenkins_status_email: some-group-dl@clarivate.com
+      taskInboxUrl: https://task-mgmt-common.prod.singularity.clarivate.com/task-management/workflowtasks
+      hidaBaseUrl: https://hida-common.prod.singularity.clarivate.com/workbench-services/api
+      ontologyUrl: https://cl-ontology-common.prod.singularity.clarivate.com/ontology-master-content-hub-api
+      taskInboxApp: https://singularity-portal-prod.prod.singularity.clarivate.com

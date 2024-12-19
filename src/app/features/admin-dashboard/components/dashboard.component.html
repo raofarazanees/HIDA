@@ -1,0 +1,27 @@
+<div class="dashboard-component">
+  <header>Admin - HIDA</header>
+
+  <mat-drawer-container autosize
+    class="main-drawer-container-wrapper">
+    <mat-drawer #drawer
+      class="sidenav-container"
+      position="end"
+      mode="over"
+      (closed)="onSideNavClosed()">
+      <div class="side-nav-content">
+        <header class="sidenav-component-header">
+          <span [innerHTML]="getTitle()"></span>
+          <mat-icon class="close-icon"
+            (click)="drawer.close()">close</mat-icon>
+        </header>
+        <div class="sidenav-component-content">
+          <ng-template appComponentHost></ng-template>
+        </div>
+      </div>
+    </mat-drawer>
+
+    <div class="main-content">
+      <app-dashboard-panel [profile]="profile$ | async"></app-dashboard-panel>
+    </div>
+  </mat-drawer-container>
+</div>

@@ -1,0 +1,33 @@
+.ag-grid-typeahead-component {
+  width: 100%;
+  .typeahead-input {
+    width: 100%;
+    border: none;
+    height: 28px;
+    padding: 0 10px 0 10px;
+    line-height: 30px;
+    box-shadow: 0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px 0 rgb(0 0 0 / 14%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+  }
+}
+.mar-top{
+  margin-top: -8px;
+}
+.create_option,.create_option:hover{
+  background-color: #8759f1b2;
+}
+.create_option > span {
+  color: #fff !important;
+}
+
+div.inline-select {
+  margin-top: -1px;
+  input.typeahead-input {
+    box-shadow: none;
+    border: 1px solid;
+    height: 25px;
+    line-height: 26px;
+    border-radius: 6px;
+    border-color: #ccc;
+    outline: none;
+  }
+}

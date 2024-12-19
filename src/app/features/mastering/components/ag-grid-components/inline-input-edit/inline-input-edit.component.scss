@@ -1,0 +1,59 @@
+input {
+  width: 100%;
+  height: 25px;
+  border-radius: 6px;
+  border-width: 1px;
+  padding: 0 6px 0 6px;
+  border: 1px solid #cccc;
+  box-shadow: none;
+  outline: none;
+  &:focus,
+  :active,
+  :hover {
+    border: 1px solid #6738cf;
+  }
+}
+.ag-theme-material .ag-cell {
+  line-height: 28px !important;
+}
+.ng-invalid {
+  border: 1.5px solid red;
+}
+
+.w-95 {
+  width: 95%;
+}
+
+.drag-icon {
+  cursor: grab;
+  margin-top: 6px;
+  position: absolute;
+  &:hover {
+    color: #6817ff;
+    font-size: 17px;
+  }
+}
+
+.spinner_unspcs {
+  z-index: 9999999999;
+  position: absolute;
+  right: 25px;
+  top: 7px;
+}
+.invalidData {
+  border: red 1px solid;
+}
+
+.mat-input-element:disabled {
+  color: #000 !important;
+}
+.create_option,
+.create_option:hover {
+  background-color: #8759f1b2;
+}
+.create_option > span {
+  color: #fff !important;
+}
+::ng-deep .mat-option:last-child .mat-pseudo-checkbox {
+  display: none;
+}

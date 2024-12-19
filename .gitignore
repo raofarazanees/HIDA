@@ -1,0 +1,26 @@
+*DS_Store
+.idea/
+*.log
+.vscode/
+.awcache/
+.classpath
+.gradle/
+project
+.settings/
+.history/
+node_modules/
+dest/
+build/
+reports/
+
+
+### DevOps ###
+**/.terraform/
+**/tfplan
+**/backend.tfvars
+**/terraform.tfvars
+build_setting.yml
+
+# lock files
+/package-lock.json
+/yarn.lock

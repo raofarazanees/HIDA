@@ -1,0 +1,43 @@
+<div class="grid-wrapper facility-type-unmastered-component">
+  <ag-grid-angular style="width: 100%; height: calc(100vh - 210px);"
+    class="ag-theme-material"
+    (gridReady)="onGridReady($event)"
+    [gridOptions]="gridOptions"
+    [frameworkComponents]="frameworkComponents">
+  </ag-grid-angular>
+</div>
+
+<div fxLayoutAlign="end center"
+  style="padding-top: 20px;"
+  fxLayoutGap="15px">
+  <button mat-flat-button
+    color="primary"
+    aria-label="cdx primary button"
+    matTooltip="Save"
+    *ngIf="!isExceptionLead"
+    class="cdx-but-md"
+    [disabled]="updatedRecords.length === 0"
+    (click)="saveForLater()">
+    Save For Later
+  </button>
+  <button mat-flat-button
+    *ngIf="!isExceptionLead"
+    color="primary"
+    aria-label="cdx primary button"
+    matTooltip="Escalate"
+    class="cdx-but-md"
+    [disabled]="!isEnabledEscalateButton"
+    (click)="isEnabledEscalateButton = false; openEscalateDialog();">
+    Escalate
+  </button>
+  <button mat-flat-button
+    *ngIf="isExceptionLead"
+    color="primary"
+    aria-label="cdx primary button"
+    matTooltip="Submit"
+    class="cdx-but-md"
+    [disabled]="!isEnabledSubmitButton || !updatedRecords"
+    (click)="isEnabledSubmitButton = false; submitRecords(); ">
+    Submit
+  </button>
+</div>

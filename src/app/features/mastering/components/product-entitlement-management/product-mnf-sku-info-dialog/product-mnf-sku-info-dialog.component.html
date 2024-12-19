@@ -1,0 +1,33 @@
+<div class="cdx-dialog-wrapper">
+  <div class="cdx-dialog-top">
+    <h6 mat-dialog-title class="fs-18">Below list of Manufacturer and SKU combinations will be applied for the products if you proceed.</h6>
+    <mat-dialog-content role="dialog">
+      <div class="cdx-popup-row">
+        <mat-list role="list" class="max-h-list">
+          <ng-container *ngFor="let item of data.duplicatesRecords;let i = index">
+            <mat-list-item role="listitem"> <div> For <span class="font-bold">{{item.manfSKU}}, </span> number of products is {{item.productIDs.length}}.<span class="font-info" (click)="viewProducts(item)"> Click here </span> to view the current details of the products. </div></mat-list-item>
+            <mat-divider *ngIf="i+1 !== data.duplicatesRecords.length"></mat-divider>
+          </ng-container>
+        </mat-list>
+      </div>
+    </mat-dialog-content>
+  </div>
+  <div class="cdx-dialog-bottom">
+    <mat-dialog-actions>
+      <button aria-label="cancel button" mat-button  role="button"
+        class="cdx-but-lg mat-stroked-button mat-primary" mat-dialog-close="true">
+        Cancel
+      </button>
+      <button mat-button role="button" aria-label="action button" (click)="proceedWithUpdate()"
+        class="cdx-but-lg mat-flat-button mat-primary">
+        Proceed
+      </button>
+    </mat-dialog-actions>
+  </div>
+  <!-- <button mat-button role="button" class="cdx-popup-close" (click)="onNoClick()">
+    <mat-icon role="img" class="cdx-mat-icon-16">close</mat-icon>
+  </button> -->
+</div>
+
+<app-loader *ngIf="loading$ | async" message="Please wait...">
+</app-loader>

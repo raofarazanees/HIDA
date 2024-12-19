@@ -1,0 +1,45 @@
+.item-master-details-component {
+  .close-icon {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    cursor: pointer;
+  }
+  .dialog-content-inner {
+    max-height: calc(90vh - 90px);
+    overflow: auto;
+  }
+  .value {
+    position: relative;
+    .copy-icon {
+      position: absolute;
+      cursor: pointer;
+      font-size: 14px;
+      margin-left: 6px;
+      &:hover {
+        color: #1d78b9;
+      }
+    }
+  }
+}
+::ng-deep {
+  .attribute-display-item-tooltip {
+    white-space: pre-line;
+  }
+  .item-master-details-component {
+    .mat-chip-list-wrapper {
+      overflow: hidden;
+      overflow-y: scroll;
+      flex-direction: row;
+      padding-bottom: 4px;
+      max-height: 35px;
+      margin: 0 0 -8px 0;
+      .mat-chip {
+        font-size: 11px;
+        min-height: 20px;
+        margin: 2px 2px;
+        padding: 0 6px;
+      }
+    }
+  }
+}

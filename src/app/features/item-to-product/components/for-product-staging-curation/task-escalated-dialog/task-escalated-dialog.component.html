@@ -1,0 +1,43 @@
+<div class="cdx-dialog-wrapper submission-dialog">
+  <div class="cdx-dialog-top">
+    <h2 class="title"
+      mat-dialog-title>Progress Status</h2>
+    <mat-dialog-content role="dialog">
+      <section class="example-section">
+        <mat-horizontal-stepper [linear]="true"
+          #stepper>
+          <ng-template matStepperIcon="edit">
+            <mat-icon>done</mat-icon>
+          </ng-template>
+          <ng-template matStepperIcon="done"
+            matSteps="2">
+            <mat-icon>done</mat-icon>
+          </ng-template>
+          <mat-step style="pointer-events: none"
+            *ngFor="let step of stepList">
+            <ng-template matStepLabel>{{step.label}}</ng-template>
+            <section fxLayout="row">
+              <mat-icon class="cdx-mat-icon-24"
+                *ngIf="!step.isError">info</mat-icon>
+              <mat-icon class="cdx-mat-icon-24 mat-error"
+                *ngIf="step.isError">error_outline</mat-icon>
+              <span class="message">{{ step.message }}</span>
+            </section>
+          </mat-step>
+
+          <mat-step matStepperIcon="done">
+            <ng-template matStepLabel>Done</ng-template>
+            <section fxLayout="row">
+              <mat-icon class="cdx-mat-icon-24">info</mat-icon>
+              <span class="message">{{finalMessage}}</span>
+            </section>
+          </mat-step>
+        </mat-horizontal-stepper>
+        <section class="overlap-final-step"
+          *ngIf="showFinal">
+          <mat-icon>done</mat-icon>
+        </section>
+      </section>
+    </mat-dialog-content>
+  </div>
+</div>

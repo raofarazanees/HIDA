@@ -1,0 +1,77 @@
+<section class="manf-master">
+  <app-module-landing-page>
+    <div cp-page-title>
+      <div fxLayoutAlign="space-between center" class="btn-row-container" fxLayoutGap="10px">
+        <div fxLayout="row">
+          <div class="title-md" matTooltipClass="help-tooltip" matTooltip="Manage Master Markets 
+          &#13;
+          LIMIT - 2000 &#13; Default Sorting : Market Name - ASC">
+            <span class="sub-md"></span>
+            Market Mastering
+            <span class="sub-md-type pl-10">
+              <div class="label-with-icon-text">
+                <mat-icon class="info-tab-icon">info</mat-icon>
+              </div>
+            </span>
+          </div>
+        </div>
+        <div fxLayout="row">
+          <a mat-flat-button color="primary" href="/embedui/hida/index.html#/hida/admin-dashboard" aria-label="icon" title="Back to HIDA Dashboard" class="cdx-but-md">
+            <mat-icon class="cdx-mat-icon-24 cdx-mat-icon-left">arrow_back</mat-icon>
+           Back To Dashboard
+          </a>
+        </div>
+      </div>
+    </div>
+    <div cp-tab-content class="mar-top">
+      <ng-container [ngTemplateOutlet]="marketView"></ng-container>
+    </div>
+  </app-module-landing-page>
+  <app-loader *ngIf="loading$ | async" message="Please wait..."> </app-loader>
+</section>
+<ng-template #marketView>
+  <app-search-filter
+  [totalRecords]="marketMasterDataRes?.totalRecords"
+  [searchCriteriaOptionsData]="searchCriteriaOptionsData"
+  [userName]="userProfile?.userName"
+  (initSearch)="searchMarketManfRecords($event)"
+  [addBtnText]="!isReadOnlyAccess ? 'Add Market Record' : ''"
+  (openDialog)="openCreateMarketDialog()"
+  (exportFileEmit)="downloadMarketMasterFile()"
+  exportBtnText="Export Market Master"
+></app-search-filter>
+
+
+<ag-grid-angular
+style="width: 100%; height: calc(100vh - 175px); margin-top: 10px"
+class="ag-theme-material pairing-table-container ag-theme-cdx"
+(gridReady)="onGridReady($event)"
+[gridOptions]="gridOptions"
+[overlayLoadingTemplate]="overlayLoadingForAgGrid"
+[animateRows]="true"
+[headerHeight]="30"
+[frameworkComponents]="frameworkComponents"
+[tooltipShowDelay]="0"
+>
+</ag-grid-angular>
+
+<button
+mat-flat-button
+color="primary"
+(click)="saveEditedChanges()"
+aria-label="cdx primary medium button"
+[disabled]="isNotingChangeOnPage"
+class="cdx-but-md save-btn"
+*ngIf="!isReadOnlyAccess"
+>
+Save Changes
+</button>
+
+<div class="page-selector">
+  <span>Page Size : </span>
+  <select name="pagination" [(ngModel)]="pageSize" (ngModelChange)="changePaginationSize($event)">
+    <option *ngFor="let item of pageSizeOptions" [value]="item">{{ item }}</option>
+  </select>
+</div>
+
+</ng-template>

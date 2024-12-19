@@ -1,0 +1,9 @@
+<div class="score-progress"
+  *ngIf="params?.score"
+  role="progressbar"
+  aria-valuemin="0"
+  aria-valuemax="100"
+  [style]="scoreColour"
+  matTooltip="{{'Match Ratio: '+ score + '%'}}"
+  [attr.aria-valuenow]="score"
+  [style.--value]="score"></div>

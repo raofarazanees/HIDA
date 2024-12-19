@@ -1,0 +1,73 @@
+<div class="cdx-dialog-wrapper">
+  <form [formGroup]="marketMasterForm" autocomplete="off">
+    <div class="cdx-dialog-top">
+      <h2 mat-dialog-title>Create Market Master</h2>
+      <mat-dialog-content role="dialog">
+        <div class="cdx-popup-row">
+          <mat-form-field appearance="outline" class="cdx-input-default width-100">
+            <mat-label>Market Name</mat-label>
+            <input
+              inputRef
+              #inputMarketName
+              matInput
+              autocomplete="off"
+              id="marketName"
+              formControlName="marketName"
+              placeholder="Enter Market Name..."
+              required
+            />
+          </mat-form-field>
+          <mat-error *ngIf="marketName.invalid && (marketName.dirty || marketName.touched)">
+            <ng-container *ngIf="marketName.errors?.required"> Market Name is required. </ng-container>
+          </mat-error>
+          
+          <mat-form-field appearance="outline" class="cdx-input-default width-100">
+            <mat-label>Submarket Name</mat-label>
+            <input
+              inputRef
+              matInput
+              autocomplete="off"
+              id="submarketName"
+              formControlName="submarketName"
+              placeholder="Enter Submarket Name..."
+              required
+            />
+          </mat-form-field>
+          <mat-error *ngIf="submarketName.invalid && (submarketName.dirty || submarketName.touched)">
+            <ng-container *ngIf="submarketName.errors?.required"> Submarket Name is required. </ng-container>
+          </mat-error>
+
+        </div>
+      </mat-dialog-content>
+    </div>
+    <div class="cdx-dialog-bottom">
+      <mat-dialog-actions>
+        <button
+          aria-label="cancel button"
+          mat-button
+          mat-dialog-close
+          role="button"
+          id="cancel"
+          (click)="onNoClick()"
+          class="cdx-but-lg mat-stroked-button mat-primary"
+        >
+          Cancel
+        </button>
+        <button
+          mat-button
+          role="button"
+          aria-label="action button"
+          class="cdx-but-lg mat-flat-button mat-primary"
+          [disabled]="!marketMasterForm.valid"
+          type="submit"
+          (click)="submitMarketForm()"
+        >
+          Create Market
+        </button>
+      </mat-dialog-actions>
+    </div>
+  </form>
+  <button mat-button role="button" class="cdx-popup-close" (click)="onNoClick()">
+    <mat-icon role="img" class="cdx-mat-icon-16">close</mat-icon>
+  </button>
+</div>

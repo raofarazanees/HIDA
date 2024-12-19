@@ -1,0 +1,30 @@
+<div class="cdx-dialog-wrapper">
+  <div class="cdx-dialog-top">
+   
+    <mat-dialog-content role="dialog">
+      <div class="toolbar-container">
+        <h2 mat-dialog-title>
+          Product ID : {{this.inputData.productId}}
+        </h2>
+        <a matTooltip="Reset Filters" (click)="resetFilters()"> Reset Filters </a>
+      </div>
+
+      <ag-grid-angular
+        style="width: 100%; height: calc(100vh - 240px); margin-top: 15px"
+        class="ag-theme-material pairing-table-container"
+        (gridReady)="onGridReady($event)"
+        [gridOptions]="gridOptions"
+        [overlayLoadingTemplate]="overlayLoadingForGraph"
+        [animateRows]="true"
+      >
+      </ag-grid-angular>
+    </mat-dialog-content>
+  </div>
+  <div class="cdx-dialog-bottom">
+    <mat-dialog-actions>
+      <button aria-label="close button" mat-button mat-dialog-close role="button" class="cdx-but-lg mat-stroked-button mat-primary">
+        Close
+      </button>
+    </mat-dialog-actions>
+  </div>
+</div>

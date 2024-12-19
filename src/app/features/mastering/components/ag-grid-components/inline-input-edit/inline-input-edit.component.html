@@ -1,0 +1,61 @@
+<ng-template [ngIf]="componentRenderFor === 'select'">
+  <mat-form-field appearance="outline" class="width-100 searchInput inlineSelect">
+    <mat-select placeholder="Select option"  [formControl]="inputValue" panelClass="common-panel">
+      <mat-option *ngFor="let item of defaultSelectOption" [value]="item" (click)="onSelectionChangedSelect(item)">{{ item }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</ng-template>
+
+<ng-template [ngIf]="componentRenderFor === 'input'">
+  <input [formControl]="inputValue" class="w-95" type="text" [ngClass]="{'invalidData': params.data?.invalidUNSPSC && params.colDef?.field === 'unspscCode'}" [numbersOnly]='isAllowedNumber' inputmode="numeric" name="in_{{params.data.productID}}" (blur)="onBlur()" [minLength]="minLength" [maxlength]="maxLength" inputRef/>
+  <!-- <mat-icon class="cdx-mat-icon-16 drag-icon">drag_indicator</mat-icon> -->
+  <mat-spinner class="spinner_unspcs" *ngIf="params.data?.isLoading && params.colDef?.field === 'unspscCode'" [diameter]="15"></mat-spinner>
+</ng-template>
+
+<ng-template [ngIf]="componentRenderFor === 'autocomplete'">
+
+  <mat-form-field  class="cdx-input-default width-100 searchInput autocompletedInline" appearance="outline">
+    <input type="text" placeholder="{{ inputValue.value ? inputValue.value : 'Search / Enter here..' }}" (blur)="onBlur()" name="auto_{{params.data.productID}}" matInput inputRef [formControl]="inputValue" [matAutocomplete]="auto" />
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelectionChanged($event)">
+      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+        {{ option }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+<!-- 
+  <mat-form-field appearance="outline" class="width-100 searchInput inlineSelect">
+    <mat-select placeholder="Choose an option" [formControl]="inputValue" panelClass="common-panel">
+      <mat-option *ngFor="let item of productSkuList" [value]="item">{{ item }}</mat-option>
+    </mat-select>
+  </mat-form-field> -->
+</ng-template>
+
+<ng-template [ngIf]="componentRenderFor === 'multiselect'">
+  <mat-form-field appearance="outline" class="width-100 searchInput inlineSelect">
+
+  <mat-select [formControl]="selectedBrand" multiple #select (closed)="onCloseMethod()">
+    <mat-select-trigger>
+      {{selectedBrand.value && selectedBrand.value.length > 0 ? selectedBrand.value[0]?.brandName : ''}}
+      <span *ngIf="(selectedBrand.value?.length || 0) > 1" class="example-additional-selection">
+        (+{{(selectedBrand.value?.length || 0) - 1}} {{selectedBrand.value?.length === 2 ? 'other' : 'others'}})
+      </span>
+    </mat-select-trigger>
+    <mat-option *ngFor="let item of brandMapRecords" [value]="item">{{item.brandName}}</mat-option>
+    <!-- <mat-option class="create_option" *ngIf="btnTextForCreateMaster && btnTextForCreateMaster.btnText" [title]="btnTextForCreateMaster.btnText" (click)="openCreateMasterDialog()"> {{btnTextForCreateMaster.btnText}} </mat-option> -->
+  </mat-select>
+  </mat-form-field>
+
+</ng-template>
+
+
+<ng-template [ngIf]="componentRenderFor === 'datepicker'">
+  <mat-form-field class="cdx-datepicker-wrapper width-100 searchInput inlineSelect" appearance="outline">
+    <input matInput [satDatepicker]="picker" class="inline-datepicker" [min]="minDate" (dateChange)="reviewDateChange($event)" [max]="maxDate"  [value]="inputValue.value | momentDate:'YYYY-MM-DD'" [formControl]="inputValue" readonly (click)="picker.open()" placeholder="Choose a date" />
+    <sat-datepicker #picker [rangeMode]="false"></sat-datepicker>
+    <sat-datepicker-toggle matSuffix [for]="picker"></sat-datepicker-toggle>
+
+    <!-- <mat-datepicker-toggle matSuffix [for]="picker" role="button"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker> -->
+  </mat-form-field>
+
+</ng-template>

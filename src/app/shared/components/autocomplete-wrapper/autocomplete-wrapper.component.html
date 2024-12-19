@@ -1,0 +1,19 @@
+<div class="autocomplete-wrapper-component">
+  <input type="text"
+    #inputElement
+    (click)="onInputClick()"
+    (focusout)="onElementFocusOut()"
+    class="typeahead-input"
+    placeholder="Search here"
+    [formControl]="control"
+    [matAutocomplete]="auto"
+    tabindex="-1" />
+  <mat-autocomplete #auto="matAutocomplete"
+    (optionSelected)="onSelectionChanged()"
+    [displayWith]="getDisplayValue">
+    <mat-option *ngFor="let option of filteredMappingOptions | async; trackBy: trackByID"
+      [value]="option">
+      {{ option.value }}
+    </mat-option>
+  </mat-autocomplete>
+</div>

@@ -1,0 +1,33 @@
+.graph_grid {
+  width: 100%;
+  height: calc(100vh - 240px);
+}
+
+.toolbar-container {
+  display: flex;
+  height: 30px;
+  align-items: center;
+  place-content: flex-end;
+  gap: 30px;
+  margin-top: 8px;
+  a {
+    cursor: pointer;
+  }
+  a.disabled {
+    color: #cccccc;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+.cdx-but-md {
+  margin-left: 20px;
+  text-align: center;
+}
+
+.flex-end {
+  justify-content: end;
+}
+.grid-cell-centered *{
+ justify-content: center;
+}

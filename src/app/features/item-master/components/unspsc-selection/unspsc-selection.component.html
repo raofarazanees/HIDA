@@ -1,0 +1,27 @@
+<div class="cdx-dialog-wrapper unspsc-selection-component">
+  <div class="cdx-dialog-top">
+    <header class="header-panel">
+      <h2 class="title"
+        mat-dialog-title>UNSPSC Code Selection</h2>
+      <h5 class="sub-title">Product Description: {{ data?.productDesc }}</h5>
+      <div class="unspsc-mat-button-group">
+        <mat-icon (click)="view = 'TREE'"
+          [class.selected]="view === 'TREE'"
+          matTooltip="Tree View">account_tree</mat-icon>
+        <mat-icon (click)="view = 'TABLE'"
+          [class.selected]="view === 'TABLE'"
+          matTooltip="Table View">table_rows</mat-icon>
+      </div>
+    </header>
+    <ng-container *ngIf="view === 'TREE'">
+      <app-unspsc-treeview [unspscCode]="data.unspscCode"
+        [level]="level"
+        (onDialogClose)="closeDialogRef($event)"></app-unspsc-treeview>
+    </ng-container>
+    <ng-container *ngIf="view === 'TABLE'">
+      <app-unspsc-tableview [unspscCode]="data.unspscCode"
+        [level]="level"
+        (onDialogClose)="closeDialogRef($event)"></app-unspsc-tableview>
+    </ng-container>
+  </div>
+</div>

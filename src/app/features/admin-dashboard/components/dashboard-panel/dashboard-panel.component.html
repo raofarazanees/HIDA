@@ -1,0 +1,26 @@
+<div class="dashboard-panel-component"
+  autosize>
+  <gridster [options]="options">
+    <gridster-item [item]="item"
+      *ngFor="let item of dashboard"
+      [class.fullscreen]="item.isMaximized">
+      <div class="widget">
+        <div class="widget-header">
+          <div class="widget-header-title">{{ item.title }}</div>
+        </div>
+        <div class="widget-body">
+          <app-html-widget *ngIf="item.type === 'html'"
+            [widget]="item"></app-html-widget>
+          <app-generic-widget *ngIf="item.type === 'generic'"
+            [widget]="item"></app-generic-widget>
+        </div>
+      </div>
+    </gridster-item>
+  </gridster>
+  <!-- <app-loader *ngIf="loading$ | async" message="Please Wait..."></app-loader>
+  <app-loader *ngIf="loading_$ | async" message="Please Wait..."></app-loader> -->
+  <ng-container *ngIf="{loading:loading$ | async,loadingTrigger:loading_$ | async,uomLoader:uomLoading$ | async} as loading">
+    <app-loader *ngIf="loading.loading || loading.loadingTrigger || loading.uomLoader" message="Please wait..."> </app-loader>
+  </ng-container>
+
+</div>

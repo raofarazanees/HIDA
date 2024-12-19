@@ -1,0 +1,196 @@
+buildscript {
+  repositories {
+    jcenter()
+    maven {
+      url "http://repo.oneplatform.build/nexus/content/groups/public/"
+    }
+  }
+
+  dependencies {
+    classpath 'com.moowork.gradle:gradle-node-plugin:1.1.1'
+    classpath group: 'org.sonarsource.scanner.gradle', name: 'sonarqube-gradle-plugin', version: '1.2'
+    classpath group: 'org.sonarsource.javascript', name: 'sonar-javascript-plugin', version: '2.11'
+    classpath 'com.netflix.nebula:gradle-ospackage-plugin:2.2.0'
+    classpath 'net.researchgate:gradle-release:2.1.1'
+  }
+}
+
+plugins {
+  id "org.sonarqube" version "2.7.1"
+  id "jacoco"
+}
+
+apply plugin: 'com.moowork.node'
+apply plugin: 'os-package'
+apply plugin: 'net.researchgate.release'
+
+sonarqube {
+  properties {
+    property "sonar.projectName", "hida-app"
+    property "sonar.projectKey", "1p:hida-app"
+    property "sonar.sources", "src"
+    property "sonar.exclusions", "**/node_modules/**"
+    property "sonar.tests", "src"
+    property "sonar.test.inclusions", "**/*.spec.ts"
+    property "sonar.javascript.lcov.reportPaths", "reports/lcov.info"
+  }
+}
+
+release {
+  git {
+    requireBranch = 'master'
+  }
+}
+
+node {
+  // Version of node to use.
+  version = "${node_version}"
+  npmVersion = "${npm_version}"
+  yarnVersion = "${yarn_version}"
+
+  // Enabled the automatic download
+  download = true
+}
+
+task cleanBuild(type: Delete) {
+  description 'cleans up temporary build directories'
+  delete 'node_modules', 'build'
+}
+
+// https://yarnpkg.com/lang/en/docs/cli/install/#toc-yarn-install-frozen-lockfile
+task yarnInstallFrozen(type: YarnTask) {
+  description 'runs yarn install and also checks to make sure package.json and yarn.lock are in sync'
+  args = ['install', '--frozen-lockfile']
+}
+
+// https://yarnpkg.com/lang/en/docs/cli/check/#toc-yarn-check-integrity
+task yarnPostInstall(type: YarnTask) {
+  description 'runs an integrity check on all installed packages'
+  args = ['check', '--integrity']
+  dependsOn yarnInstallFrozen
+}
+
+task webpackBuild(type: YarnTask) {
+  description 'runs NPM script with Yarn to run tests and execute webpack production build'
+  args = ['ci']
+  dependsOn yarnPostInstall
+}
+
+task webpackRelease(type: YarnTask) {
+  description 'runs NPM script with Yarn to run the webpack release task'
+  args = ['release']
+  dependsOn yarnPostInstall
+}
+
+def permanentPackageName = rootProject.name
+def rpmRelease = 1
+
+ospackage {
+  packageName = permanentPackageName
+  release = rpmRelease
+  arch = NOARCH
+  os = LINUX
+
+  from("dest/server") {
+    into('/opt/reuters/apps/nodejs/server')
+    user 'nodejs'
+    permissionGroup 'nodejs'
+  }
+
+  from("dest/web") {
+    into('/opt/reuters/apps/nodejs/web')
+    user 'nodejs'
+    permissionGroup 'nodejs'
+  }
+
+  //stable branded artifacts deploy
+  from("dest/dev.stable") {
+    into('/opt/reuters/apps/nodejs/web.dev.stable')
+    user 'nodejs'
+    permissionGroup 'nodejs'
+  }
+
+  //prod branded artifacts deploy
+  from("dest/prod.prod1") {
+    into('/opt/reuters/apps/nodejs/web.prod.prod1')
+    user 'nodejs'
+    permissionGroup 'nodejs'
+  }
+
+  from("build/nodejs") {
+    into('/opt/reuters/apps/nodejs')
+    include "package.json"
+    user 'nodejs'
+    permissionGroup 'nodejs'
+  }
+
+  from("build/nodejs") {
+    into('/opt/reuters/apps/nodejs')
+    include "pm2-run.sh"
+    user 'nodejs'
+    permissionGroup 'nodejs'
+    fileMode 0755
+  }
+
+  from("build/nodejs/node_modules") {
+    into('/opt/reuters/apps/nodejs/node_modules')
+    user 'nodejs'
+    permissionGroup 'nodejs'
+  }
+
+  from(".") {
+    into('/etc/reuters/instance_conf.d')
+    include '48_cdn_switch'
+    fileMode 0755
+  }
+
+}
+
+task svcVersion() << {
+  def file = new File("$projectDir/build/svcVersion.txt")
+  file.createNewFile()
+  file.text = """version=$version
+applicationName=.name
+"""
+}
+
+task buildNodeDest(type: YarnTask) {
+  doFirst {
+    copy {
+      from "."
+      into "build/nodejs"
+      include ".npmrc"
+      include "pm2-run.sh"
+      include "package.json"
+      include "yarn.lock"
+    }
+    copy {
+      from "."
+      into "dest/server"
+      include "app.config.js"
+    }
+  }
+
+  args = ['install', '--production', '--cwd', './build/nodejs']
+}
+
+task test {
+  doFirst {
+  }
+}
+
+task jacoco {
+  doFirst {
+  }
+}
+
+//OPDEVOPS-37
+//we only want to run the release task if we are in a release or pre-release context
+if(project.hasProperty("going_to_production") || (System.env['APPLICATION_VERSION'] != null)){
+  buildNodeDest.dependsOn webpackRelease
+}
+
+buildRpm.dependsOn webpackBuild
+buildRpm.dependsOn buildNodeDest
+buildNodeDest.dependsOn webpackBuild
+clean.dependsOn cleanBuild

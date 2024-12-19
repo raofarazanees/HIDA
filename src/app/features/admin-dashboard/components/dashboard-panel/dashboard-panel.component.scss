@@ -1,0 +1,41 @@
+::ng-deep .dashboard-panel-component {
+  overflow: auto;
+  height: calc(100vh - 50px);
+  gridster {
+    background-color: #efefef;
+    gridster-item {
+      margin: 0 !important;
+      overflow: unset !important;
+      &.fullscreen {
+        left: 0px !important;
+        top: 0px !important;
+        width: 100% !important;
+        height: 100% !important;
+        z-index: 500 !important;
+        transform: none !important;
+      }
+      .widget {
+        height: 100%;
+        .widget-header {
+          display: flex;
+          place-content: space-between;
+          padding: 5px 5px 5px 10px;
+          height: 35px;
+          align-items: center;
+          background-color: #f4f4fc;
+          box-shadow: 0 1px 2px 1px rgb(0 0 0 / 12%);
+
+          .widget-header-title {
+            font-size: 16px;
+            position: relative;
+          }
+        }
+        .widget-body {
+          height: calc(100% - 35px);
+          padding: 5px 5px 5px 10px;
+          overflow: auto;
+        }
+      }
+    }
+  }
+}

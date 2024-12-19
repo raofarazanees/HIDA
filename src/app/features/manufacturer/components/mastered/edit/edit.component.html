@@ -1,0 +1,92 @@
+<div class="cdx-dialog-wrapper manufacturer-mastered-edit-component">
+  <div class="cdx-dialog-top">
+    <h2 class="title"
+      mat-dialog-title>Edit Manufacturer</h2>
+    <mat-icon (click)="dialogRef.close()"
+      class="close-icon">close</mat-icon>
+    <mat-dialog-content role="dialog">
+      <div class="cdx-popup-row"
+        fxLayout="row"
+        fxLayoutAlign="start center">
+        <div fxFlex="20"
+          class="key">Distributor Name: </div>
+        <div fxFlex
+          class="value">{{ data.distributorName }}</div>
+      </div>
+
+      <div class="cdx-popup-row"
+        fxLayout="row"
+        fxLayoutAlign="start center">
+        <div fxFlex="20"
+          class="key">Manufacturer Key: </div>
+        <div fxFlex
+          class="value">{{ data.externalManufacturerKey }}</div>
+      </div>
+
+      <div class="cdx-popup-row"
+        fxLayout="row"
+        fxLayoutAlign="start center">
+        <div fxFlex="20"
+          class="key">Description: </div>
+        <div fxFlex
+          class="value">{{ data.externalManufacturerDesc }}</div>
+      </div>
+
+      <div class="cdx-popup-row"
+        fxLayout="row"
+        fxLayoutAlign="start center">
+        <div fxFlex="20"
+          class="key">Mapped Description: </div>
+        <div fxFlex="40"
+          class="value">
+          <app-autocomplete-wrapper [optionList]="mappingOptions"
+            [defaultOption]="defaultOption"
+            (onValueChanged)="onValueChanged($event)">
+          </app-autocomplete-wrapper>
+        </div>
+      </div>
+
+      <div class="cdx-popup-row"
+        fxLayout="row"
+        fxLayoutAlign="start center">
+        <div fxFlex="20"
+          class="key">
+          Comment:
+        </div>
+        <div fxFlex
+          class="value">
+          <mat-form-field class="cdx-form-field-textarea"
+            appearance="outline">
+            <textarea matInput
+              placeholder="Add comment here"
+              #message
+              maxlength="256"
+              [formControl]="commentCtrl"></textarea>
+            <mat-hint align="end">{{ message.value.length }} / 256</mat-hint>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-dialog-content>
+  </div>
+  <div class="cdx-dialog-bottom">
+    <mat-dialog-actions>
+      <button mat-flat-button
+        (click)="dialogRef.close()"
+        class="cdx-but-xs"
+        aria-label="cdx primary button"
+        mat-dialog-close>
+        Cancel
+      </button>
+      <button mat-flat-button
+        (click)="update()"
+        color="primary"
+        class="cdx-but-xs"
+        aria-label="cdx primary button"
+        [disabled]="!isEnabledSubmitButton">
+        Update
+      </button>
+    </mat-dialog-actions>
+  </div>
+  <app-loader *ngIf="loader$ | async"
+    message="Updating record..."></app-loader>
+</div>

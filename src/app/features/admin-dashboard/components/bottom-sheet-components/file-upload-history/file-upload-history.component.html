@@ -1,0 +1,139 @@
+<div class="file-upload-history-component">
+  <header class="file-upload-history-header">
+    <span [innerHTML]="params?.header"></span>
+    <mat-icon class="refresh-icon"
+      (click)="refreshUplodedFileHistory()"
+      matTooltip="Refresh">refresh</mat-icon>
+    <mat-icon class="close-icon"
+      (click)="matBottomSheetRef.dismiss()"
+      matTooltip="Close">close</mat-icon>
+  </header>
+  <div class="main-content">
+    <ag-grid-angular style="height: 100%;"
+      [style.width]="viewModal.showDetails ? '50%' : '100%'"
+      class="ag-theme-material"
+      (gridReady)="onGridReady($event)"
+      rowSelection="single"
+      (selectionChanged)="onSelectionChanged()"
+      [gridOptions]="gridOptions">
+    </ag-grid-angular>
+    <app-loader *ngIf="(fileLoading$ | async)"></app-loader>
+    <div *ngIf="viewModal.showDetails"
+      class="file-details-container">
+      <header class="file-details-title">
+        <span>File Details</span>
+        <mat-icon class="close-icon"
+          (click)="clearRowSelection()"
+          matTooltip="Close Details View">close</mat-icon>
+      </header>
+      <div class="file-details-body-container">
+        <div class="file-details-body">
+          <div class="mat-custom-status-steeper"
+            *ngIf="selectedFileRow"
+            fxLayout="row wrap"
+            fxLayoutGap="10px"
+            fxLayoutAlign="start center">
+            <div fxFlex="0 0 auto"
+              [class.success]="selectedFileRow?.statusCode >= 1">
+              <mat-icon>done</mat-icon> Initial
+            </div>
+            <mat-divider fxFlex="1 1 auto"
+              [style.borderTopColor]="selectedFileRow?.statusCode >= 2 ? '#17ab03' : ''"></mat-divider>
+            <div fxFlex="0 0 auto"
+              [class.success]="selectedFileRow?.statusCode >= 2">
+              <mat-icon>done</mat-icon>AvailableInS3
+            </div>
+            <mat-divider fxFlex="1 1 auto"
+              [style.borderTopColor]="selectedFileRow?.statusCode >= 3 ? '#17ab03' : ''"></mat-divider>
+            <div fxFlex="0 0 auto"
+              [class.success]="selectedFileRow?.statusCode >= 3">
+              <mat-icon>done</mat-icon>In Progress
+            </div>
+            <mat-divider fxFlex="1 1 auto"
+              [style.borderTopColor]="selectedFileRow?.statusCode === 4 ? '#17ab03' : (selectedFileRow?.statusCode === 5 ? '#f44336' : '')">
+            </mat-divider>
+            <div fxFlex="0 0 auto"
+              [class.success]="selectedFileRow?.statusCode >= 4"
+              [class.failed]="selectedFileRow?.statusCode === 5">
+              <mat-icon>{{selectedFileRow?.statusCode === 5 ? 'close' : 'done'}}</mat-icon>
+              {{selectedFileRow?.status ? selectedFileRow?.status: 'Success/Failed'}}
+            </div>
+          </div>
+          <div class="file-details-body-main">
+            <mat-button-toggle-group #backgroundColorToggle="matButtonToggleGroup"
+              style="margin: 2px 8px;"
+              value="total"
+              aria-label="Stats"
+              fxLayout="row wrap">
+              <mat-button-toggle fxFlex="100"
+                value="total"> #Total Records: {{selectedFileRow?.sourceCount}} </mat-button-toggle>
+            </mat-button-toggle-group>
+            <div class="file-details-body-main-content">
+              <ng-container *ngIf="backgroundColorToggle.value === 'total'">
+                <div class="sub-header reject"
+                  *ngIf="backgroundColorToggle.value === 'total'">Rejected
+                  Records ({{selectedFileRow?.validationRejCount}}):
+                </div>
+                <mat-accordion class="record-list"
+                  *ngIf="fileDetails?.rejectedRecords?.length else noRecordsR"
+                  multi>
+                  <mat-expansion-panel *ngFor="let item of fileDetails?.rejectedRecords">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        {{item.itemPGUID}}
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <mat-list role="list"
+                      style="width: 100%;">
+                      <mat-list-item role="listitem"
+                        *ngFor="let item of item | keyvalue">
+                        <div style="min-width: 25%;">{{item?.key | wordspaceCase}}</div> :
+                        <div class="listitem-value">{{item?.value || '-'}} </div>
+                      </mat-list-item>
+                    </mat-list>
+                  </mat-expansion-panel>
+                </mat-accordion>
+              </ng-container>
+              <ng-container *ngIf="backgroundColorToggle.value === 'total'">
+                <div class="sub-header approve"
+                  *ngIf="backgroundColorToggle.value === 'total'">Approved Records
+                  ({{selectedFileRow?.validatedRecCount}}):
+                </div>
+                <mat-accordion class="record-list"
+                  *ngIf="fileDetails?.validRecords?.length else noRecordsV"
+                  multi>
+                  <mat-expansion-panel *ngFor="let item of fileDetails?.validRecords">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        {{item.itemPGUID}}
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <mat-list role="list"
+                      style="width: 100%;">
+                      <mat-list-item role="listitem"
+                        *ngFor="let item of item | keyvalue">
+                        <div style="min-width: 25%;">{{item?.key | wordspaceCase}}</div> :
+                        <div class="listitem-value">{{item?.value || '-'}} </div>
+                      </mat-list-item>
+                    </mat-list>
+                  </mat-expansion-panel>
+                </mat-accordion>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+        <app-loader *ngIf="(detailsLoading$ | async)"></app-loader>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #noRecordsV>
+  <div class="no-records-found">
+    {{ selectedFileRow?.validatedRecCount ? 'Approved records are outdated.' : 'No Approved records found!' }}
+  </div>
+</ng-template>
+<ng-template #noRecordsR>
+  <div class="no-records-found">
+    {{ selectedFileRow?.validationRejCount ? 'Rejected records are outdated.' : 'No Rejected records found!' }}
+  </div>
+</ng-template>

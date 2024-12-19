@@ -1,0 +1,11 @@
+#!/bin/bash
+
+. /etc/reuters/user_data
+
+env="web.$CLOUD_ENVIRONMENT.$CLOUD_DEV_PHASE"
+webPath=/opt/reuters/apps/nodejs
+
+if [ -d "$webPath/$env" ]; then
+  cp -a "$webPath/$env/." "$webPath/web/hida"
+  cp -a "$webPath/$env/." "$webPath/web"
+fi

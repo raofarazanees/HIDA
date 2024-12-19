@@ -1,0 +1,50 @@
+<div class="cdx-dialog-wrapper">
+  <div class="cdx-dialog-top">
+    <h2 mat-dialog-title>Product Labelling - Staging Curation</h2>
+
+    <mat-dialog-content role="dialog">
+      <ag-grid-angular
+        style="width: 100%; height: calc(100vh - 230px); margin-top: 15px"
+        class="ag-theme-material pairing-table-container"
+        (gridReady)="onGridReady($event)"
+        [gridOptions]="gridOptions"
+        [overlayLoadingTemplate]="overlayLoadingForGraph"
+        [animateRows]="true"
+        [rowSelection]="rowSelection"
+        [isRowSelectable]="isRowSelectable"
+        [rowMultiSelectWithClick]="true"
+        (selectionChanged)="onSelectionChanged($event)"
+      >
+      </ag-grid-angular>
+    </mat-dialog-content>
+  </div>
+  <div class="cdx-dialog-bottom">
+    <mat-dialog-actions>
+      <button
+      mat-raised-button
+      color="primary"
+      class="upload-btn"
+      [disabled]="!gridApi?.getSelectedRows().length"
+      (click)="downloadProductStagingFile()"
+    >
+      Download
+    </button>
+      <button
+        mat-raised-button
+        color="primary"
+        class="upload-btn"
+        [disabled]="!gridApi?.getSelectedRows().length"
+        (click)="createTaskForSelectedItem()"
+      >
+        Create Task
+      </button>
+    </mat-dialog-actions>
+
+  </div>
+
+  <button mat-button role="button" class="cdx-popup-close" (click)="closeDialog()">
+    <mat-icon role="img" class="cdx-mat-icon-16">close</mat-icon>
+  </button>
+</div>
+
+<app-loader *ngIf="loading$ | async" [message]="'Please Wait...'"></app-loader>

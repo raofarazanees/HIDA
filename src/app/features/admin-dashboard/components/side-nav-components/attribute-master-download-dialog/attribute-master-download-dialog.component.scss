@@ -1,0 +1,68 @@
+.attribute-master-download-dialog-component {
+  position: relative;
+  height: 100%;
+  .main-content {
+    height: calc(100% - 80px);
+    overflow: auto;
+    padding: 10px;
+    .file-input {
+      display: none;
+    }
+    .file-upload {
+      background-color: #33333326;
+      padding: 12px;
+      border: 1px dotted #6738ce;
+      border-radius: 7px;
+      button {
+        width: 70%;
+        height: 45px;
+        margin: 0 15%;
+      }
+
+      .title-container {
+        display: flex;
+        gap: 5px;
+        padding-top: 10px;
+        align-items: center;
+        place-content: center;
+        .title {
+          word-break: break-all;
+        }
+        mat-icon {
+          cursor: pointer;
+          font-size: 19px;
+        }
+      }
+    }
+    .rules-container {
+      .mat-subheader {
+        padding: 0 10px;
+        height: 30px;
+        margin-top: 5px;
+      }
+      .mat-list-item {
+        height: 40px;
+        &.success {
+          color: #17ab03;
+        }
+        &.error {
+          color: #f44336;
+        }
+      }
+      .mat-list-item.mat-2-line {
+        height: 55px;
+      }
+      mat-icon {
+        font-size: 20px;
+      }
+    }
+  }
+  .form-actions {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    border-top: 1px solid #cccccc;
+    padding: 10px 0;
+  }
+}

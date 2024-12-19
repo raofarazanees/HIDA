@@ -1,0 +1,24 @@
+<div
+  class="unspsc-renderer-component"
+  [class.readonly]="_params?.readonly"
+  [class.selected]="_params?.selectionValue === _params?.data?.unspscSource"
+  (click)="onSelection()"
+  (dblclick)="onDoubleClicked()"
+>
+  <div class="key">{{_params?.label}}</div>
+  <div  class="value">
+    <div class="score-progress"
+      *ngIf="_params?.score"
+      role="progressbar"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      matTooltip="{{ 'Confidence Score: ' + score + '%' }}"
+      [attr.aria-valuenow]="score"
+      [style.--value]="score"
+    ></div>
+    <mat-icon *ngIf="_params?.value && _params?.value !== 'N/A' && tooltip" [matTooltip]="tooltip" class="cdx-mat-icon-16 info-icon"
+      >info</mat-icon
+    >
+    <div class="unspsc-text">{{ _params?.value || '-' }}</div>
+  </div>
+</div>

@@ -1,0 +1,12 @@
+<ng-container *ngIf="data">
+  <mat-checkbox [(ngModel)]="checked"
+    (change)="onChange()"></mat-checkbox>
+  <img class="icon log-icon"
+    matTooltip="Record is already rejected. Please click here to view log"
+    *ngIf="data.isClientCorrectionRejected == 'Y' "
+    height="18px"
+    width="18px"
+    alt="VIEW"
+    (click)="onRejectedInfoClick()"
+    src="assets/images/reject-log.svg" />
+</ng-container>

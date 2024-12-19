@@ -1,0 +1,27 @@
+<div class="radio-container" *ngIf="isGroupRendered">
+  <mat-radio-group [(ngModel)]="status"
+    role="radiogroup"
+    class="cdx-column-direction">
+    <mat-radio-button color="primary"
+      value="A"
+      role="radio"
+      (change)="onChange($event)"
+      class="cdx-radio-xs">Approve</mat-radio-button>
+    <mat-radio-button class="cdx-radio-xs radio-button"
+      color="primary"
+      value="R"
+      (change)="onChange($event)"
+      role="radio">Reject</mat-radio-button>
+  </mat-radio-group>
+</div>
+
+<div class="radio-container" *ngIf="!isGroupRendered">
+  <mat-radio-button color="primary"
+      [value]="radioValue"
+      role="radio"
+      [name]="radioName"
+      [checked]="status == radioValue"
+      (change)="onChange($event)"
+      class="cdx-radio-xs">
+  </mat-radio-button>
+</div>

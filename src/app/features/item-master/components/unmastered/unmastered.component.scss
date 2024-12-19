@@ -1,0 +1,54 @@
+::ng-deep {
+  .item-master-unmastered-component {
+    .unmastered-table-container {
+      .ag-header-group-cell {
+        &.ag-header-group-cell-with-group {
+          text-align: center;
+          background-color: rgb(0 0 0 / 14%);
+          .ag-header-group-cell-label {
+            display: grid;
+          }
+        }
+      }
+      .ag-row {
+        &.ag-row-modified {
+          background-color: #fff1c9;
+          .editable-cell-comment.ag-cell-focus {
+            height: 27px !important;
+            input {
+              padding: 0;
+            }
+          }
+        }
+        .ag-cell {
+          &.required-cell {
+            border: 1px solid #ff0000;
+          }
+        }
+      }
+    }
+    .complete-task-btn {
+      position: absolute;
+      left: 0;
+    }
+  }
+}
+.item-master-unmastered-component {
+  .toolbar-container {
+    display: flex;
+    height: 30px;
+    align-items: center;
+    place-content: flex-end;
+    gap: 30px;
+
+    a {
+      cursor: pointer;
+    }
+    a.disabled {
+      color: #cccccc;
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+}

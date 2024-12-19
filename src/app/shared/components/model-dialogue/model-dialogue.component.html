@@ -1,0 +1,29 @@
+<div class="cdx-dialog-wrapper">
+  <div class="cdx-dialog-top" [ngClass]="isConfirm ? 'no-padding' : ''">
+    <mat-dialog-content role="dialog">
+      <div class="cdx-popup-row">
+        <section class="example-section">
+          <h3 [innerHTML]="message"></h3>
+        </section>  
+      </div>
+    </mat-dialog-content>
+  </div>
+  <div class="cdx-dialog-bottom" [ngClass]="isConfirm ? 'no-padding' : ''">
+    <mat-dialog-actions>
+      <button *ngIf="isConfirm"
+        mat-flat-button
+        aria-label="cdx primary button"
+        (click)='onCancel()'
+        class="cdx-but-xs">
+        Cancel
+      </button>
+      <button mat-flat-button
+        color="primary"
+        aria-label="cdx primary button"
+        (click)='onSubmit()'
+        class="cdx-but-md">
+        {{ successBtnName }}
+      </button>
+    </mat-dialog-actions>
+  </div>
+</div>

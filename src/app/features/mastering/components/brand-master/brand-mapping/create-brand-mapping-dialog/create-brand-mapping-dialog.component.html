@@ -1,0 +1,119 @@
+<div class="cdx-dialog-wrapper">
+  <form [formGroup]="brandCVMasterForm" autocomplete="off">
+    <div class="cdx-dialog-top">
+      <h2 mat-dialog-title>Create Brand Map</h2>
+      <mat-dialog-content role="dialog">
+        <div class="cdx-popup-row">
+          <div class="content_" fxLayout="row" fxLayoutGap="20px" fxFlexFill>
+            <div fxFlex="50%">
+              <mat-form-field appearance="outline" class="cdx-input-default width-100">
+                <mat-label>Brand Master Name</mat-label>
+                <input matInput placeholder="Select Brand Master" #brandInput aria-label="Brand" required [matAutocomplete]="auto" formControlName="brandName" />
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                  <mat-option *ngFor="let item of filteredBrandList | async" [value]="item">
+                    {{ item.brandname }}
+                  </mat-option>
+                  <mat-option class="create_option" (click)="openCreateBrandCvModel()">Create Brand Master</mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+              <mat-error *ngIf="getBrandName.invalid && (getBrandName.dirty || getBrandName.touched)">
+                <ng-container *ngIf="getBrandName.errors"> Brand Name is required. </ng-container>
+              </mat-error>
+            </div>
+            <div fxFlex="50%">
+              <mat-form-field appearance="outline" class="cdx-input-default width-100">
+                <mat-label>Child Manufacturer Master</mat-label>
+                <input matInput placeholder="Select Child Manufacturer Master" #manfInput required aria-label="Manf" [matAutocomplete]="autoManf" formControlName="manufacturerValue" />
+                <mat-autocomplete #autoManf="matAutocomplete" [displayWith]="displayFnManf">
+                  <mat-option *ngFor="let item of filteredManfList | async" [value]="item">
+                    {{ item.childManfName }}
+                  </mat-option>
+                  <mat-option class="create_option" *ngIf="allowManfCreate" (click)="openParentChildDialog(manfInput.value)">Create Child Manufacturer</mat-option>
+
+                </mat-autocomplete>
+              </mat-form-field>
+              <mat-error *ngIf="getManfName.invalid && (getManfName.dirty || getManfName.touched)">
+                <ng-container *ngIf="getManfName.errors">Child Manufacturer is required. </ng-container>
+              </mat-error>
+            </div>
+            </div>
+            <div class="content_" fxLayout="row" fxLayoutGap="20px" fxFlexFill>
+            <div fxFlex="50">
+              <mat-form-field appearance="outline" class="cdx-input-default width-100">
+                <mat-label>Market Master</mat-label>
+                <input matInput placeholder="Select Market Master" #marketInput aria-label="Manf" required [matAutocomplete]="autoMarket" formControlName="marketValue" />
+                <mat-autocomplete #autoMarket="matAutocomplete" [displayWith]="displayFnMrt" (optionSelected)="submarketSelected($event)">
+                  <mat-option *ngFor="let item of filteredMarketList | async" [value]="item">
+                    {{ item.marketName }}
+                  </mat-option>
+                  <mat-option class="create_option" *ngIf="allowMarketCreate" (click)="openMarketMasterDialog('marketName',marketInput.value)">Create Market Master</mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+              <mat-error *ngIf="getMktName.invalid && (getMktName.dirty || getMktName.touched)">
+                <ng-container *ngIf="getMktName.errors"> Market is required. </ng-container>
+              </mat-error>
+            </div>
+            <div fxFlex="50">
+              <mat-form-field appearance="outline" class="cdx-input-default width-100">
+                <mat-label>Submarket Name</mat-label>
+                <input matInput placeholder="Select Submarket Master" #subInput aria-label="Manf" required [matAutocomplete]="autoSub" formControlName="submarketValue" />
+                <mat-autocomplete #autoSub="matAutocomplete" [displayWith]="displayFnSub" >
+                  <mat-option *ngFor="let item of filteredSubMarketList | async" [value]="item">
+                    {{ item.submarketName }}
+                  </mat-option>
+                  <mat-option class="create_option" *ngIf="allowMarketCreate" (click)="openMarketMasterDialog('submarketName',subInput.value)">Create Submarket Master</mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+              <mat-error *ngIf="getSubMktName.invalid && (getSubMktName.dirty || getSubMktName.touched)">
+                <ng-container *ngIf="getSubMktName.errors"> Submarket is required. </ng-container>
+              </mat-error>
+            </div>
+          </div>
+          <mat-form-field appearance="outline" class="cdx-input-default width-100">
+            <mat-label>Comments</mat-label>
+            <input
+              inputRef
+              #inputBrandName
+              matInput
+              autocomplete="off"
+              id="comments"
+              formControlName="comments"
+              placeholder="Enter Comments..."
+            />
+          </mat-form-field>
+                  
+          </div>
+      
+      </mat-dialog-content>
+    </div>
+    <div class="cdx-dialog-bottom">
+      <mat-dialog-actions>
+        <button
+          aria-label="cancel button"
+          mat-button
+          mat-dialog-close
+          role="button"
+          id="cancel"
+          (click)="onNoClick()"
+          class="cdx-but-lg mat-stroked-button mat-primary"
+        >
+          Cancel
+        </button>
+        <button
+          mat-button
+          role="button"
+          aria-label="action button"
+          class="cdx-but-lg mat-flat-button mat-primary"
+          [disabled]="!brandCVMasterForm.valid"
+          type="submit"
+          (click)="submitBrandForm()"
+        >
+          Create Brand Map
+        </button>
+      </mat-dialog-actions>
+    </div>
+  </form>
+  <button mat-button role="button" class="cdx-popup-close" (click)="onNoClick()">
+    <mat-icon role="img" class="cdx-mat-icon-16">close</mat-icon>
+  </button>
+</div>

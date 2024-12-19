@@ -1,0 +1,33 @@
+<div class="cdx-dialog-wrapper">
+  <form [formGroup]="validateForm" (ngSubmit)="onSubmit()">
+    <div class="cdx-dialog-top">
+      <h2 mat-dialog-title>{{ this.inputData?.actionType === 'Reject' ? ' Reject' : 'Approve' }} Comment</h2>
+
+      <mat-dialog-content role="dialog">
+        <mat-form-field appearance="outline" class="mat-form-field-textarea">
+          <textarea matInput placeholder="Please write comment" #message formControlName="comment"></textarea>
+          <mat-label>Comment ({{ this.inputData?.actionType === 'Reject' ? 'Required' : 'Optional' }})</mat-label>
+        </mat-form-field>
+      </mat-dialog-content>
+    </div>
+    <div class="cdx-dialog-bottom">
+      <mat-dialog-actions>
+        <button
+          mat-button
+          [color]="this.inputData?.actionType === 'Reject' ? 'warn' : 'primary'"
+          type="submit"
+          role="button"
+          aria-label="action button"
+          title="primary apply button"
+          class="cdx-but-lg mat-flat-button mat-primary"
+          [disabled]="!validateForm.valid"
+        >
+          {{ this.inputData?.actionType === 'Reject' ? 'Reject' : 'Approve' }}
+        </button>
+      </mat-dialog-actions>
+    </div>
+  </form>
+  <button mat-button role="button" class="cdx-popup-close" [mat-dialog-close]="{isClosed:true, comment: '' }">
+    <mat-icon role="img" class="cdx-mat-icon-16">close</mat-icon>
+  </button>
+</div>

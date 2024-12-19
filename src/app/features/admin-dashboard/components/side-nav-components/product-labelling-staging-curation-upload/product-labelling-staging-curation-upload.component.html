@@ -1,0 +1,14 @@
+<ng-container *ngIf="fileValidation">
+<app-common-upload-file-dialog [FileValidation]="fileValidation" (uploadFileData)="onSubmit($event)"></app-common-upload-file-dialog>
+</ng-container>
+<div class="exportBtn-side-text">
+
+<a aria-label="icon" *ngIf="widget.alternateSideNav"  class="cdx-but-md" download="HIDA_Staging_Curation_Product_For_UNSPSC_Labelling_UP_{{env}}.csv" href="assets/templates/HIDA_Staging_Curation_Product_For_UNSPSC_Labelling_UP_template.csv" >
+    CSV Template 
+</a>
+
+<a aria-label="icon" *ngIf="!widget.alternateSideNav" class="cdx-but-md" download="HIDA_Product_UNSPSC_Labelling_UP_{{env}}.csv" href="assets/templates/HIDA_Product_UNSPSC_Labelling_UP_template.csv" >
+  CSV Template 
+</a>
+<font>When you upload a CSV file, data should be populated for the mandatory column{{tooltipText}} For the rest of the columns, data can be blank / empty.</font>
+</div>

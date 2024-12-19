@@ -1,0 +1,25 @@
+<ng-container *ngIf="data">
+  <mat-icon *ngIf="actions.onDetailsClick"
+    (click)="actions.onDetailsClick(currentNode)">visibility</mat-icon>
+  <img class="icon edit-icon"
+    height="18px"
+    width="18px"
+    alt="EDIT"
+    *ngIf="actions.isExceptionLead && actions.isEditEnabled"
+    (click)="actions.onEditClick(currentNode)"
+    src="assets/images/edit.svg" />
+  <img class="icon log-icon"
+    height="18px"
+    width="18px"
+    alt="VIEW"
+    (click)="actions.onLogClick(currentNode)"
+    [ngClass]="{'no-logs' : actions.isActionRenderForAllRecords && (!data.manfMapID && !data.facMapID)}"
+    src="assets/images/files.svg" />
+    <img class="icon log-icon"
+    height="18px"
+    width="18px"
+    *ngIf="actions.isPIMScreen"
+    alt="ICON"
+    (click)="actions.onI2PClick(currentNode)"
+    src="assets/images/i2p.svg" />
+</ng-container>

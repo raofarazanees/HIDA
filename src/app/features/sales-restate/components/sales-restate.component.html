@@ -1,0 +1,78 @@
+<div class="sales-restate-component">
+  <div class="main-content">
+    <div class="page-title">
+      <div>Restating Sales</div>
+      <span *ngIf="distributorPguid">Distributor name: {{ (distributors$ | async)[distributorPguid] }}</span>
+    </div>
+    <div *ngIf="taskDetails">
+      <div fxLayoutAlign="end center" class="button-groups" fxLayoutGap="15px">
+        <button
+          mat-flat-button
+          color="primary"
+          aria-label="cdx primary button"
+          matTooltip="Reset Selection"
+          class="cdx-but-md"
+          (click)="isEnabledSubmitButton = false; onResetdata()"
+        >
+          Reset Selection
+        </button>
+        <button
+          mat-flat-button
+          color="primary"
+          aria-label="cdx primary button"
+          matTooltip="Approve All"
+          class="cdx-but-md"
+          (click)="isEnabledSubmitButton = false; onAceeptall()"
+        >
+          Approve All
+        </button>
+        <button
+          mat-flat-button
+          color="primary"
+          aria-label="cdx primary button"
+          matTooltip="Reject All"
+          class="cdx-but-md"
+          (click)="isEnabledSubmitButton = false; onRejectall()"
+        >
+          Reject All
+        </button>
+      </div>
+      <div class="grid-wrapper">
+        <ag-grid-angular
+          style="width: 100%; height: calc(100vh - 210px)"
+          class="ag-theme-material"
+          (gridReady)="onGridReady($event)"
+          [gridOptions]="gridOptions"
+          [frameworkComponents]="frameworkComponents"
+        >
+        </ag-grid-angular>
+      </div>
+      <div fxLayoutAlign="end center" style="padding-top: 20px" fxLayoutGap="15px">
+        <button
+          *ngIf="hasExceptionLeadPermission"
+          mat-flat-button
+          color="primary"
+          aria-label="cdx primary button"
+          matTooltip="Submit"
+          class="cdx-but-md"
+          [disabled]="!isEnabledSubmitButton"
+          (click)="isEnabledSubmitButton = false; submitRecords()"
+        >
+          Submit
+        </button>
+      </div>
+    </div>
+    <div class="invalid-task-details" *ngIf="!taskDetails">INVALID TASK DETAILS</div>
+    <app-loader
+      *ngIf="(taskLoading$ | async) || (taskUpdating$ | async) || (loader$ | async)"
+      [message]="
+        (taskLoading$ | async) || (taskUpdating$ | async)
+          ? (taskLoading$ | async)
+            ? 'Loading Task Details...'
+            : 'Updating the Task Details and will be redirected to task inbox'
+          : 'Submiting Records...'
+      "
+    >
+    </app-loader>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+<div class="grid-wrapper item-master-mastered-component">
+  <div class="toolbar-container">
+    <a matTooltip="Table Filters Reset"
+      (click)="resetFilters()">
+      Reset Filters
+    </a>
+  </div>
+  <ag-grid-angular style="width: 100%; height: calc(100vh - 165px);"
+    class="ag-theme-material"
+    (gridReady)="onGridReady($event)"
+    [frameworkComponents]="frameworkComponents"
+    [gridOptions]="gridOptions">
+  </ag-grid-angular>
+</div>

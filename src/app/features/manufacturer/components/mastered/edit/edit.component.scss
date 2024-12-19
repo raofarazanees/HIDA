@@ -1,0 +1,18 @@
+.manufacturer-mastered-edit-component {
+  .close-icon {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    cursor: pointer;
+  }
+  .cdx-input-default {
+    .mat-form-field-infix {
+      border-top: 3px solid transparent;
+    }
+  }
+  .mat-form-field {
+    &.cdx-form-field-textarea {
+      width: 100%;
+    }
+  }
+}

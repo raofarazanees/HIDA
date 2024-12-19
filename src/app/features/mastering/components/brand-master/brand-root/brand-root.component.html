@@ -1,0 +1,74 @@
+<section class="manf-master">
+  <app-module-landing-page>
+    <div cp-page-title>
+      <div fxLayoutAlign="space-between center" class="btn-row-container" fxLayoutGap="10px">
+        <div fxLayout="row">
+          <div class="title-md">
+            <span class="sub-md"></span>
+            Brand Mastering<span class="sub-md-type"></span>
+          </div>
+        </div>
+        <div fxLayout="row">
+          <a mat-flat-button color="primary" href="/embedui/hida/index.html#/hida/admin-dashboard" aria-label="icon" title="Back to HIDA Dashboard" class="cdx-but-md">
+            <mat-icon class="cdx-mat-icon-24 cdx-mat-icon-left">arrow_back</mat-icon>
+           Back To Dashboard
+          </a>
+        </div>
+      </div>
+    </div>
+    <div cp-tab-content class="mar-top">
+      <ng-container [ngTemplateOutlet]="tabView"></ng-container>
+    </div>
+  </app-module-landing-page>
+
+  <ng-container *ngIf="{loading:loading$ | async,loadingB:loadingBrand$ | async,loadingC:loadingParentChild$ | async,loadingT:loadingParentChildRel$ | async} as loading">
+    <app-loader *ngIf="loading.loading || loading.loadingB || loading.loadingC || loading.loadingT" message="Please wait..."> </app-loader>
+  </ng-container>
+<!-- 
+  <app-loader *ngIf="loading$ | async" message="Please wait..."> </app-loader>
+  <app-loader *ngIf="loadingManf$ | async" message="Please wait..."> </app-loader>
+  <app-loader *ngIf="loadingBrand$ | async" message="Please wait..."> </app-loader> -->
+ 
+</section>
+<ng-template #tabView>
+  <mat-tab-group animationDuration="0ms" (selectedTabChange)="onTabChange($event)" [selectedIndex]="0">
+    <mat-tab class="search_tabs" >
+      <ng-template mat-tab-label class="tab-label-mastering">
+        <div class="label-with-icon" matTooltipClass="help-tooltip" matTooltip="Manage Master Brands 
+        &#13;
+        LIMIT - 2000 &#13; Default Sorting : Brand Name - ASC">
+          <mat-icon class="info-tab-icon">info</mat-icon>
+          Brand Master
+        </div>
+      </ng-template>
+       <app-brand-cv
+        *ngIf="selectedTab === 0"
+        [userProfile]="userProfile"
+        [pageSize]="pageSize"
+        [readOnly]="isReadOnlyAccess">
+      </app-brand-cv>
+    </mat-tab>
+    <!-- <mat-tab  class="search_tabs" >
+      <ng-template mat-tab-label class="tab-label-mastering">
+        <div class="label-with-icon" matTooltipClass="help-tooltip" matTooltip="Manage Brand Mappings based on Master Markets, Master Manufacturers and Master Brands 
+        &#13;
+        LIMIT - 2000 &#13; Default Sorting : Updated Date - DESC ">
+          <mat-icon class="info-tab-icon">info</mat-icon>
+          Brand Mapping
+        </div>
+      </ng-template>
+      <app-brand-mapping
+       *ngIf="selectedTab === 1"
+       [userProfile]="userProfile"
+       [pageSize]="pageSize"
+       [readOnly]="isReadOnlyAccess">
+     </app-brand-mapping>
+   </mat-tab> -->
+  </mat-tab-group>
+  <div class="page-selector">
+    <span>Page Size : </span>
+    <select name="pagination" [(ngModel)]="pageSize" (ngModelChange)="changePaginationSize($event)">
+      <option *ngFor="let item of pageSizeOptions" [value]="item">{{ item }}</option>
+    </select>
+  </div>
+</ng-template>

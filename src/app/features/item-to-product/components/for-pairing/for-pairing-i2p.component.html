@@ -1,0 +1,99 @@
+<div class="for-pairing-i2p-component">
+  <app-module-landing-page class="item-to-product-component">
+    <div cp-page-title>
+      <div class="title-md">
+        <span class="sub-md">Task Type:</span>
+        Pairing <span class="sub-md-type">(Item to Product)</span>
+      </div>
+      <div class="title-sm">
+        <span class="sub-sm">Group Name:</span>
+        {{ userProfile.routeState?.groupName || '-' }}
+      </div>
+    </div>
+    <div cp-tab-content
+      *ngIf="!(taskLoading$ | async)">
+      <ng-container *ngIf="taskDetails; then pairContent"></ng-container>
+      <div class="task-status-details"
+        *ngIf="!taskDetails">
+        INVALID TASK DETAILS
+      </div>
+    </div>
+  </app-module-landing-page>
+  <app-loader *ngIf="(taskLoading$ | async)"
+    message="Loading Task Details...">
+  </app-loader>
+</div>
+
+<ng-template #pairContent>
+  <div class="body-container">
+    <div class="toolbar-container">
+      <a matTooltip="Table Filters Reset"
+        (click)="resetFilters()">
+        Reset Filters
+      </a>
+    </div>
+    <ag-grid-angular style="width: 100%; height: calc(100vh - 240px);"
+      class="ag-theme-material pairing-table-container"
+      (gridReady)="onGridReady($event)"
+      [gridOptions]="gridOptions"
+      [frameworkComponents]="frameworkComponents"
+      [overlayLoadingTemplate]="pairsOverlayLoadingTemplate"
+      [animateRows]="true"
+      (rowGroupOpened)="onRowGroupOpened($event)">
+    </ag-grid-angular>
+
+    <div fxLayoutAlign="end center"
+      style="padding-top: 20px;"
+      class="btn-row-container"
+      fxLayoutGap="15px">
+      <button mat-flat-button
+        color="primary"
+        *ngIf="userProfile.isExceptionLead"
+        aria-label="cdx primary button"
+        matTooltip="Complete Task"
+        class="cdx-but-md complete-task-btn"
+        (click)="completeTaskOnManual()">
+        Complete Task
+      </button>
+      <button mat-flat-button
+        color="warn"
+        aria-label="cdx primary button"
+        matTooltip="Discard Changes"
+        class="cdx-but-md"
+        [disabled]="!objectValues(updatedNodes).length"
+        (click)="discardPairChanges()">
+        Discard Changes
+      </button>
+      <button mat-flat-button
+        *ngIf="!userProfile.isExceptionLead"
+        color="primary"
+        aria-label="cdx primary button"
+        matTooltip="Save For Later"
+        class="cdx-but-md"
+        [disabled]="true"
+        (click)="onSavePairChangesForLater()">
+        Save For Later
+      </button>
+      <button mat-flat-button
+        *ngIf="!userProfile.isExceptionLead"
+        color="primary"
+        aria-label="cdx primary button"
+        matTooltip="Escalate Task to Exception Lead"
+        class="cdx-but-md"
+        [disabled]="true"
+        (click)="onEscalatePairChanges();">
+        Escalate
+      </button>
+      <button mat-flat-button
+        *ngIf="userProfile.isExceptionLead"
+        color="primary"
+        aria-label="cdx primary button"
+        matTooltip="Submit"
+        class="cdx-but-md"
+        [disabled]="true"
+        (click)="onSubmitPairChanges(); ">
+        Submit
+      </button>
+    </div>
+  </div>
+</ng-template>

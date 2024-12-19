@@ -1,0 +1,25 @@
+.sales-restate-component {
+  margin: 10px 20px;
+  .main-content {
+    margin: 0 auto;
+    .page-title {
+      font: 400 24px/32px 'Source Sans Pro', sans-serif;
+      font-weight: 600 !important;
+      font-size: 24px;
+      margin: 0 0 16px;
+      span {
+        font: 400 20px/32px 'Source Sans Pro', sans-serif;
+      }
+    }
+    .button-groups {
+      padding-bottom: 10px;
+    }
+    .invalid-task-details {
+      top: 50%;
+      position: absolute;
+      left: 40%;
+      font-size: 20px;
+      opacity: 0.3;
+    }
+  }
+}

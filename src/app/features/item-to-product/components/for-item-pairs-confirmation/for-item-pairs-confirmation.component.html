@@ -1,0 +1,72 @@
+<div class="for-item-pairs-confirmation-component">
+  <app-module-landing-page class="item-to-product-component">
+    <div cp-page-title>
+      <div class="title-md">
+        <span class="sub-md">Task Type:</span>
+        Pairs Confirmation <span class="sub-md-type">(Item to Product)</span>
+      </div>
+      <div class="title-sm">
+        <span class="sub-sm">Doc PGUID:</span>
+        {{ userProfile.routeState?.groupName || '-' }}
+      </div>
+    </div>
+    <div cp-tab-content
+      *ngIf="!(taskLoading$ | async)">
+      <ng-container *ngIf="taskDetails; then pairContent"></ng-container>
+      <div class="task-status-details"
+        *ngIf="!taskDetails">
+        INVALID TASK DETAILS
+      </div>
+    </div>
+  </app-module-landing-page>
+  <app-loader *ngIf="(taskLoading$ | async)"
+    message="Loading Task Details...">
+  </app-loader>
+  <app-loader *ngIf="(confirmationLoading$ | async)"
+    message="Submitting the item pairs confirmation...">
+  </app-loader>
+</div>
+
+<ng-template #pairContent>
+  <div class="body-container">
+    <div class="toolbar-container">
+      <a matTooltip="Table Filters Reset"
+        (click)="resetFilters()">
+        Reset Filters
+      </a>
+    </div>
+    <ag-grid-angular style="width: 100%; height: calc(100vh - 240px);"
+      class="ag-theme-material pairing-table-container"
+      (gridReady)="onGridReady($event)"
+      [gridOptions]="gridOptions"
+      [overlayLoadingTemplate]="pairsOverlayLoadingTemplate"
+      [animateRows]="true">
+    </ag-grid-angular>
+
+    <div fxLayoutAlign="end center"
+      style="padding-top: 20px;"
+      class="btn-row-container"
+      fxLayoutGap="15px">
+      <button mat-flat-button
+        *ngIf="userProfile.isExceptionLead"
+        color="primary"
+        aria-label="cdx primary button"
+        matTooltip="Approve"
+        class="cdx-but-md"
+        [disabled]="rowCount === 0"
+        (click)="onItemParisSubmit('Approve'); ">
+        Approve
+      </button>
+      <button mat-flat-button
+      *ngIf="userProfile.isExceptionLead"
+      color="warn"
+      aria-label="cdx primary button"
+      matTooltip="Reject"
+      [disabled]="rowCount === 0"
+      class="cdx-but-md"
+      (click)="onItemParisSubmit('Reject'); ">
+      Reject
+    </button>
+    </div>
+  </div>
+</ng-template>

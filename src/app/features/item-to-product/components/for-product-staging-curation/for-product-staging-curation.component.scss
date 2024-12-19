@@ -1,0 +1,73 @@
+
+.graph_grid {
+    width: 100%;
+    height: calc(100vh - 240px);
+  }
+  
+  .toolbar-container {
+    display: flex;
+    height: 30px;
+    align-items: center;
+    place-content: flex-end;
+    gap: 30px;
+    a {
+      cursor: pointer;
+    }
+    a.disabled {
+      color: #cccccc;
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+  
+  .cdx-but-md{
+    margin-left: 20px;
+    text-align: center;
+  }
+
+  .main-drawer-container-wrapper {
+    height:100vh;
+    overflow: hidden;
+    .sidenav-container {
+      width: 40%;
+      height: 100%;
+      .side-nav-content {
+        height: 100%;
+        .sidenav-component-header {
+          height: 35px;
+          font-size: 16px;
+          padding: 6px 10px;
+          position: relative;
+          background-color: #f4f4fc;
+          box-shadow: 0 1px 2px 1px rgb(0 0 0 / 12%);
+          color: #000000;
+          text-align: center;
+          .close-icon {
+            cursor: pointer;
+            position: absolute;
+            right: 5px;
+            top: -1px;
+          }
+        }
+        .sidenav-component-content {
+          height: calc(100% - 35px);
+        }
+      }
+    }
+  }
+
+  .flex-end{
+    justify-content: end;
+  }
+  .exportBtn-side{
+    position: fixed;
+    bottom: 10%;
+    right: 1%;
+    text-decoration: underline;
+    letter-spacing: 1px;
+    font-size: 15px;
+    }
+    .csv-link{
+      text-decoration: underline;
+    }

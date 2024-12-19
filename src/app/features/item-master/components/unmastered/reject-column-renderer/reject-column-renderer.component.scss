@@ -1,0 +1,11 @@
+:host {
+  display: flex;
+  place-content: space-around start;
+}
+img.icon {
+  margin-left: 10px;
+  cursor: pointer;
+  &:hover {
+    zoom: 1.02;
+  }
+}

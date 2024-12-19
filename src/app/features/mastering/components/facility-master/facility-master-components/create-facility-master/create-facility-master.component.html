@@ -1,0 +1,73 @@
+<div class="cdx-dialog-wrapper">
+  <form [formGroup]="facilityMasterForm" autocomplete="off">
+    <div class="cdx-dialog-top">
+      <h2 mat-dialog-title>Create Facility Master</h2>
+      <mat-dialog-content role="dialog">
+        <div class="cdx-popup-row">
+          <mat-form-field appearance="outline" class="cdx-input-default width-100">
+            <mat-label>Facility Subgroup Name</mat-label>
+            <input
+              inputRef
+              #inputFacilitySubGrpName
+              matInput
+              autocomplete="off"
+              id="facilitySubgroupName"
+              formControlName="facilitySubgroupName"
+              placeholder="Enter Facility Subgroup Name..."
+              required
+            />
+          </mat-form-field>
+          <mat-error *ngIf="getSubGroupName.invalid && (getSubGroupName.dirty || getSubGroupName.touched)">
+            <ng-container *ngIf="getSubGroupName.errors?.required"> Subgroup Name is required. </ng-container>
+          </mat-error>
+          
+          <mat-form-field appearance="outline" class="cdx-input-default width-100">
+            <mat-label>Facility Group Name</mat-label>
+            <input
+              inputRef
+              matInput
+              autocomplete="off"
+              id="facilityGroupName"
+              formControlName="facilityGroupName"
+              placeholder="Enter Facility Group Name..."
+              required
+            />
+          </mat-form-field>
+          <mat-error *ngIf="getGroupName.invalid && (getGroupName.dirty || getGroupName.touched)">
+            <ng-container *ngIf="getGroupName.errors?.required"> Group Name is required. </ng-container>
+          </mat-error>
+
+        </div>
+      </mat-dialog-content>
+    </div>
+    <div class="cdx-dialog-bottom">
+      <mat-dialog-actions>
+        <button
+          aria-label="cancel button"
+          mat-button
+          mat-dialog-close
+          role="button"
+          id="cancel"
+          (click)="onNoClick()"
+          class="cdx-but-lg mat-stroked-button mat-primary"
+        >
+          Cancel
+        </button>
+        <button
+          mat-button
+          role="button"
+          aria-label="action button"
+          class="cdx-but-lg mat-flat-button mat-primary"
+          [disabled]="!facilityMasterForm.valid"
+          type="submit"
+          (click)="submitFacilityForm()"
+        >
+          Create Facility Master
+        </button>
+      </mat-dialog-actions>
+    </div>
+  </form>
+  <button mat-button role="button" class="cdx-popup-close" (click)="onNoClick()">
+    <mat-icon role="img" class="cdx-mat-icon-16">close</mat-icon>
+  </button>
+</div>

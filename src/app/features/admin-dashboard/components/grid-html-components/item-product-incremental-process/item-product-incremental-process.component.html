@@ -1,0 +1,26 @@
+<div [ngSwitch]="widget?.config?.genericBtnText">
+    <div *ngSwitchCase="'i2p_trigger'">
+        <ng-container [ngTemplateOutlet]="i2pTriggers" ></ng-container> 
+    </div>
+    <div *ngSwitchCase="'staging_curation_trigger'">
+        <ng-container [ngTemplateOutlet]="StagingTriggers" ></ng-container> 
+    </div>
+    <div *ngSwitchCase="'brand_trigger'">
+        <ng-container [ngTemplateOutlet]="BrandTrigger" ></ng-container> 
+    </div>
+</div>
+<ng-template #i2pTriggers>
+    <button mat-raised-button *ngIf="widget?.config?.uploadBtnText" color="primary" matTooltip="I2P - Trigger Incremental Process" (click)="startIncrementProcess()" >{{ widget?.config?.uploadBtnText }}</button>
+    <button mat-raised-button *ngIf="widget?.config?.uploadBtnText" color="primary" matTooltip="I2P - Trigger Outbound Refresh" (click)="startOutBoundRefresh()" >Trigger Outbound Refresh</button> 
+</ng-template>
+
+<ng-template #StagingTriggers>
+    <button mat-raised-button  color="primary" matTooltip="Staging Curation - Trigger Snowflake Outbound Process" (click)="triggerStagingOutboundProcess()" >Trigger Staging Curation Refresh</button> 
+</ng-template>
+
+
+<ng-template #BrandTrigger>
+    <button mat-raised-button color="primary" (click)="triggerBrandAirflowProcess()" >{{widget?.config?.uploadBtnText}}</button> 
+</ng-template>
+
+

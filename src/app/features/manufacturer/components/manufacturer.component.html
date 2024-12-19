@@ -1,0 +1,45 @@
+<app-module-landing-page class="item-master-component">
+  <div cp-page-title>
+    <div *ngIf="activeDistributorPguid$ | async"
+      class="title-md">
+      <span class="sub-md">Distributor Name:</span>
+      {{ (distributors$ | async)[activeDistributorPguid$ | async] }}
+    </div>
+    <div class="title-sm">
+      <span class="sub-sm">Business Process: </span>Manufacturer
+    </div>
+  </div>
+  <div cp-tab-content
+    *ngIf="!(taskLoading$ | async)">
+    <ng-container *ngIf="taskDetails">
+      <mat-tab-group class="cdx-ink-bar-floating"
+        (selectedTabChange)="onTabChange($event)"
+        *ngIf="!(!isExceptionLead && taskDetails.status === 'ESCALATED'); else alreadyEscalated">
+        <mat-tab label="Unmastered Records">
+          <app-manf-unmantered-records [taskDetails]="taskDetails"
+            [mappings]="ontologyMappings$ | async"
+            [userProfile]="userProfile$ | async"
+            [distributorPguid]="activeDistributorPguid$ | async"
+            *ngIf="selectedTab == 'unmasteredRecords'">
+          </app-manf-unmantered-records>
+        </mat-tab>
+        <mat-tab label="Mastered Records">
+          <app-manf-mastered-records [distributorPguid]="activeDistributorPguid$ | async"
+            *ngIf="selectedTab == 'masteredRecords'"></app-manf-mastered-records>
+        </mat-tab>
+      </mat-tab-group>
+      <ng-template #alreadyEscalated>
+        <div class="task-status-details">
+          Task already escalated to Exception Lead
+        </div>
+      </ng-template>
+    </ng-container>
+    <div class="task-status-details"
+      *ngIf="!taskDetails">
+      INVALID TASK DETAILS
+    </div>
+  </div>
+</app-module-landing-page>
+<app-loader *ngIf="(taskLoading$ | async) || (taskUpdating$ | async)"
+  [message]="(taskLoading$ | async) ? 'Loading Task Details...' : 'Updating the Task Details and will be redirected to task inbox'">
+</app-loader>

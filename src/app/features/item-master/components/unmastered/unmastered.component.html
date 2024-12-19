@@ -1,0 +1,72 @@
+<div class="grid-wrapper item-master-unmastered-component">
+  <div class="toolbar-container">
+    <a matTooltip="Auto Select the UNSPSC Code"
+      *ngIf="taskType === 'predicted'"
+      (click)="autoSelectUNSPSCCode()">
+      Auto Predict
+    </a>
+    <a matTooltip="Table Filters Reset"
+      (click)="resetFilters()">
+      Reset Filters
+    </a>
+  </div>
+  <ag-grid-angular style="width: 100%; height: calc(100vh - 240px);"
+    class="ag-theme-material unmastered-table-container"
+    (gridReady)="onGridReady($event)"
+    [gridOptions]="gridOptions"
+    [frameworkComponents]="frameworkComponents">
+  </ag-grid-angular>
+
+  <div fxLayoutAlign="end center"
+    style="padding-top: 20px;"
+    fxLayoutGap="15px">
+    <button mat-flat-button
+      color="primary"
+      *ngIf="isExceptionLead"
+      aria-label="cdx primary button"
+      matTooltip="Complete Task"
+      class="cdx-but-md complete-task-btn"
+      (click)="closeTaskOnForce()">
+      Complete Task
+    </button>
+    <button mat-flat-button
+      color="warn"
+      aria-label="cdx primary button"
+      matTooltip="Discard Changes"
+      class="cdx-but-md"
+      [disabled]="updatedRecords.length === 0 && !isModifiedRejectInfo"
+      (click)="discardChanges()">
+      Discard Changes
+    </button>
+    <button mat-flat-button
+      *ngIf="!isExceptionLead"
+      color="primary"
+      aria-label="cdx primary button"
+      matTooltip="Save"
+      class="cdx-but-md"
+      [disabled]="updatedRecords.length === 0"
+      (click)="saveForLaterRecords()">
+      Save For Later
+    </button>
+    <button mat-flat-button
+      *ngIf="!isExceptionLead"
+      color="primary"
+      aria-label="cdx primary button"
+      matTooltip="Escalate"
+      class="cdx-but-md"
+      [disabled]="!isEnabledEscalateButton"
+      (click)="isEnabledEscalateButton = false; escalateRecords();">
+      Escalate
+    </button>
+    <button mat-flat-button
+      *ngIf="isExceptionLead"
+      color="primary"
+      aria-label="cdx primary button"
+      matTooltip="Submit"
+      class="cdx-but-md"
+      [disabled]="!isEnabledSubmitButton || !updatedRecords"
+      (click)="isEnabledSubmitButton = false; submitRecords(); ">
+      Submit
+    </button>
+  </div>
+</div>

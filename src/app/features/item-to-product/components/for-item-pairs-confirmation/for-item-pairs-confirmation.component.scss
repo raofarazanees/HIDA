@@ -1,0 +1,48 @@
+.for-item-pairs-confirmation-component {
+  height: 100%;
+  .body-container {
+    position: relative;
+  }
+  .toolbar-container {
+    display: flex;
+    height: 30px;
+    align-items: center;
+    place-content: flex-end;
+    gap: 30px;
+    a {
+      cursor: pointer;
+    }
+    a.disabled {
+      color: #cccccc;
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+  .btn-row-container {
+    .complete-task-btn {
+      position: absolute;
+      left: 0;
+    }
+  }
+}
+
+::ng-deep {
+  .for-item-pairs-confirmation-component {
+    .pairing-table-container {
+      .ag-header-group-cell[class*='ag-group-cell-i2p-color'],
+      .ag-header-cell[class*='ag-group-cell-i2p-color'] {
+        background-color: #20b91d3d;
+        &.first {
+          background-color: #1d78b93d;
+        }
+        .ag-header-group-cell-label {
+          place-content: center;
+        }
+      }
+      .ag-side-bar {
+        background-color: rgb(0 0 0 / 11%);
+      }
+    }
+  }
+}
